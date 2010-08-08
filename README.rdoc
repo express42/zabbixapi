@@ -2,11 +2,26 @@
 
 Simple and lightweight ruby module for work with zabbix api version 1.8.2
 
-* Zabbix Project Homepage -> http://zabbix.com/
-* Zabbix Api Draft docs -> http://www.zabbix.com/documentation/1.8/api
+You can:
+* Create host/template/application/items/triggers and screens;
+* Get info about all zabbix essences;
+
+== Get Start.
+
+* Get hostid from zabbix api:
+
+    zbx = Zabbix::ZabbixApi.new('https://zabbix.example.com', 'login', 'password')
+    hostid = zbx.get_host_id('my.example.com')
+
+    p hostid
 
 == Dependencies
 
 * net/http
 * net/https
 * json
+
+
+* Zabbix Project Homepage -> http://zabbix.com/
+* Zabbix Api Draft docs -> http://www.zabbix.com/documentation/1.8/api
+
