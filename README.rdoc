@@ -1,1 +1,12 @@
-* ololololo
+h1. Ruby Zabbix Api Module.
+
+Simple and lightweight ruby module for work with zabbix api version 1.8.2
+
+* Zabbix Project Homepage -> http://zabbix.com/
+* Zabbix Api Draft docs -> http://www.zabbix.com/documentation/1.8/api
+
+h2. Dependencies
+
+* net/http
+* net/https
+* json
