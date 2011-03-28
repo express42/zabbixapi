@@ -32,8 +32,8 @@ You can:
     cd examples
     ruby zabbix_la -E development -g Templates
 
--E - env from examples/config.yml (like RAILS_ENV)
--g - group in zabbix for templates
+* -E - env from examples/config.yml (like RAILS_ENV)
+* -g - group in zabbix for templates
 
 == Zabbix documentation
 
