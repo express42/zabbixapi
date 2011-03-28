@@ -1,0 +1,4 @@
+development:
+  api_url: "http://zabbix.local/api_jsonrpc.php"
+  api_login: admin
+  api_password: zabbix
