@@ -6,6 +6,10 @@ You can:
 * Create host/template/application/items/triggers and screens;
 * Get info about all zabbix essences;
 
+== Installation
+
+    gem install zabbixapi
+
 == Get Start.
 
 * Get hostid from zabbix api:
@@ -20,6 +24,16 @@ You can:
 * net/http
 * net/https
 * json
+
+== Use examples
+
+* zabbix_la - LoadAverage template
+
+    cd examples
+    ruby zabbix_la -E development -g Templates
+
+-E - env from examples/config.yml (like RAILS_ENV)
+-g - group in zabbix for templates
 
 == Zabbix documentation
 
