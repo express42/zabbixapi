@@ -4,7 +4,7 @@ module Zabbix
 				
 			item_options = {
                     'description'           => nil,
-	                'key_'                  => nil,
+	            'key_'                  => nil,
                     'hostid'                => nil,
                     'delay'                 => 60,
                     'history'               => 60,
@@ -46,6 +46,7 @@ module Zabbix
 					'method' => 'item.create',
 					'params' => [ item_options ]
 				}
+
 
 				responce = send_request(message)
 

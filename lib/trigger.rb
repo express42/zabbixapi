@@ -8,7 +8,9 @@ module Zabbix
 				'params' => [ trigger ]
 			}
 
+
 			responce = send_request(message)
+
 
 			unless ( responce.empty? ) then
 				result = responce['triggerids'][0]
@@ -16,7 +18,9 @@ module Zabbix
 				result = nil
 			end
 
+
 			return result
+
 		end
 
 		def get_trigger_id(host_id, trigger_name)

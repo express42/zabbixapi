@@ -10,7 +10,6 @@ module Zabbix
   #      groups => [10001, 10002],
   #    }
   #    host_id = zbx.add_host(host_options)
-  class ZabbixApi
     
     # Method for creation host in zabbix.
     # * Input parameter - hash <tt>host_options</tt>. Available keys in hash:
@@ -28,6 +27,7 @@ module Zabbix
     #   - ipmi_privilege - Default: 0;
     #   - ipmi_username - Default: '';
     #   - ipmi_password - Default: '';
+    class ZabbixApi
     def add_host(host_options)
 
       host_default = {
@@ -94,5 +94,5 @@ module Zabbix
 
       return result
     end
-  end
 end
+  end

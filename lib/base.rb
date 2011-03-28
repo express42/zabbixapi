@@ -38,6 +38,8 @@ module Zabbix
 
 		message_json = JSON.generate(message)
 
+#		puts message.inspect
+
 		uri = URI.parse(@api_url)
 		http = Net::HTTP.new(uri.host, uri.port)
 
@@ -65,6 +67,9 @@ module Zabbix
 
 
 		# Check errors in zabbix answer. If error exist - raise exception Zabbix::Error
+
+ #               puts responce_body_hash.inspect
+
 		if ( error = responce_body_hash['error'] ) then
 			error_message = error['message']
 			error_data = error['data']
@@ -117,6 +122,5 @@ module Zabbix
 
 		return a.merge(c)
 	end
-
-	end
+end
 end
