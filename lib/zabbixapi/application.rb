@@ -1,5 +1,3 @@
-require 'base'
-
 module Zabbix
   class ZabbixApi
     def add_application(app_options)
@@ -17,13 +15,36 @@ module Zabbix
 
       responce = send_request(message)
 
-      if not ( responce.empty? ) then
+      unless responce.empty? then
         result = responce['applicationids'][0].to_i
       else
-        result = nil 
+        result = nil
       end 
 
       return result
     end
   end
+
+  def get_app_id(host_id, app_name)
+
+    message = {
+      'method' => 'application.get',
+      'params' => {
+        'filter' => {
+          'name' => app_name,
+          'hostid' => host_id
+        }
+      }
+    }
+
+    responce = send_request(message)
+
+    unless responce.empty? then
+      result = responce[0]['applicationid']
+    else
+      result = nil 
+    end 
+
+    return result
+  end 
 end

@@ -1,10 +1,10 @@
-require 'rubygems'
+# -*- encoding: utf-8 -*-
+
 require 'rake'
-require 'echoe'
 
 Gem::Specification.new do |spec|
 
-  spec.version = '0.1.4'
+  spec.version = '0.2.0'
   spec.name = 'zabbixapi'
   spec.summary = 'Ruby module for work with zabbix api.'
 
@@ -16,6 +16,5 @@ Gem::Specification.new do |spec|
   spec.has_rdoc = true
   spec.extra_rdoc_files  = 'README.rdoc'
 
-
-  spec.files = FileList["lib/*.rb", "bin/*", "spec/*", 'zabbixapi.gemspec', 'README.rdoc'].to_a
+  spec.files = FileList["lib/*.rb", "lib/zabbixapi/*.rb", "bin/*", "spec/*", 'zabbixapi.gemspec', 'README.rdoc', "examples/*"].to_a
 end

@@ -7,15 +7,13 @@ module Zabbix
         'params' => graph
       }
 
-      responce = send_request(message)
-
-      puts "DEBUG: #{responce.inspect}"
+      response = send_request(message)
 
       return 0
     end
 
     def get_graph_id(host_id, graph_name)
-      
+
       message = {
         'method' => 'graph.get',
         'params' => {
@@ -26,10 +24,10 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      unless ( responce.empty? ) then
-        result = responce[0]['graphid']
+      unless ( response.empty? ) then
+        result = response[0]['graphid']
       else
         result = nil
       end
@@ -47,12 +45,12 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      unless ( responce.empty? ) then
+      unless ( response.empty? ) then
         result = {}
 
-        responce.each() do |graph|
+        response.each() do |graph|
           graph_id = graph['graphid']
           graph_name = graph['name']
 

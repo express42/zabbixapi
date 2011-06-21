@@ -1,0 +1,152 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'getopt/std'
+require 'yaml'
+require 'zabbixapi'
+
+opt = Getopt::Std.getopts("d:g:E:")
+
+group_name = opt["g"]
+disk_name  = opt["d"]
+zabbix_env = opt["E"]
+
+template_name = "TMPL_Disk_" + disk_name.gsub(/\//, "_")
+
+# read config
+config = YAML::load(open('./config.yml'))
+
+api_url = config[zabbix_env]["api_url"]
+api_login = config[zabbix_env]["api_login"]
+api_password = config[zabbix_env]["api_password"]
+
+# Esablish new connection
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+zbx.debug = true
+
+# Create new template
+p " * Creating template #{template_name}."
+g_id = zbx.get_group_id(group_name)
+
+options = {
+  'groups' => [ g_id.to_i ],
+  'host' => template_name
+}
+
+t_id = zbx.add_template(options)
+
+# Create application #{app_name}
+app_name = "Disk_" + disk_name.gsub(/\//, "_")
+p " ** Create application #{app_name}."
+application = {
+  'hostid' => t_id.to_i,
+  'name' => app_name
+}
+a_id = zbx.add_application(application)
+
+# 'IOPS Read on #{disk_name} avg5'
+options = {
+  'description' => "IOPS Read on #{disk_name} avg5",
+  'key_' => "vfs.dev.read[#{disk_name}, ops, avg5]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'units' => 'ops',
+  'history' => 7,
+  'trends' => 30, 
+  'delay' => 300,
+  'value_type' => 0,
+}
+p " ** Add 'IOPS Read on #{disk_name} avg5' to #{template_name}."
+
+i_id = zbx.add_item(options)
+
+# 'IOPS Write on #{disk_name} avg5'
+options = {
+  'description' => "IOPS Write on #{disk_name} avg5",
+  'key_' => "vfs.dev.write[#{disk_name}, ops, avg5]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'units' => 'ops',
+  'history' => 7,
+  'trends' => 30, 
+  'delay' => 300,
+  'value_type' => 0,
+}
+p " ** Add 'IOPS Write on #{disk_name} avg5' to #{template_name}."
+
+i_id = zbx.add_item(options)
+
+# 'BPS Read on #{disk_name} avg5'
+options = {
+  'description' => "BPS Read on #{disk_name} avg5",
+  'key_' => "vfs.dev.read[#{disk_name}, sps, avg5]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+
+# convert sectors to bytes
+  'multiplier' => 1,
+  'formula' => 512,
+
+  'value_type' => 0,
+  'units' => 'Bps',
+  'history' => 7,
+  'trends' => 30, 
+  'delay' => 300,
+}
+p " ** Add 'BPS Read on #{disk_name} avg5' to #{template_name}."
+
+bps_r_avg5_id = zbx.add_item(options)
+
+# 'BPS Write on #{disk_name}'
+options = {
+  'description' => "BPS Write on #{disk_name} avg5",
+  'key_' => "vfs.dev.write[#{disk_name}, sps, avg5]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+
+# convert sectors to bytes
+  'multiplier' => 1,
+  'formula' => 512,
+
+  'value_type' => 0,
+  'units' => 'Bps',
+  'history' => 7,
+  'trends' => 30, 
+  'delay' => 300
+}
+p " ** Add 'BPS Write on #{disk_name} avg5' to #{template_name}."
+
+bps_w_avg5_id = zbx.add_item(options)
+
+# Create graph 'Disk usage #{disk_name}'
+options = { 
+  'gitems' => [
+    {   
+      "itemid" => bps_w_avg5_id,
+      "drawtype" => "0",
+      "sortorder" => "0",
+      "color" => "AA0000",
+      "yaxisside" => "0",
+      "calc_fnc" => "2",
+      "type" => "0",
+      "periods_cnt" => "5" 
+    },  
+    {   
+      "itemid" => bps_r_avg5_id,
+      "drawtype" => "0",
+      "sortorder" => "0",
+      "color" => "009900",
+      "yaxisside" => "0",
+      "calc_fnc" => "2",
+      "type" => "0",
+      "periods_cnt" => "5" 
+    }   
+  ],  
+  "show_triggers" => "1",
+  "name" => "Disk usage #{disk_name}",
+  "width" => "900",
+  "height" => "200",
+  "templateid" =>  "0" 
+}
+p " ** Add 'Disk usage #{disk_name} graph'"
+g_id = zbx.add_graph(options)

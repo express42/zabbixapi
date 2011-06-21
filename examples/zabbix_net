@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'getopt/std'
+require 'yaml'
+require 'zabbixapi'
+
+opt = Getopt::Std.getopts("g:i:E:")
+
+group_name = opt["g"]
+interface_name = opt["i"]
+zabbix_env = opt["E"]
+
+template_name = "TMPL_Net_#{interface_name}"
+app_name = "Net_#{interface_name}"
+
+
+# read config
+config = YAML::load(open('./config.yml'))
+
+api_url = config[zabbix_env]["api_url"]
+api_login = config[zabbix_env]["api_login"]
+api_password = config[zabbix_env]["api_password"]
+
+# Esablish new connection
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+
+# Create new template
+p " * Creating template #{template_name}."
+g_id = zbx.get_group_id(group_name)
+
+options = {
+  'groups' => [ g_id.to_i ],
+  'host' => template_name
+}
+
+t_id = zbx.add_template(options)
+
+# Create application #{app_name}
+p " ** Create application #{app_name}."
+application = {
+  'hostid' => t_id.to_i,
+  'name' => app_name
+}
+a_id = zbx.add_application(application)
+
+# 'Net #{interface_name} incoming traffic'
+options = {
+  'description' => "Net #{interface_name} incoming, B",
+  'key_' => "net.if.in[#{interface_name}, bytes]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'history' => 7,
+  'trends' => 30,
+  'delay' => 60,
+  'value_type' => 0,
+  'units' => 'Bps',
+  'value_type' => '3', # Numeric (unsigned)
+  'delta' => 1 # Store as delta (Speed per second)
+}
+p " ** Add 'Net #{interface_name} incoming, B' to #{template_name}."
+
+i_id = zbx.add_item(options)
+
+# 'Net #{interface_name} outgoing traffic'
+options = {
+  'description' => "Net #{interface_name} outgoing, B",
+  'key_' => "net.if.out[#{interface_name}, bytes]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'history' => 7,
+  'trends' => 30,
+  'delay' => 60,
+  'value_type' => 0,
+  'units' => 'Bps',
+  'value_type' => '3', # Numeric (unsigned)
+  'delta' => 1 # Store as delta (Speed per second)
+
+}
+p " ** Add 'Net #{interface_name} outgoing, B' to #{template_name}."
+
+i_id = zbx.add_item(options)

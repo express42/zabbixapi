@@ -1,7 +1,6 @@
 module Zabbix
 
   class ZabbixApi
-
     def add_template(template_options)
 
       template_default = {
@@ -18,10 +17,10 @@ module Zabbix
         'params' => template
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      if not ( responce.empty? ) then
-        result = responce['templateids'][0].to_i
+      if not ( response.empty? ) then
+        result = response['templateids'][0].to_i
       else
         result = nil
       end
@@ -38,11 +37,11 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      unless ( responce.empty? ) then
+      unless ( response.empty? ) then
         result = []
-        responce.each_key() do |template_id|
+        response.each_key() do |template_id|
           result << template_id
         end
       else
@@ -53,7 +52,7 @@ module Zabbix
     end
 
     def get_templates()
-  
+
       message = {
         'method' => 'template.get',
         'params' => {
@@ -61,17 +60,14 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-
-      unless ( responce.empty? ) then
-
-        template_ids = responce.keys()
-
+      unless response.empty? then
+        template_ids = response.keys()
         result = {}
 
         template_ids.each() do |template_id|
-          template_name = responce[template_id]['host']
+          template_name = response[template_id]['host']
           result[template_id] = template_name
         end
       else
@@ -92,10 +88,10 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      if not ( responce.empty? ) then
-        result = responce.keys[0]
+      unless response.empty? then
+        result = response.keys[0]
       else
         result = nil
       end
@@ -106,13 +102,13 @@ module Zabbix
 
     def link_templates_with_hosts(templates_id, hosts_id)
 
-      if ( templates_id.class == Array ) then
+      if templates_id.class == Array then
         message_templates_id = templates_id
       else
         message_templates_id = [ templates_id ]
       end
 
-      if ( hosts_id == Array ) then
+      if hosts_id == Array then
         message_hosts_id = hosts_id
       else
         message_hosts_id = [ hosts_id ]
@@ -126,20 +122,20 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      return responce
+      return response
     end
 
     def unlink_templates_from_hosts(templates_id, hosts_id)
 
-      if ( templates_id.class == Array ) then
+      if templates_id.class == Array then
         message_templates_id = templates_id
       else
         message_templates_id = [ templates_id ]
       end
 
-      if ( hosts_id == Array ) then
+      if hosts_id == Array then
         message_hosts_id = hosts_id
       else
         message_hosts_id = [ hosts_id ]
@@ -154,9 +150,9 @@ module Zabbix
         }
       }
 
-      responce = send_request(message)
+      response = send_request(message)
 
-      return responce
+      return response
     end
   end
 end
