@@ -1,6 +1,6 @@
 = Ruby Zabbix Api Module.
 
-Simple and lightweight ruby module for work with zabbix api version 1.8.2
+Simple and lightweight ruby module for work with zabbix api version 1.8.x
 
 You can:
 * Create host/template/application/items/triggers and screens;
@@ -38,5 +38,4 @@ You can:
 == Zabbix documentation
 
 * Zabbix Project Homepage -> http://zabbix.com/
-* Zabbix Api Draft docs -> http://www.zabbix.com/documentation/1.8/api
-
+* Zabbix Api docs -> http://www.zabbix.com/documentation/1.8/api
