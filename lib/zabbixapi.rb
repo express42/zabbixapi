@@ -1,3 +1,4 @@
+require 'zabbixapi/application'
 require 'zabbixapi/base'
 require 'zabbixapi/graph'
 require 'zabbixapi/group'
