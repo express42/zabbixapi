@@ -18,6 +18,9 @@ module Zabbix
   class AlreadyExist < RuntimeError
   end
 
+  class ArgumentError < RuntimeError
+  end
+
   class ZabbixApi
 
     attr_accessor :debug
