@@ -80,30 +80,6 @@ module Zabbix
 
     end
 
-    def get_webitem_id(host_id, item_name)
-      message = {
-        'method' => 'item.get',
-        'params' => {
-          'filter' => {
-            'hostid' => host_id,
-            'type' => 9,
-            'key_' => "web.test.time[eva.ru,Get main page,resp]"
-          },
-          'webitems' => 1
-        }
-      }
-
-      response = send_request(message)
-    
-      unless ( response.empty? ) then
-        result = response[0]['itemid']
-      else
-        result = nil
-      end
-
-      return result
-    end
-
     def get_item_id(host_id, item_name)
       message = {
         'method' => 'item.get',
@@ -117,7 +93,7 @@ module Zabbix
 
       response = send_request(message)
       
-      unless ( response.empty? ) then
+      unless response.empty?
         result = response[0]['itemid']
       else
         result = nil
@@ -127,18 +103,67 @@ module Zabbix
 
     end
 
-    def update_item(item_id)
+    def item_exist?(host_id, item_name)
+      item_id = get_item_id(host_id, item_name)
+      if item_id
+        result = true
+      else
+        result = false
+      end
+
+      return result
+    end
+
+    def update_item(item_id, options)
+
+      options["item_id"]
 
       message = {
         'method' => 'item.update',
-        'params' => {
-            'itemid' => item_id,
-            'status' => 0 
-        }
+        'params' => options
       }
 
       response = send_request(message)
 
+      unless response.empty?
+        result = response['itemids'][0]
+      else
+        result = nil
+      end
+
+      return result
+    end
+
+    # Don't work with api < 1.8.4
+    def delete_item(item_ids)
+
+      if item_ids.kind_of? Array
+        message = {
+          'method' => 'item.delete',
+          'params' => item_ids
+        }
+      elsif item_ids.kind_of? Fixnum or item_ids.kind_of? String
+        message = {
+          'method' => 'item.delete',
+          'params' => [ item_ids ]
+        }
+      else
+        raise Zabbix::ArgumentError.new("Zabbix::ZabbixApi.delete_item() argument error. item_ids => #{item_ids.inspect}")
+      end
+
+      response = send_request(message)
+
+      unless response.empty?
+        if response['itemids'].count == 1
+          result = response['itemids'][0]
+        else
+          result = response['itemids']
+        end
+      else
+        result = nil
+      end
+
+      return result
     end
   end
 end
