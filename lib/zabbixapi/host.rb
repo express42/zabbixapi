@@ -1,6 +1,26 @@
 module Zabbix
 
   class ZabbixApi
+    def update_host(host_id, host_options)
+      host = host_options
+      host['hostid'] = host_id
+
+      message = { 
+        'method' => 'host.update',
+        'params' => host
+      }   
+
+      responce = send_request(message)
+
+      if not ( responce.empty? ) then
+        result = responce['hostids'][0].to_i
+      else
+        result = nil 
+      end 
+
+      return result
+    end 
+
     def add_host(host_options)
 
       host_default = {
