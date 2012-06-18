@@ -46,7 +46,7 @@ module Zabbix
       response = send_request(message)
 
       if ( response ) then
-        result = response['groupids']
+        result = response['groupids'][0].to_i
       else
         result = nil
       end
