@@ -63,12 +63,18 @@ module Zabbix
       response = send_request(message)
 
       unless response.empty? then
-        template_ids = response.keys()
         result = {}
 
-        template_ids.each() do |template_id|
-          template_name = response[template_id]['host']
-          result[template_id] = template_name
+        if reponse.kind_of? Hash
+          template_ids = response.keys()
+          template_ids.each() do |template_id|
+            template_name = response[template_id]['host']
+            result[template_id] = template_name
+          end
+        elsif response.kind_of? Array
+          response.each do |template_info|
+            result[template_info['hostid']] = template_info['host']
+          end
         end
       else
         result = nil
