@@ -65,7 +65,7 @@ module Zabbix
       unless response.empty? then
         result = {}
 
-        if reponse.kind_of? Hash
+        if response.kind_of? Hash
           template_ids = response.keys()
           template_ids.each() do |template_id|
             template_name = response[template_id]['host']
