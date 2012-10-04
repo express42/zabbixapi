@@ -4,7 +4,7 @@ require 'rake'
 
 Gem::Specification.new do |spec|
 
-  spec.version = '0.1.5a3'
+  spec.version = '0.1.5a6'
   spec.name = 'zabbixapi'
   spec.summary = 'Ruby module for work with zabbix api.'
 
