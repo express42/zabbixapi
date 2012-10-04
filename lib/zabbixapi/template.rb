@@ -123,8 +123,8 @@ module Zabbix
       message = {
         'method' => 'template.massAdd',
         'params' => {
-          'hosts' => message_hosts_id,
-          'templates' => message_templates_id
+          'hosts' => message_hosts_id.map{|t| {"hostid" => t}},
+          'templates' => message_templates_id.map{|t| {"templateid" => t}}
         }
       }
 
@@ -150,8 +150,8 @@ module Zabbix
       message = {
         'method' => 'template.massRemove',
         'params' => {
-          'hosts' => message_hosts_id,
-          'templates' => message_templates_id,
+          'hostids' => message_hosts_id,
+          'templateids' => message_templates_id,
           'force' => '1'
         }
       }
