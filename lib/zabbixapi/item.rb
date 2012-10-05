@@ -1,7 +1,7 @@
 module Zabbix
   class ZabbixApi
     def add_item(item)
-      
+
       # Default item options
       # See: http://www.zabbix.com/documentation/1.8/api/item
 
@@ -24,56 +24,56 @@ module Zabbix
       # ITEM_TYPE_CALCULATED          15
 
       item_options = {
-        'description'           => nil,
-        'key_'                  => nil,
-        'hostid'                => nil,
-        'delay'                 => 60,
-        'history'               => 60,
-        'status'                => 0,
-        'type'                  => 7,
-        'snmp_community'        => '',
-        'snmp_oid'              => '',
-        'value_type'            => 3,
-        'data_type'             => 0,
-        'trapper_hosts'         => 'localhost',
-        'snmp_port'             => 161,
-        'units'                 => '',
-        'multiplier'            => 0,
-        'delta'                 => 0,
-        'snmpv3_securityname'   => '',
-        'snmpv3_securitylevel'  => 0,
-        'snmpv3_authpassphrase' => '',
-        'snmpv3_privpassphrase' => '',
-        'formula'               => 0,
-        'trends'                => 365,
-        'logtimefmt'            => '',
-        'valuemapid'            => 0,
-        'delay_flex'            => '',
-        'authtype'              => 0,
-        'username'              => '',
-        'password'              => '',
-        'publickey'             => '',
-        'privatekey'            => '',
-        'params'                => '',
-        'ipmi_sensor'           => '',
-        'applications'          => '',
-        'templateid'            => 0
+          'description' => nil,
+          'key_' => nil,
+          'hostid' => nil,
+          'delay' => 60,
+          'history' => 60,
+          'status' => 0,
+          'type' => 7,
+          'snmp_community' => '',
+          'snmp_oid' => '',
+          'value_type' => 3,
+          'data_type' => 0,
+          'trapper_hosts' => 'localhost',
+          'snmp_port' => 161,
+          'units' => '',
+          'multiplier' => 0,
+          'delta' => 0,
+          'snmpv3_securityname' => '',
+          'snmpv3_securitylevel' => 0,
+          'snmpv3_authpassphrase' => '',
+          'snmpv3_privpassphrase' => '',
+          'formula' => 0,
+          'trends' => 365,
+          'logtimefmt' => '',
+          'valuemapid' => 0,
+          'delay_flex' => '',
+          'authtype' => 0,
+          'username' => '',
+          'password' => '',
+          'publickey' => '',
+          'privatekey' => '',
+          'params' => '',
+          'ipmi_sensor' => '',
+          'applications' => '',
+          'templateid' => 0
       }
 
 
       item_options.merge!(item)
-    
+
       message = {
-        'method' => 'item.create',
-        'params' => [ item_options ]
+          'method' => 'item.create',
+          'params' => [item_options]
       }
 
       response = send_request(message)
 
-      unless response.empty? then
-        result = response['itemids'][0]
-      else
+      if response.empty?
         result = nil
+      else
+        result = response['itemids'][0]
       end
 
       return result
@@ -82,21 +82,21 @@ module Zabbix
 
     def get_item_id(host_id, item_name)
       message = {
-        'method' => 'item.get',
-        'params' => {
-          'filter' => {
-            'hostid' => host_id,
-            'description' => item_name
+          'method' => 'item.get',
+          'params' => {
+              'filter' => {
+                  'hostid' => host_id,
+                  'description' => item_name
+              }
           }
-        }
       }
 
       response = send_request(message)
-      
-      unless response.empty?
-        result = response[0]['itemid']
-      else
+
+      if response.empty?
         result = nil
+      else
+        result = response[0]['itemid']
       end
 
       return result
@@ -119,16 +119,16 @@ module Zabbix
       options["item_id"]
 
       message = {
-        'method' => 'item.update',
-        'params' => options
+          'method' => 'item.update',
+          'params' => options
       }
 
       response = send_request(message)
 
-      unless response.empty?
-        result = response['itemids'][0]
-      else
+      if response.empty?
         result = nil
+      else
+        result = response['itemids'][0]
       end
 
       return result
@@ -139,13 +139,13 @@ module Zabbix
 
       if item_ids.kind_of? Array
         message = {
-          'method' => 'item.delete',
-          'params' => item_ids
+            'method' => 'item.delete',
+            'params' => item_ids
         }
       elsif item_ids.kind_of? Fixnum or item_ids.kind_of? String
         message = {
-          'method' => 'item.delete',
-          'params' => [ item_ids ]
+            'method' => 'item.delete',
+            'params' => [item_ids]
         }
       else
         raise Zabbix::ArgumentError.new("Zabbix::ZabbixApi.delete_item() argument error. item_ids => #{item_ids.inspect}")
@@ -153,14 +153,14 @@ module Zabbix
 
       response = send_request(message)
 
-      unless response.empty?
+      if response.empty?
+        result = nil
+      else
         if response['itemids'].count == 1
           result = response['itemids'][0]
         else
           result = response['itemids']
         end
-      else
-        result = nil
       end
 
       return result

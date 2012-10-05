@@ -4,8 +4,8 @@ module Zabbix
     def add_template(template_options)
 
       template_default = {
-        'host' => nil,
-        'groups' => [],
+          'host' => nil,
+          'groups' => [],
       }
 
       template_options['groups'].map! { |group_id| {'groupid' => group_id} }
@@ -13,13 +13,13 @@ module Zabbix
       template = merge_opt(template_default, template_options)
 
       message = {
-        'method' => 'template.create',
-        'params' => template
+          'method' => 'template.create',
+          'params' => template
       }
 
       response = send_request(message)
 
-      if not ( response.empty? ) then
+      unless response.empty?
         result = response['templateids'][0].to_i
       else
         result = nil
@@ -31,21 +31,21 @@ module Zabbix
     def get_template_ids_by_host(host_id)
 
       message = {
-        'method' => 'template.get',
-        'params' => {
-          'hostids' => [ host_id ]
-        }
+          'method' => 'template.get',
+          'params' => {
+              'hostids' => [host_id]
+          }
       }
 
       response = send_request(message)
 
-      unless ( response.empty? ) then
+      if response.empty?
+        result = nil
+      else
         result = []
         response.each_key() do |template_id|
           result << template_id
         end
-      else
-        result = nil
       end
 
       return result
@@ -54,15 +54,17 @@ module Zabbix
     def get_templates()
 
       message = {
-        'method' => 'template.get',
-        'params' => {
-          'extendoutput' => '0'
-        }
+          'method' => 'template.get',
+          'params' => {
+              'extendoutput' => '0'
+          }
       }
 
       response = send_request(message)
 
-      unless response.empty? then
+      if response.empty?
+        result = nil
+      else
         result = {}
 
         if response.kind_of? Hash
@@ -76,8 +78,6 @@ module Zabbix
             result[template_info['hostid']] = template_info['host']
           end
         end
-      else
-        result = nil
       end
 
       return result
@@ -86,20 +86,20 @@ module Zabbix
     def get_template_id(template_name)
 
       message = {
-        'method' => 'template.get',
-        'params' => {
-          'filter' => {
-            'host' => template_name
+          'method' => 'template.get',
+          'params' => {
+              'filter' => {
+                  'host' => template_name
+              }
           }
-        }
       }
 
       response = send_request(message)
 
-      unless response.empty? then
-        result = response.keys[0]
-      else
+      if response.empty?
         result = nil
+      else
+        result = response.keys[0]
       end
 
       return result
@@ -111,21 +111,21 @@ module Zabbix
       if templates_id.class == Array then
         message_templates_id = templates_id
       else
-        message_templates_id = [ templates_id ]
+        message_templates_id = [templates_id]
       end
 
       if hosts_id == Array then
         message_hosts_id = hosts_id
       else
-        message_hosts_id = [ hosts_id ]
+        message_hosts_id = [hosts_id]
       end
 
       message = {
-        'method' => 'template.massAdd',
-        'params' => {
-          'hosts' => message_hosts_id.map{|t| {"hostid" => t}},
-          'templates' => message_templates_id.map{|t| {"templateid" => t}}
-        }
+          'method' => 'template.massAdd',
+          'params' => {
+              'hosts' => message_hosts_id.map { |t| {"hostid" => t} },
+              'templates' => message_templates_id.map { |t| {"templateid" => t} }
+          }
       }
 
       response = send_request(message)
@@ -138,22 +138,22 @@ module Zabbix
       if templates_id.class == Array then
         message_templates_id = templates_id
       else
-        message_templates_id = [ templates_id ]
+        message_templates_id = [templates_id]
       end
 
       if hosts_id == Array then
         message_hosts_id = hosts_id
       else
-        message_hosts_id = [ hosts_id ]
+        message_hosts_id = [hosts_id]
       end
 
       message = {
-        'method' => 'template.massRemove',
-        'params' => {
-          'hostids' => message_hosts_id,
-          'templateids' => message_templates_id,
-          'force' => '1'
-        }
+          'method' => 'template.massRemove',
+          'params' => {
+              'hostids' => message_hosts_id,
+              'templateids' => message_templates_id,
+              'force' => '1'
+          }
       }
 
       response = send_request(message)

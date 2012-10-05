@@ -25,7 +25,7 @@ module Zabbix
 
     attr_accessor :debug
 
-    def initialize ( api_url, api_user, api_password )
+    def initialize (api_url, api_user, api_password)
       @api_url = api_url
       @api_user = api_user
       @api_password = api_password
@@ -45,7 +45,7 @@ module Zabbix
       uri = URI.parse(@api_url)
       http = Net::HTTP.new(uri.host, uri.port)
 
-      if ( uri.scheme == "https" ) then
+      if uri.scheme == "https"
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
@@ -74,7 +74,7 @@ module Zabbix
 
       response_body_hash = JSON.parse(response.body)
 
-      if error = response_body_hash['error']
+      if error == response_body_hash['error']
         error_message = error['message']
         error_data = error['data']
         error_code = error['code']
@@ -82,11 +82,11 @@ module Zabbix
         e_message = "Code: [" + error_code.to_s + "]. Message: [" + error_message +\
               "]. Data: [" + error_data + "]."
 
-        case error_code.to_s 
-        when '-32602'
-          raise Zabbix::AlreadyExist.new(e_message)
-        else
-          raise Zabbix::ResponseError.new(e_message)
+        case error_code.to_s
+          when '-32602'
+            raise Zabbix::AlreadyExist.new(e_message)
+          else
+            raise Zabbix::ResponseError.new(e_message)
         end
       end
 
@@ -103,13 +103,13 @@ module Zabbix
     def auth()
 
       auth_message = {
-        'auth' =>  nil,
-        'method' =>  'user.authenticate',
-        'params' =>  {
-          'user' => @api_user,
-          'password' => @api_password,
-          '0' => '0'
-        }
+          'auth' => nil,
+          'method' => 'user.authenticate',
+          'params' => {
+              'user' => @api_user,
+              'password' => @api_password,
+              '0' => '0'
+          }
       }
 
       auth_id = do_request(auth_message)
@@ -125,7 +125,7 @@ module Zabbix
         if a.has_key?(key) then
           c[key] = value
         end
-     end
+      end
 
       return a.merge(c)
     end

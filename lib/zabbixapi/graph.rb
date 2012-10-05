@@ -3,8 +3,8 @@ module Zabbix
 
     def add_graph(graph)
       message = {
-        'method' => 'graph.create',
-        'params' => graph
+          'method' => 'graph.create',
+          'params' => graph
       }
 
       response = send_request(message)
@@ -15,39 +15,41 @@ module Zabbix
     def get_graph_id(host_id, graph_name)
 
       message = {
-        'method' => 'graph.get',
-        'params' => {
-          'filter' => {
-            'name' => graph_name,
-            'hostid' => host_id
+          'method' => 'graph.get',
+          'params' => {
+              'filter' => {
+                  'name' => graph_name,
+                  'hostid' => host_id
+              }
           }
-        }
       }
 
       response = send_request(message)
 
-      unless ( response.empty? ) then
-        result = response[0]['graphid']
-      else
+      if (response.empty?)
         result = nil
+      else
+        result = response[0]['graphid']
       end
     end
 
     def get_graphs(host_id)
 
       message = {
-        'method' => 'graph.get',
-        'params' => {
-          'extendoutput' => '1',
-          'filter' => {
-            'hostid' => host_id
+          'method' => 'graph.get',
+          'params' => {
+              'extendoutput' => '1',
+              'filter' => {
+                  'hostid' => host_id
+              }
           }
-        }
       }
 
       response = send_request(message)
 
-      unless ( response.empty? ) then
+      if response.empty?
+        result = nil
+      else
         result = {}
 
         response.each() do |graph|
@@ -56,8 +58,6 @@ module Zabbix
 
           result[graph_id] = graph_name
         end
-      else
-        result = nil
       end
 
       return result

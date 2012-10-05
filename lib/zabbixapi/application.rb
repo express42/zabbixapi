@@ -3,23 +3,23 @@ module Zabbix
     def add_application(app_options)
 
       app_options_default = {
-        'hostid' => nil,
-        'name' => nil
+          'hostid' => nil,
+          'name' => nil
       }
 
       application = merge_opt(app_options_default, app_options)
       message = {
-        'method' => 'application.create',
-        'params' => application
+          'method' => 'application.create',
+          'params' => application
       }
 
       responce = send_request(message)
 
-      unless responce.empty? then
-        result = responce['applicationids'][0].to_i
-      else
+      if responce.empty?
         result = nil
-      end 
+      else
+        result = responce['applicationids'][0].to_i
+      end
 
       return result
     end
@@ -28,23 +28,23 @@ module Zabbix
   def get_app_id(host_id, app_name)
 
     message = {
-      'method' => 'application.get',
-      'params' => {
-        'filter' => {
-          'name' => app_name,
-          'hostid' => host_id
+        'method' => 'application.get',
+        'params' => {
+            'filter' => {
+                'name' => app_name,
+                'hostid' => host_id
+            }
         }
-      }
     }
 
     responce = send_request(message)
 
-    unless responce.empty? then
-      result = responce[0]['applicationid']
+    if responce.empty?
+      result = nil
     else
-      result = nil 
-    end 
+      result = responce[0]['applicationid']
+    end
 
     return result
-  end 
+  end
 end
