@@ -11,7 +11,7 @@ mount_point = opt["m"]
 group_name = opt["g"]
 zabbix_env = opt["E"]
 
-if ( mount_point == "/" )
+if mount_point == "/"
   template_name = "TMPL_Filesystem_root"
   app_name = "Filesystem_root"
 else
