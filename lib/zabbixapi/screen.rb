@@ -19,6 +19,9 @@ module Zabbix
       else
         result = response[0]['screenid']
       end
+
+      return  result
+
     end
 
     def get_screen_parameter(screen_name, param_name)
@@ -35,11 +38,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result nil
-      else
-        result = response[0][param_name]
-      end
+      response.empty? ? return nil : return response[0][param_name]
+
     end
 
     def get_screen_graph_ids(screen_id)
@@ -61,9 +61,7 @@ module Zabbix
         result = []
         screenitems = response[0]['screenitems']
         screenitems.each() do |item|
-          if (item['resourcetype'].to_i == 0) then
-            result << item['resourceid']
-          end
+          result << item['resourceid'] if item['resourcetype'].to_i == 0
         end
       end
 
@@ -82,13 +80,8 @@ module Zabbix
 
       response = send_request(message)
 
-      unless response.empty?
-        result = true
-      else
-        result = false
-      end
+      response.empty? ? return false : return true
 
-      return result
     end
 
     def del_all_graphs_from_screen(screen_id)
@@ -102,11 +95,7 @@ module Zabbix
 
       response = send_request(message)
 
-      if (response) then
-        return response
-      else
-        return nil
-      end
+      response ? return response : return nil
     end
 
     def add_graph_to_screen(screen_id, graph_id, x, y)
@@ -154,13 +143,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['screenids'][0]
-      end
+      response.empty? ? return nil : return response['screenids'][0]
 
-      return result
     end
   end
 end

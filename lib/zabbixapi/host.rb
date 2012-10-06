@@ -12,13 +12,8 @@ module Zabbix
 
       responce = send_request(message)
 
-      unless responce.empty?
-        result = responce['hostids'][0].to_i
-      else
-        result = nil
-      end
+      responce.empty? ?  return nil : return responce['hostids'][0].to_i
 
-      return result
     end
 
     def add_host(host_options)
@@ -52,13 +47,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['hostids'][0].to_i
-      end
+      response.empty? ? return nil : return response['hostids'][0].to_i
 
-      return result
     end
 
     def get_host_id(hostname)
@@ -74,13 +64,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response[0]['hostid'].to_i
-      end
+      response.empty? ?  return nil : return response[0]['hostid'].to_i
 
-      return result
     end
   end
 end

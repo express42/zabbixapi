@@ -19,13 +19,8 @@ module Zabbix
 
       response = send_request(message)
 
-      unless response.empty?
-        result = response['templateids'][0].to_i
-      else
-        result = nil
-      end
+      response.empty? ? return nil : return response['templateids'][0].to_i
 
-      return result
     end
 
     def get_template_ids_by_host(host_id)
@@ -96,13 +91,7 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response.keys[0]
-      end
-
-      return result
+      response.empty? ? return nil : return response.keys[0]
 
     end
 

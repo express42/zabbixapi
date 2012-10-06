@@ -10,13 +10,7 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['triggerids'][0]
-      end
-
-      return result
+      response.empty? ? return nil : return response['triggerids'][0]
 
     end
 
@@ -34,13 +28,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response[0]['triggerid']
-      end
+      response.empty? ? return nil : return response[0]['triggerid']
 
-      return result
     end
 
     def get_triggers_by_host(host_id)
@@ -83,13 +72,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['triggerids'][0]
-      end
+      response.empty? ? return nil : return response['triggerids'][0]
 
-      return result
     end
   end
 end

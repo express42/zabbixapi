@@ -14,13 +14,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if hostmacroids == response['hostmacroids'] then
-        result = hostmacroids
-      else
-        result = nil
-      end
+      hostmacroids == response['hostmacroids'] ? return hostmacroids : return nil
 
-      return result
     end
 
     def get_macro(host_id, macro_name)

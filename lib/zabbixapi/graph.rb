@@ -26,11 +26,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if (response.empty?)
-        result = nil
-      else
-        result = response[0]['graphid']
-      end
+      response.empty? ? return nil : return response[0]['graphid']
+
     end
 
     def get_graphs(host_id)

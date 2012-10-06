@@ -1,5 +1,6 @@
 module Zabbix
   class ZabbixApi
+
     def add_application(app_options)
 
       app_options_default = {
@@ -15,13 +16,8 @@ module Zabbix
 
       responce = send_request(message)
 
-      if responce.empty?
-        result = nil
-      else
-        result = responce['applicationids'][0].to_i
-      end
+      responce.empty? ? return nil : return responce['applicationids'][0].to_i
 
-      return result
     end
   end
 
@@ -39,12 +35,7 @@ module Zabbix
 
     responce = send_request(message)
 
-    if responce.empty?
-      result = nil
-    else
-      result = responce[0]['applicationid']
-    end
+    responce.empty? ? return nil : return responce[0]['applicationid']
 
-    return result
   end
 end

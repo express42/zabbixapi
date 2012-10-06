@@ -70,13 +70,7 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['itemids'][0]
-      end
-
-      return result
+      response.empty? ? return nil : return response['itemids'][0]
 
     end
 
@@ -93,13 +87,7 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response[0]['itemid']
-      end
-
-      return result
+      response.empty? ? return nil : return response[0]['itemid']
 
     end
 
@@ -125,13 +113,8 @@ module Zabbix
 
       response = send_request(message)
 
-      if response.empty?
-        result = nil
-      else
-        result = response['itemids'][0]
-      end
+      response.empty? ?  return nil : return response['itemids'][0]
 
-      return result
     end
 
     # Don't work with api < 1.8.4
@@ -156,11 +139,7 @@ module Zabbix
       if response.empty?
         result = nil
       else
-        if response['itemids'].count == 1
-          result = response['itemids'][0]
-        else
-          result = response['itemids']
-        end
+        response['itemids'].count == 1 ? result = response['itemids'][0] : result = response['itemids']
       end
 
       return result

@@ -90,9 +90,7 @@ module Zabbix
         end
       end
 
-      result = response_body_hash['result']
-
-      return result
+      return response_body_hash['result']
     end
 
     def send_request(message)
@@ -112,9 +110,7 @@ module Zabbix
           }
       }
 
-      auth_id = do_request(auth_message)
-
-      return auth_id
+    do_request(auth_message)
     end
 
 # Utils. 
