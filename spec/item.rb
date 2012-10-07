@@ -47,3 +47,10 @@ describe Zabbix::ZabbixApi, "delete_group" do
     result = zbx.delete_group('some_group')
   end
 end
+
+# 05. Delete host
+describe Zabbix::ZabbixApi, "delete_host" do
+  it "Delete host" do
+    result = zbx.delete_host('my.example.com')
+  end
+end

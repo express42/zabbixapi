@@ -30,7 +30,7 @@ module Zabbix
           'ipmi_username' => '',
           'ipmi_password' => ''
       }
-      host_options['groups'].nil? || host_options['groups'].map! { |group_id| {'groupid' => group_id} }
+      host_options['groups'].nil? || host_options['groups'].map! { |group_id| {'groupid' => get_group_id(group_id)} }
       host = merge_opt(host_default, host_options)
       message = {
           'method' => 'host.create',
@@ -51,6 +51,17 @@ module Zabbix
       }
       response = send_request(message)
       response.empty? ?  nil : response[0]['hostid'].to_i
+    end
+
+    def delete_host(hostname)
+      host_id = get_host_id(hostname)
+      message = {
+          'method' => 'host.delete',
+          'params' => {
+              'hostid' => host_id
+          }
+      }
+      send_request(message)
     end
 
   end

@@ -3,21 +3,35 @@
 Simple and lightweight ruby module for work with zabbix api version 1.8.x
 
 You can:
-* Create host/template/application/items/triggers and screens;
+* Create and delete host/template/application/items/triggers and screens;
 * Get info about all zabbix essences;
 
 == Installation
 
     gem install zabbixapi
 
-== Get Start.
+== Get Start
 
-* Get hostid from zabbix api:
+* Create host and get hostid from zabbix api:
 
-    zbx = Zabbix::ZabbixApi.new('https://zabbix.example.com', 'login', 'password')
-    hostid = zbx.get_host_id('my.example.com')
+    zbx    = Zabbix::ZabbixApi.new('https://zabbix.example.com', 'login', 'password')
+    host_options = { 
+      "ip"     => '127.0.0.1',
+      "dns"    => 'my.example.com',
+      "host"   => 'my.example.com',
+      "useip"  => 1,
+      "groups" => ['some_group']
+    }
+    if zbx.create_host(host_options)
+      puts zbx.get_host_id('my.example.com')
+    end
 
-    p hostid
+* Create hostgroup and get hostgroupid from zabbix api:
+
+    zbx   = Zabbix::ZabbixApi.new('https://zabbix.example.com', 'login', 'password')
+    if zbx.add_group('some_group') 
+      puts zbx.get_group_id('some_group')
+    end
 
 == Dependencies
 
