@@ -14,7 +14,7 @@ module Zabbix
 
       response = send_request(message)
 
-      hostmacroids == response['hostmacroids'] ? return hostmacroids : return nil
+      hostmacroids == response['hostmacroids'] ? hostmacroids : nil
 
     end
 

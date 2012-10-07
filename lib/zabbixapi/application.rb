@@ -16,7 +16,7 @@ module Zabbix
 
       responce = send_request(message)
 
-      responce.empty? ? return nil : return responce['applicationids'][0].to_i
+      responce.empty? ? nil : responce['applicationids'][0].to_i
 
     end
   end
@@ -35,7 +35,7 @@ module Zabbix
 
     responce = send_request(message)
 
-    responce.empty? ? return nil : return responce[0]['applicationid']
+    responce.empty? ? nil : responce[0]['applicationid']
 
   end
 end

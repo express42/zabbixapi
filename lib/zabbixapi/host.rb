@@ -12,7 +12,7 @@ module Zabbix
 
       responce = send_request(message)
 
-      responce.empty? ?  return nil : return responce['hostids'][0].to_i
+      responce.empty? ?  nil : responce['hostids'][0].to_i
 
     end
 
@@ -47,7 +47,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response['hostids'][0].to_i
+      response.empty? ? nil : response['hostids'][0].to_i
 
     end
 
@@ -64,7 +64,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ?  return nil : return response[0]['hostid'].to_i
+      response.empty? ?  nil : response[0]['hostid'].to_i
 
     end
   end

@@ -26,7 +26,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response[0]['graphid']
+      response.empty? ? nil : response[0]['graphid']
 
     end
 

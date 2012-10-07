@@ -19,7 +19,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response['templateids'][0].to_i
+      response.empty? ? nil : response['templateids'][0].to_i
 
     end
 
@@ -91,7 +91,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response.keys[0]
+      response.empty? ? nil : response.keys[0]
 
     end
 

@@ -38,7 +38,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response[0][param_name]
+      response.empty? ? nil : response[0][param_name]
 
     end
 
@@ -80,7 +80,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return false : return true
+      response.empty? ? false : true
 
     end
 
@@ -95,7 +95,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response ? return response : return nil
+      response ? response : nil
     end
 
     def add_graph_to_screen(screen_id, graph_id, x, y)
@@ -143,7 +143,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response['screenids'][0]
+      response.empty? ? nil : response['screenids'][0]
 
     end
   end

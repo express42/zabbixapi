@@ -14,7 +14,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ? return nil : return response[0]['groupid']
+      response.empty? ? nil : response[0]['groupid']
 
     end
 
@@ -22,7 +22,7 @@ module Zabbix
 
       group_id = get_groups_id(pattern)
 
-      group_id ? return true : return false
+      group_id ? true : false
     end
 
     def add_group(groupname)
@@ -36,7 +36,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response ? return response['groupids'][0].to_i : return nil
+      response ? response['groupids'][0].to_i : nil
 
     end
 
@@ -52,7 +52,7 @@ module Zabbix
 
       response = send_request(message)
 
-      response.empty? ?  return false : return true
+      response.empty? ?  false : true
 
     end
   end
