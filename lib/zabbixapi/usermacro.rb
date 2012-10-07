@@ -1,8 +1,7 @@
 module Zabbix
-
   class ZabbixApi
-    def add_macro(host_id, macro_name, macro_value)
 
+    def add_macro(host_id, macro_name, macro_value)
       message = {
           'method' => 'Usermacro.create',
           'params' => {
@@ -11,15 +10,11 @@ module Zabbix
               'value' => macro_value
           }
       }
-
       response = send_request(message)
-
       hostmacroids == response['hostmacroids'] ? hostmacroids : nil
-
     end
 
     def get_macro(host_id, macro_name)
-
       message = {
           'method' => 'Usermacro.get',
           'params' => {
@@ -28,9 +23,7 @@ module Zabbix
               'extendoutput' => '1'
           }
       }
-
       response = send_request(message)
-
       if response.empty?
         result = nil
       else
@@ -46,12 +39,10 @@ module Zabbix
           result = nil
         end
       end
-
       return result
     end
 
     def set_macro_value(host_id, macro_name, macro_value)
-
       message = {
           'method' => 'usermacro.updateValue',
           'params' => {
@@ -60,10 +51,9 @@ module Zabbix
               'value' => macro_value
           }
       }
-
       response = send_request(message)
-
       return true
     end
+
   end
 end

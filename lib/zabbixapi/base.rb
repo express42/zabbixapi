@@ -74,7 +74,12 @@ module Zabbix
 
       response_body_hash = JSON.parse(response.body)
 
-      if error == response_body_hash['error']
+      if @debug
+        puts "[ZBXAPI] : INFO : Response body"
+        puts response_body_hash.inspect
+      end
+
+      if error = response_body_hash['error']
         error_message = error['message']
         error_data = error['data']
         error_code = error['code']
@@ -99,7 +104,6 @@ module Zabbix
     end
 
     def auth()
-
       auth_message = {
           'auth' => nil,
           'method' => 'user.authenticate',
@@ -109,21 +113,20 @@ module Zabbix
               '0' => '0'
           }
       }
-
     do_request(auth_message)
     end
 
 # Utils. 
+    
     def merge_opt(a, b)
       c = {}
-
       b.each_pair do |key, value|
         if a.has_key?(key) then
           c[key] = value
         end
       end
-
       return a.merge(c)
     end
+
   end
 end

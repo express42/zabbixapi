@@ -1,10 +1,9 @@
 module Zabbix
   class ZabbixApi
-    def add_item(item)
 
+    def add_item(item)
       # Default item options
       # See: http://www.zabbix.com/documentation/1.8/api/item
-
       ## Item types (see ./frontends/php/include/defines.inc.php in zabbix source)
       # ITEM_TYPE_ZABBIX              0
       # ITEM_TYPE_SNMPV1              1
@@ -22,7 +21,6 @@ module Zabbix
       # ITEM_TYPE_SSH                 13
       # ITEM_TYPE_TELNET              14
       # ITEM_TYPE_CALCULATED          15
-
       item_options = {
           'description' => nil,
           'key_' => nil,
@@ -59,19 +57,13 @@ module Zabbix
           'applications' => '',
           'templateid' => 0
       }
-
-
       item_options.merge!(item)
-
       message = {
           'method' => 'item.create',
           'params' => [item_options]
       }
-
       response = send_request(message)
-
       response.empty? ? nil : response['itemids'][0]
-
     end
 
     def get_item_id(host_id, item_name)
@@ -84,11 +76,8 @@ module Zabbix
               }
           }
       }
-
       response = send_request(message)
-
       response.empty? ? nil : response[0]['itemid']
-
     end
 
     def item_exist?(host_id, item_name)
@@ -98,28 +87,21 @@ module Zabbix
       else
         result = false
       end
-
       return result
     end
 
     def update_item(item_id, options)
-
       options["item_id"]
-
       message = {
           'method' => 'item.update',
           'params' => options
       }
-
       response = send_request(message)
-
-      response.empty? ?  nil : response['itemids'][0]
-
+      response.empty? ? nil : response['itemids'][0]
     end
 
     # Don't work with api < 1.8.4
     def delete_item(item_ids)
-
       if item_ids.kind_of? Array
         message = {
             'method' => 'item.delete',
@@ -133,16 +115,14 @@ module Zabbix
       else
         raise Zabbix::ArgumentError.new("Zabbix::ZabbixApi.delete_item() argument error. item_ids => #{item_ids.inspect}")
       end
-
       response = send_request(message)
-
       if response.empty?
         result = nil
       else
         response['itemids'].count == 1 ? result = response['itemids'][0] : result = response['itemids']
       end
-
       return result
     end
+
   end
 end

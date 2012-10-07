@@ -1,60 +1,49 @@
 require 'zabbixapi'
 require 'json'
 
-require 'webmock/rspec'
-include WebMock::API
+#require 'webmock/rspec'
+#include WebMock::API
 
 # settings
 api_url = 'http://zabbix.local/api_jsonrpc.php'
-api_login = 'admin'
+api_login = 'Admin'
 api_password = 'zabbix'
 
-# 01. Add item
-auth_response = '{"jsonrpc":"2.0","result":"a82039d56baba1f92311aa917af9939b","id":83254}'
-add_item_response = '{"jsonrpc":"2.0","result":{"itemids":["19541"]},"id":80163}'
-item_options = {
-  'description' => "Description",
-  'key_' => "key[,avg1]",
-  'hostid' => '10160',
-  'applications' => [ 393 ],
-  'history' => 7,
-  'trends' => 30, 
-  'delay' => 60, 
-  'value_type' => 0
-}
 
-stub_request(:post, api_url).with(:body => /"method":"user\.authenticate"/).to_return(:body => auth_response)
-stub_request(:post, api_url).with(:body => /"method":"item\.create"/).to_return(:body => add_item_response)
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+#zbx.debug = true
 
-describe Zabbix::ZabbixApi, "add_item" do
-  it "Create item" do
-    zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
-    result = zbx.add_item(item_options)
-    result.should eq("19541")
+# 01. Create group
+describe Zabbix::ZabbixApi, "create_group" do
+  it "Create some group" do
+    result = zbx.add_group('some_group')
   end
 end
 
-# 02. Delete item
-auth_response = '{"jsonrpc":"2.0","result":"a82039d56baba1f92311aa917af9939b","id":83254}'
-delete_item_response = ''
-item_options = {
-  'description' => "Description",
-  'key_' => "key[,avg1]",
-  'hostid' => '10160',
-  'applications' => [ 393 ],
-  'history' => 7,
-  'trends' => 30, 
-  'delay' => 60, 
-  'value_type' => 0
+# 02. Create host
+host_options = { 
+  "ip"     => '127.0.0.1',
+  "dns"    => 'my.example.com',
+  "host"   => 'my.example.com',
+  "useip"  => 1,
+  "groups" => ['some_group']
 }
+describe Zabbix::ZabbixApi, "create_host" do
+  it "Create host" do
+    result = zbx.add_host(host_options)
+  end
+end
 
-stub_request(:post, api_url).with(:body => /"method":"user\.authenticate"/).to_return(:body => auth_response)
-stub_request(:post, api_url).with(:body => /"method":"item\.create"/).to_return(:body => add_item_response)
+# 03. Get host
+describe Zabbix::ZabbixApi, "get_host" do
+  it "Get host by name" do
+    result = zbx.get_host_id('my.example.com')
+  end
+end
 
-describe Zabbix::ZabbixApi, "add_item" do
-  it "Create item" do
-    zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
-    result = zbx.add_item(item_options)
-    result.should eq("19541")
+# 04. Delete group
+describe Zabbix::ZabbixApi, "delete_group" do
+  it "Delete some group" do
+    result = zbx.delete_group('some_group')
   end
 end
