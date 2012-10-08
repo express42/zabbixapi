@@ -90,6 +90,8 @@ module Zabbix
         case error_code.to_s
           when '-32602'
             raise Zabbix::AlreadyExist.new(e_message)
+          when '-32500'
+            raise  Zabbix::ArgumentError.new(e_message)
           else
             raise Zabbix::ResponseError.new(e_message)
         end

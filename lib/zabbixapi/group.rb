@@ -39,7 +39,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response ? response['groupids'][0].to_i : nil
+      response ? true : false
     end
 
     def add_host_to_group(host_id, group_id)
@@ -51,7 +51,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ?  false : true
+      response ? true : false
     end
 
   end

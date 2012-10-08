@@ -61,7 +61,8 @@ module Zabbix
               'hostid' => host_id
           }
       }
-      send_request(message)
+      response = send_request(message)
+      response.empty? ?  false : true
     end
 
   end
