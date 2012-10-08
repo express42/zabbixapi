@@ -44,7 +44,7 @@ module Zabbix
               [mediatype_id]
       }
       response = send_request(message)
-      response ? true : false
+      response ? true : nil
     end
 
   end

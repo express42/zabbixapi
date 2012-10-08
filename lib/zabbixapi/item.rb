@@ -82,12 +82,7 @@ module Zabbix
 
     def item_exist?(host_id, item_name)
       item_id = get_item_id(host_id, item_name)
-      if item_id
-        result = true
-      else
-        result = false
-      end
-      return result
+      item_id ? true : false
     end
 
     def update_item(item_id, options)

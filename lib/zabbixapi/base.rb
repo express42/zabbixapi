@@ -55,17 +55,17 @@ module Zabbix
       request.body=(message_json)
 
       begin
-        puts "[ZBXAPI] : INFO : Do request. Body => #{request.body}" if @debug
+        puts "[ZBXAPI] : #{Time.now()} : INFO : Do request. Body => #{request.body}" if @debug
         response = http.request(request)
       rescue ::SocketError => e
-        puts "[ZBXAPI] : ERROR : SocketError => #{e.message}" if @debug
+        puts "[ZBXAPI] : #{Time.now()} : ERROR : SocketError => #{e.message}" if @debug
         raise Zabbix::SocketError.new(e.message)
       end
 
       if @debug
-        puts "[ZBXAPI] : INFO : Response start"
+        puts "[ZBXAPI] : #{Time.now()} : INFO : Response start"
         puts response
-        puts "[ZBXAPI] : INFO : Response end"
+        puts "[ZBXAPI] : #{Time.now()} : INFO : Response end"
       end
 
       if response.code != "200"
@@ -75,7 +75,7 @@ module Zabbix
       response_body_hash = JSON.parse(response.body)
 
       if @debug
-        puts "[ZBXAPI] : INFO : Response body"
+        puts "[ZBXAPI] : #{Time.now()} : INFO : Response body"
         puts response_body_hash.inspect
       end
 

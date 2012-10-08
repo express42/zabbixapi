@@ -62,7 +62,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ?  false : true
+      response.empty? ?  nil : true
     end
 
   end
