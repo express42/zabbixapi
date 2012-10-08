@@ -30,7 +30,7 @@ module Zabbix
           'ipmi_username' => '',
           'ipmi_password' => ''
       }
-      host_options['groups'].nil? || host_options['groups'].map! { |group_id| {'groupid' => get_group_id(group_id)} }
+      host_options['groups'].nil? || host_options['groups'].map! { |group_id| {'groupid' => group_id} }
       host = merge_opt(host_default, host_options)
       message = {
           'method' => 'host.create',

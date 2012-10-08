@@ -1,9 +1,6 @@
 require 'zabbixapi'
 require 'json'
 
-#require 'webmock/rspec'
-#include WebMock::API
-
 # settings
 api_url = 'http://zabbix.local/api_jsonrpc.php'
 api_login = 'Admin'
@@ -44,7 +41,7 @@ end
 # 04. Delete group
 describe Zabbix::ZabbixApi, "delete_group" do
   it "Delete some group" do
-    result = zbx.delete_group('some_group')
+    result = zbx.delete_group(zbx.get_group_id'some_group')
   end
 end
 
@@ -52,5 +49,26 @@ end
 describe Zabbix::ZabbixApi, "delete_host" do
   it "Delete host" do
     result = zbx.delete_host('my.example.com')
+  end
+end
+
+# 06. Mediatype create
+mediatype_options = { 
+  'type' => '0',
+  'description' => 'example_mediatype',
+  'smtp_server' => 'test.company.com',
+  'smtp_helo'   => 'test.company.com',
+  'smtp_email'  => 'test@test.company.com',
+}
+describe Zabbix::ZabbixApi, "create_mediatype" do
+  it "Create mediatype" do
+    result = zbx.add_mediatype(mediatype_options)
+  end
+end
+
+# 07. Mediatype delete
+describe Zabbix::ZabbixApi, "create_mediatype" do
+  it "Delete mediatype" do
+    result = zbx.delete_mediatype('example_mediatype')
   end
 end
