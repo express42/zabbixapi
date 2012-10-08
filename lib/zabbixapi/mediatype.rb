@@ -37,14 +37,15 @@ module Zabbix
     end
 
     def delete_mediatype(mediatype)
-      mediatype_id = get_mediatype_id(mediatype)
-      message = {
-          'method' => 'mediatype.delete',
-          'params' => 
-              [mediatype_id]
-      }
-      response = send_request(message)
-      response ? true : nil
+      if mediatype_id = get_mediatype_id(mediatype)
+        message = {
+            'method' => 'mediatype.delete',
+            'params' => 
+                [mediatype_id]
+        }
+        response = send_request(message)
+        response.empty? ? nil : true
+      end
     end
 
   end

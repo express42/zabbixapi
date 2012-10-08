@@ -9,7 +9,7 @@ module Zabbix
           'params' => host
       }
       responce = send_request(message)
-      responce.empty? ?  nil : responce['hostids'][0].to_i
+      responce.empty? ?  nil : true
     end
 
     def add_host(host_options)
@@ -54,15 +54,16 @@ module Zabbix
     end
 
     def delete_host(hostname)
-      host_id = get_host_id(hostname)
-      message = {
-          'method' => 'host.delete',
-          'params' => {
-              'hostid' => host_id
-          }
-      }
-      response = send_request(message)
-      response.empty? ?  nil : true
+      if host_id = get_host_id(hostname)
+        message = {
+            'method' => 'host.delete',
+            'params' => {
+                'hostid' => host_id
+            }
+        }
+        response = send_request(message)
+        response.empty? ?  nil : true
+      end
     end
 
   end

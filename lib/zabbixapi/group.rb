@@ -11,7 +11,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ? nil : response[0]['groupid']
+      response.empty? ? nil : response[0]['groupid'].to_i
     end
 
     def group_exist?(pattern)
@@ -31,15 +31,16 @@ module Zabbix
     end
 
     def delete_group(groupname)
-      group_id = get_group_id(groupname)
-      message = {
-          'method' => 'hostgroup.delete',
-          'params' => {
-              'groupid' => group_id
-          }
-      }
-      response = send_request(message)
-      response ? true : nil
+      if group_id = get_group_id(groupname)
+        message = {
+            'method' => 'hostgroup.delete',
+            'params' => {
+                'groupid' => group_id
+            }
+        }
+        response = send_request(message)
+        response ? true : nil
+      end
     end
 
     def add_host_to_group(host_id, group_id)

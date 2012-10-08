@@ -8,7 +8,7 @@ api_password = 'zabbix'
 
 
 zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
-zbx.debug = true
+#zbx.debug = true
 
 # 01. Create group
 describe Zabbix::ZabbixApi, "create_group" do
@@ -22,7 +22,7 @@ end
 describe Zabbix::ZabbixApi, "get_group_id" do
   it "Get group_id" do
     result = zbx.get_group_id('some_group')
-    result.should be_kind_of(String) #FIXME in new version get raise error or int
+    result.should be_kind_of(Integer)
   end
 end
 
@@ -30,7 +30,7 @@ end
 describe Zabbix::ZabbixApi, "get_group_id" do
   it "Get unknown group" do
     result = zbx.get_group_id('___some_group')
-    result.should be_nil #FIXME in new version get raise error or int
+    result.should be_nil
   end
 end
 
@@ -73,7 +73,15 @@ describe Zabbix::ZabbixApi, "delete_host" do
   end
 end
 
-# 08. Delete group
+# 08. Delete unknown host
+describe Zabbix::ZabbixApi, "delete_unknown_host" do
+  it "Delete unknown host" do
+    result = zbx.delete_host('__my.example.com')
+    result.should be_nil
+  end
+end
+
+# 09. Delete group
 describe Zabbix::ZabbixApi, "delete_group" do
   it "Delete some group" do
     result = zbx.delete_group('some_group')
@@ -81,7 +89,15 @@ describe Zabbix::ZabbixApi, "delete_group" do
   end
 end
 
-# 09. Mediatype create
+# 10. Delete unknown group
+describe Zabbix::ZabbixApi, "delete_unknown_group" do
+  it "Delete unknown group" do
+    result = zbx.delete_group('___some_group')
+    result.should be_nil
+  end
+end
+
+# 11. Mediatype create
 mediatype_options = { 
   'type' => '0', #email
   'description' => 'example_mediatype',
@@ -96,7 +112,15 @@ describe Zabbix::ZabbixApi, "create_mediatype" do
   end
 end
 
-# 10. Mediatype delete
+# 12. Mediatype unknown delete
+describe Zabbix::ZabbixApi, "create_mediatype" do
+  it "Delete unknown mediatype" do
+    result = zbx.delete_mediatype('__example_mediatype')
+    result.should be_nil
+  end
+end
+
+# 13. Mediatype delete
 describe Zabbix::ZabbixApi, "create_mediatype" do
   it "Delete mediatype" do
     result = zbx.delete_mediatype('example_mediatype')
