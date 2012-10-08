@@ -8,7 +8,7 @@ api_password = 'zabbix'
 
 
 zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
-#zbx.debug = true
+zbx.debug = true
 
 # 01. Create group
 describe Zabbix::ZabbixApi, "create_group" do
@@ -23,7 +23,7 @@ host_options = {
   "dns"    => 'my.example.com',
   "host"   => 'my.example.com',
   "useip"  => 1,
-  "groups" => ['some_group']
+  "groups" => [zbx.get_group_id('some_group')]
 }
 describe Zabbix::ZabbixApi, "create_host" do
   it "Create host" do
