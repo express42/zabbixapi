@@ -6,5 +6,4 @@ before_script:
   - sudo apt-get install zabbix-frontend-php
   - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
   - mysql -u root -e "update zabbix.users set passwd = '5fce1b3e34b520afeffb37ce08c7cd66';"
-  - echo "$(curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script: "bundle exec rspec spec/localhost.rb"
