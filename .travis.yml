@@ -1,4 +1,6 @@
 language: ruby
-rvm:           # list all the Rubies you want to test against
+rvm: 
   - 1.9.3
-script: "bundle exec rspec spec/request.rb" # your test command goes here
+before_script:
+    - sudo apt-get install zabbix-frontend-php
+script: "bundle exec rspec spec/localhost.rb"
