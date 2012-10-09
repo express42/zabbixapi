@@ -2,7 +2,7 @@ require 'zabbixapi'
 require 'json'
 
 # settings
-api_url = 'http://zabbix.local/api_jsonrpc.php'
+api_url = 'http://localhost/zabbix/api_jsonrpc.php'
 api_login = 'Admin'
 api_password = 'zabbix'
 
