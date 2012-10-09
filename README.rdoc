@@ -2,6 +2,8 @@
 
 Simple and lightweight ruby module for work with zabbix api version 1.8.x
 
+{<img src="https://travis-ci.org/vadv/zabbixapi.png" />}[https://travis-ci.org/vadv/zabbixapi
+
 You can:
 * Create and delete host/template/application/items/triggers and screens;
 * Get info about all zabbix essences;

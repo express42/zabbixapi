@@ -1,5 +1,4 @@
+language: ruby
 rvm:           # list all the Rubies you want to test against
   - 1.9.3
-  - jruby
-  - rbx
 script: "bundle exec rspec spec/request.rb" # your test command goes here
