@@ -2,8 +2,9 @@ language: ruby
 rvm: 
   - 1.9.3
 before_script:
-  - echo "$(curl -fsSL https://raw.github.com/gist/6c0ded9ed3a0e5c4ea3a/zabbix.seed)" | sudo debconf-set-selections
   - sudo apt-get install zabbix-frontend-php
-  - cat /usr/share/zabbix/conf/zabbix.conf.php
-  - mysql -u root -e "select * from mysql.user;"
+  - mysql -u root -e "update mysql.user set password=PASSWORD('zabbix_passwd') where user='zabbix';"
+  - mysql -u root -e "insert into zabbix.users_groups(usrgrpid, userid) values(10,1);"
+  - mysql -u root -e "update zabbix.users set passwd = '5fce1b3e34b520afeffb37ce08c7cd66';"
+  - echo "$(curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script: "bundle exec rspec spec/localhost.rb"
