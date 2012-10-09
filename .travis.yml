@@ -3,7 +3,7 @@ rvm:
   - 1.9.3
 before_script:
   - echo "$(curl -fsSL https://raw.github.com/gist/6c0ded9ed3a0e5c4ea3a/zabbix.seed)" | sudo debconf-set-selections
+  - sudo apt-get install zabbix-frontend-php
   - cat /usr/share/zabbix/conf/zabbix.conf.php
   - mysql -u root -e "select * from mysql.user;"
-  - sudo apt-get install zabbix-frontend-php
 script: "bundle exec rspec spec/localhost.rb"
