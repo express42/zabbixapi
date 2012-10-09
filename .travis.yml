@@ -3,6 +3,6 @@ rvm:
   - 1.9.3
 before_script:
   - sudo apt-get install zabbix-frontend-php
-  - mysql -u root -e "use mysql; update user set password=PASSWORD("zabbix_passwd") where user='zabbix';"
+  - mysql -u root -e "use mysql; update user set password=PASSWORD('zabbix_passwd') where user='zabbix';"
   - echo "$(curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script: "bundle exec rspec spec/localhost.rb"
