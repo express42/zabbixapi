@@ -2,7 +2,6 @@ language: ruby
 rvm: 
   - 1.9.3
 before_script:
+  - echo "$(curl -fsSL https://raw.github.com/gist/6c0ded9ed3a0e5c4ea3a/zabbix.seed)" | sudo debconf-set-selections
   - sudo apt-get install zabbix-frontend-php
-  - mysql -u root -e "update mysql.user set password=('*9CBC0CDFECC6EDB55518791A797EAEE799141804') where User='zabbix';"
-  - echo "$(curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script: "bundle exec rspec spec/localhost.rb"
