@@ -42,18 +42,5 @@ module Zabbix
       return result
     end
 
-    def set_macro_value(host_id, macro_name, macro_value)
-      message = {
-          'method' => 'usermacro.updateValue',
-          'params' => {
-              'hostid' => host_id,
-              'macro' => macro_name,
-              'value' => macro_value
-          }
-      }
-      response = send_request(message)
-      response.empty? ? nil : true
-    end
-
   end
 end

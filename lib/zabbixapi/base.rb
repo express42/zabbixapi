@@ -64,7 +64,7 @@ module Zabbix
 
       if @debug
         puts "[ZBXAPI] : #{Time.now()} : INFO : Response start"
-        puts response
+        puts "[ZBXAPI] : #{Time.now()} : INFO : Response body: #{response.inspect}"
         puts "[ZBXAPI] : #{Time.now()} : INFO : Response end"
       end
 

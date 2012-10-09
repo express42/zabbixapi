@@ -9,7 +9,7 @@ module Zabbix
           'params' => host
       }
       responce = send_request(message)
-      responce.empty? ?  nil : true
+      responce.empty? ?  nil :  response['hostids'][0].to_i 
     end
 
     def add_host(host_options)
@@ -62,7 +62,7 @@ module Zabbix
             }
         }
         response = send_request(message)
-        response.empty? ?  nil : true
+        response.empty? ?  nil :  response['hostids'][0].to_i
       end
     end
 

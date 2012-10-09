@@ -86,7 +86,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ? nil : true
+      response.empty? ? nil : response['templateid'][0].to_i
     end
 
     def unlink_templates_from_hosts(templates_id, hosts_id)
@@ -101,7 +101,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ? nil : true
+      response.empty? ? nil : response['templateids'][0].to_i
     end
 
   end

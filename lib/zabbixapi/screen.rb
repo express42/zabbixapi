@@ -59,7 +59,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ? false : true
+      response.empty? ? nil : response[0]['screenids'].to_i
     end
 
     def del_all_graphs_from_screen(screen_id)
@@ -70,7 +70,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response ? response : nil
+      response ? response[0]['screenids'].to_i : nil
     end
 
     def add_graph_to_screen(screen_id, graph_id, x, y)

@@ -39,7 +39,7 @@ module Zabbix
             }
         }
         response = send_request(message)
-        response ? true : nil
+        response ? response['groupids'][0].to_i : nil
       end
     end
 
@@ -52,7 +52,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response ? true : nil
+      response ? response[0]['groupid'].to_i : nil
     end
 
   end

@@ -44,7 +44,7 @@ module Zabbix
                 [mediatype_id]
         }
         response = send_request(message)
-        response.empty? ? nil : true
+        response.empty? ? nil : response['mediatypeids'][0]
       end
     end
 

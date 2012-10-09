@@ -20,7 +20,7 @@ You can:
       "dns"    => 'my.example.com',
       "host"   => 'my.example.com',
       "useip"  => 1,
-      "groups" => [get_group_id('some_group')]
+      "groups" => [zbx.get_group_id('some_group')]
     }
     if zbx.create_host(host_options)
       puts zbx.get_host_id('my.example.com')
@@ -32,6 +32,8 @@ You can:
     if zbx.add_group('some_group') 
       puts zbx.get_group_id('some_group')
     end
+
+More see in spec please... 
 
 == Dependencies
 

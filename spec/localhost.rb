@@ -69,7 +69,7 @@ end
 describe Zabbix::ZabbixApi, "delete_host" do
   it "Delete host" do
     result = zbx.delete_host('my.example.com')
-    result.should be_true
+    result.should be_kind_of(Integer)
   end
 end
 
@@ -85,7 +85,7 @@ end
 describe Zabbix::ZabbixApi, "delete_group" do
   it "Delete some group" do
     result = zbx.delete_group('some_group')
-    result.should be_true
+    result.should be_kind_of(Integer)
   end
 end
 
@@ -113,7 +113,7 @@ describe Zabbix::ZabbixApi, "create_mediatype" do
 end
 
 # 12. Mediatype unknown delete
-describe Zabbix::ZabbixApi, "create_mediatype" do
+describe Zabbix::ZabbixApi, "delete_unknown_mediatype" do
   it "Delete unknown mediatype" do
     result = zbx.delete_mediatype('__example_mediatype')
     result.should be_nil
@@ -121,9 +121,9 @@ describe Zabbix::ZabbixApi, "create_mediatype" do
 end
 
 # 13. Mediatype delete
-describe Zabbix::ZabbixApi, "create_mediatype" do
+describe Zabbix::ZabbixApi, "delete_mediatype" do
   it "Delete mediatype" do
     result = zbx.delete_mediatype('example_mediatype')
-    result.should be_true
+    result.should be_kind_of(Integer)
   end
 end
