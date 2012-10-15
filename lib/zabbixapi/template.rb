@@ -16,6 +16,13 @@ module Zabbix
       response.empty? ? nil : response['templateids'][0].to_i
     end
 
+    def add_or_get_template(template_options)
+      unless t_id = get_template_id(template_options['host'])
+        t_id = add_template(template_options)
+      end
+      return t_id
+    end
+
     def get_template_ids_by_host(host_id)
       message = {
           'method' => 'template.get',
@@ -72,7 +79,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ? nil : response.keys[0]
+      response.empty? ? nil : response[0]['templateid'].to_i
     end
 
     def link_templates_with_hosts(templates_id, hosts_id)
@@ -99,6 +106,19 @@ module Zabbix
               'templateids' => message_templates_id,
               'force' => '1'
           }
+      }
+      response = send_request(message)
+      response.empty? ? nil : response['templateids'][0].to_i
+    end
+
+    def delete_template(template_name)
+      message = {
+          'method' => 'template.delete',
+          'params' => [
+              {
+                "templateid" => get_template_id(template_name)
+              }
+            ]
       }
       response = send_request(message)
       response.empty? ? nil : response['templateids'][0].to_i

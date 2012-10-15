@@ -30,6 +30,13 @@ module Zabbix
       response ? response['groupids'][0].to_i : nil
     end
 
+    def add_or_get_group(groupname)
+      unless g_id = get_group_id([groupname])
+        g_id = add_group(groupname)
+      end
+      return g_id
+    end
+
     def delete_group(groupname)
       if group_id = get_group_id(groupname)
         message = {

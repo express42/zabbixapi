@@ -7,7 +7,7 @@ module Zabbix
           'params' => graph
       }
       response = send_request(message)
-      response.empty? ? nil : response[0]['graphid']
+      response.empty? ? nil : response['graphids'][0]
     end
 
     def get_graph_id(host_id, graph_name)
@@ -22,6 +22,13 @@ module Zabbix
       }
       response = send_request(message)
       response.empty? ? nil : response[0]['graphid']
+    end
+
+    def add_or_get_graph(host_id, graph)
+      unless g_id = get_graph_id(host_id, graph['name'])
+        g_id = add_graph(graph)
+      end
+      return g_id
     end
 
     def get_graphs(host_id)

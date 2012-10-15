@@ -80,6 +80,13 @@ module Zabbix
       response.empty? ? nil : response[0]['itemid']
     end
 
+    def add_or_get_item(host_id, item_options)
+      unless i_id = get_item_id(host_id, item_options['description'])
+        i_id = add_item(item_options)
+      end
+      return i_id
+    end
+
     def item_exist?(host_id, item_name)
       item_id = get_item_id(host_id, item_name)
       item_id ? true : false

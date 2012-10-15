@@ -4,10 +4,17 @@ module Zabbix
     def add_trigger(trigger)
       message = {
           'method' => 'trigger.create',
-          'params' => [trigger]
+          'params' => [ trigger ]
       }
       response = send_request(message)
       response.empty? ? nil : response['triggerids'][0]
+    end
+
+    def add_or_get_trigger(host_id, trigger)
+      unless tr_id = get_trigger_id(host_id, trigger['description'])
+        tr_id = add_trigger(trigger)
+      end
+      return tr_id
     end
 
     def get_trigger_id(host_id, trigger_name)
@@ -16,7 +23,7 @@ module Zabbix
           'params' => {
               'filter' => {
                   'hostid' => host_id,
-                  'description' => trigger_name
+                  'description' => [ trigger_name ]
               }
           }
       }
