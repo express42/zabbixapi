@@ -11,8 +11,8 @@ module Zabbix
           'method' => 'application.create',
           'params' => application
       }
-      responce = send_request(message)
-      responce.empty? ? nil : responce['applicationids'][0].to_i
+      response = send_request(message)
+      response.empty? ? nil : response['applicationids'][0].to_i
     end
   end
 
@@ -26,8 +26,8 @@ module Zabbix
             }
         }
     }
-    responce = send_request(message)
-    responce.empty? ? nil : responce[0]['applicationid']
+    response = send_request(message)
+    response.empty? ? nil : response[0]['applicationid']
   end
 
 end

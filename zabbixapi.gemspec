@@ -4,12 +4,12 @@ require 'rake'
 
 Gem::Specification.new do |spec|
 
-  spec.version = '0.1.6.3'
+  spec.version = '0.1.7.0'
   spec.name = 'zabbixapi'
   spec.summary = 'Ruby module for work with zabbix api.'
 
   spec.email = 'vadv.mkn@gmail.com'
-  spec.author = 'Eduard Snesarev and Dmitry Vasiliev'
+  spec.author = 'Eduard Snesarev and Dmitry Vasiliev, maintenance module by mathiasmethner@googlemail.com'
   spec.homepage = 'https://github.com/vadv/zabbixapi/wiki'
   spec.description = 'Ruby module for work with zabbix api v1.8.'
 
