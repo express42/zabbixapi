@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'yaml'
+require 'getopt/std'
+require 'zabbixapi'
+
+opt = Getopt::Std.getopts("g:E:H:i:")
+
+group_name = opt["g"]
+host = opt["H"]
+ip = opt["i"]
+zabbix_env = opt["E"]
+
+# read config
+config = YAML::load(open('./config.yml'))
+
+api_url = config[zabbix_env]["api_url"]
+api_login = config[zabbix_env]["api_login"]
+api_password = config[zabbix_env]["api_password"]
+
+# Esablish new connection
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+
+g_id = zbx.add_or_get_group(group_name)
+
+# Create new host
+options = {
+  "ip" => ip,
+  "dns" => host,
+  "host" => host,
+  "useip" => 1,
+  "groups" => [g_id]
+}
+
+p " * Creating host #{host}."
+g_id = zbx.add_host(options)

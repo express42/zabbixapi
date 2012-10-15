@@ -1,16 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'getopt/std'
 require 'yaml'
+require 'getopt/std'
 require 'zabbixapi'
 
-opt = Getopt::Std.getopts("g:E:")
+opt = Getopt::Std.getopts("g:E:n:")
 
 group_name = opt["g"]
 zabbix_env = opt["E"]
+videodev_name = opt["n"]
 
-template_name = "TMPL_Availability"
+template_name = "TMPL_videomute_#{videodev_name}"
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -18,7 +19,6 @@ config = YAML::load(open('./config.yml'))
 api_url = config[zabbix_env]["api_url"]
 api_login = config[zabbix_env]["api_login"]
 api_password = config[zabbix_env]["api_password"]
-
 
 # Esablish new connection
 zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
@@ -35,39 +35,38 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Availability"
+app_name = "videomute_#{videodev_name}"
 p " ** Create application #{app_name}."
 application = {
-  'hostid' => t_id,
+  'hostid' => t_id.to_i,
   'name' => app_name
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Ping.'
+# 'state of #{videodev_name}'
 options = {
-  'description' => "Ping",
-  'key_' => "agent.ping",
+  'description' => "mute state of #{videodev_name}",
+  'key_' => "ivtv-videodev.state[#{videodev_name}]",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
   'trends' => 30,
-  'delay' => 30,
-  'value_type' => 0,
-  'type' => '0'
+  'delay' => 60,
+  'value_type' => 0
 }
-p " ** Add 'Ping' to #{template_name}."
-i_id = zbx.add_or_get_item(t_id, options)
+p " ** Add 'videomute.state[#{videodev_name}]' to #{template_name}."
+item_id = zbx.add_or_get_item(t_id, options)
 
 # TRIGGERS
 options = {
-  'description' => "Host availability",
-  'expression' => "{#{template_name}:agent.ping.nodata(61)}=1",
-  'priority' => 5, #disaster
+  'description' => "#{videodev_name} is mute off",
+  'expression' => "{#{template_name}:ivtv-videodev.state[#{videodev_name}].last(0)}=1",
+  'priority' => 5, # disaster
   'templateid' => 0,
-  'comments' => "Host availability",
+  'comments' => "#{videodev_name} is in mute off state",
   'type' => 0,
   'status' => '0'
 }
 
-p " ** Add 'Host availability disaster trigger'"
+p " ** Add '#{videodev_name} mute' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)

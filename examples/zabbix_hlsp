@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'getopt/std'
+require 'yaml'
+require 'zabbixapi'
+
+opt = Getopt::Std.getopts("g:i:E:")
+
+group_name = opt["g"]
+zabbix_env = opt["E"]
+hlsp_index = opt["i"]
+
+template_name = "TMPL_hlsp-#{hlsp_index}"
+app_name = "HLSPD-#{hlsp_index}"
+
+# read config
+config = YAML::load(open('./config.yml'))
+
+api_url = config[zabbix_env]["api_url"]
+api_login = config[zabbix_env]["api_login"]
+api_password = config[zabbix_env]["api_password"]
+
+# Esablish new connection
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+
+# Create new template
+p " * Creating template #{template_name}."
+g_id = zbx.add_or_get_group(group_name)
+
+options = {
+  'groups' => [ g_id.to_i ],
+  'host' => template_name
+}
+
+t_id = zbx.add_or_get_template(options)
+
+# Create application #{app_name}
+p " ** Create application #{app_name}."
+application = {
+  'hostid' => t_id.to_i,
+  'name' => app_name
+}
+a_id = zbx.add_or_get_application(t_id, application)
+
+# 'hlsp-#{hlsp_index} service status'
+options = {
+  'description' => "hlsp-#{hlsp_index} service status",
+  'key_' => "runit_service[hlspd-#{hlsp_index}]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'history' => 7,
+  'trends' => 30,
+  'delay' => 60,
+  'value_type' => 0
+}
+p " ** Add 'hlsp-#{hlsp_index} service status' to #{template_name}."
+item_id = zbx.add_or_get_item(t_id, options)
+
+# 'hlsp-#{hlsp_index} clients count'
+hlsp_port = 8080 + hlsp_index.to_i
+options = {
+  'description' => "hlsp-#{hlsp_index} clients count",
+  'key_' => "hlspd[http://127.0.0.1:#{hlsp_port}/cids.txt]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'history' => 7,
+  'trends' => 30,
+  'delay' => 60,
+  'value_type' => 0
+}
+p " ** Add 'hlsp-#{hlsp_index} clients count' to #{template_name}."
+item_id = zbx.add_or_get_item(t_id, options)
+
+# TRIGGERS
+options = {
+  'description' => "hlsp-#{hlsp_index} service status",
+  'expression' => "{#{template_name}:runit_service[hlspd-#{hlsp_index}].last(0)}#0",
+  'priority' => 5, # disaster
+  'templateid' => 0,
+  'comments' => "hlsp-#{hlsp_index} service status (disaster)",
+  'type' => 0,
+  'status' => '0'
+}
+
+p " ** Add 'hlsp-#{hlsp_index} service status' trigger"
+tr_id = zbx.add_or_get_trigger(t_id, options)
+
+options = {
+  'description' => "hlsp-#{hlsp_index} clients count",
+  'expression' => "{#{template_name}:hlspd[http://127.0.0.1:#{hlsp_port}/cids.txt].last(0)}<0",
+  'priority' => 5, # disaster
+  'templateid' => 0,
+  'comments' => "hlsp-#{hlsp_index} clients count (disaster)",
+  'type' => 0,
+  'status' => '0'
+}
+
+p " ** Add 'hlsp-#{hlsp_index} clients count' trigger"
+tr_id = zbx.add_or_get_trigger(t_id, options)

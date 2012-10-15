@@ -5,12 +5,13 @@ require 'yaml'
 require 'getopt/std'
 require 'zabbixapi'
 
-opt = Getopt::Std.getopts("g:E:")
+opt = Getopt::Std.getopts("g:E:n:")
 
 group_name = opt["g"]
 zabbix_env = opt["E"]
+disk_name = opt["n"]
 
-template_name = "TMPL_Load_average"
+template_name = "TMPL_iops_#{disk_name}"
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -34,7 +35,7 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Load_average"
+app_name = "iops_#{disk_name}"
 p " ** Create application #{app_name}."
 application = {
   'hostid' => t_id.to_i,
@@ -42,10 +43,10 @@ application = {
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Load Average 1'
+# 'reads for #{disk_name}'
 options = {
-  'description' => "Load Average 1",
-  'key_' => "system.cpu.load[,avg1]",
+  'description' => "iops read #{disk_name}",
+  'key_' => "vfs.dev.read[#{disk_name}]",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
@@ -53,59 +54,53 @@ options = {
   'delay' => 60,
   'value_type' => 0
 }
-p " ** Add 'Load Average 1' to #{template_name}."
+p " ** Add 'vfs.dev.read[#{disk_name}]' to #{template_name}."
+reads_id = zbx.add_or_get_item(t_id, options)
 
-la_1_item_id = zbx.add_or_get_item(t_id, options)
-
-# 'Load Average 5'
+# 'writes for #{disk_name}'
 options = {
-  'description' => "Load Average 5",
-  'key_' => "system.cpu.load[,avg5]",
+  'description' => "iops writes #{disk_name}",
+  'key_' => "vfs.dev.write[#{disk_name}]",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
   'trends' => 30,
-  'delay' => 300,
+  'delay' => 60,
   'value_type' => 0
 }
-p " ** Add 'Load Average 5' to #{template_name}."
-
-la_5_item_id = zbx.add_or_get_item(t_id, options)
+p " ** Add 'vfs.dev.write[#{disk_name}]' to #{template_name}."
+writes_id = zbx.add_or_get_item(t_id, options)
 
 # TRIGGERS
-
 options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>5",
+  'description' => "read on #{disk_name} is too big",
+  'expression' => "{#{template_name}:vfs.dev.read[#{disk_name}].last(0)}>100",
   'priority' => 2, # warning
   'templateid' => 0,
-  'comments' => "Load Average (warning)",
+  'comments' => "too many reads on #{disk_name} (warning)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average warning trigger'"
+p " ** Add '#{disk_name} reads' trigger'"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>10",
-  'priority' => 5, # disaster
+  'description' => "write on #{disk_name} is too big",
+  'expression' => "{#{template_name}:vfs.dev.write[#{disk_name}].last(0)}>300",
+  'priority' => 2, # warning
   'templateid' => 0,
-  'comments' => "Load Average (disaster)",
+  'comments' => "too many writes on #{disk_name} (warning)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average disaster trigger'"
+p " ** Add '#{disk_name} writes' trigger'"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
 # GRAPHS
-
 options = {
   'gitems' => [
     {
-      "itemid" => la_1_item_id,
+      "itemid" => reads_id,
       "drawtype" => "0",
       "sortorder" => "0",
       "color" => "AA0000",
@@ -115,7 +110,7 @@ options = {
       "periods_cnt" => "5" 
     },
     {
-      "itemid" => la_5_item_id,
+      "itemid" => writes_id,
       "drawtype" => "0",
       "sortorder" => "0",
       "color" => "009900",
@@ -126,11 +121,11 @@ options = {
     }
   ],
   "show_triggers" => "1",
-  "name" => "Load Average",
+  "name" => "IOPS graph",
   "width" => "900",
   "height" => "200",
   "templateid" =>  "0" 
 }
 
-p " ** Add 'Load Average graph'"
+p " ** Add 'IOPS graph'"
 g_id = zbx.add_or_get_graph(t_id, options)

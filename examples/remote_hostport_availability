@@ -5,12 +5,14 @@ require 'getopt/std'
 require 'yaml'
 require 'zabbixapi'
 
-opt = Getopt::Std.getopts("g:E:")
+opt = Getopt::Std.getopts("g:E:h:p:")
 
 group_name = opt["g"]
 zabbix_env = opt["E"]
+host = opt["h"]
+port = opt["p"]
 
-template_name = "TMPL_Availability"
+template_name = "TMPL_Remote_#{host}_port_#{port}_availability"
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -35,18 +37,18 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Availability"
+app_name = "Remote_#{host}_port_#{port}_availability"
 p " ** Create application #{app_name}."
 application = {
-  'hostid' => t_id,
+  'hostid' => t_id.to_i,
   'name' => app_name
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
 # 'Ping.'
 options = {
-  'description' => "Ping",
-  'key_' => "agent.ping",
+  'description' => "Remote availability #{host} on port #{port}",
+  'key_' => "net.tcp.port[#{host}, #{port}]",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
@@ -55,19 +57,19 @@ options = {
   'value_type' => 0,
   'type' => '0'
 }
-p " ** Add 'Ping' to #{template_name}."
+p " ** Add 'Remote_#{host}_port_#{port}_availability' to #{template_name}."
 i_id = zbx.add_or_get_item(t_id, options)
 
 # TRIGGERS
 options = {
-  'description' => "Host availability",
-  'expression' => "{#{template_name}:agent.ping.nodata(61)}=1",
+  'description' => "Remote availability #{host} on port #{port}",
+  'expression' => "{#{template_name}:net.tcp.port[#{host}, #{port}].last(0)}#1",
   'priority' => 5, #disaster
   'templateid' => 0,
-  'comments' => "Host availability",
+  'comments' => "Remote availability #{host} on port #{port}",
   'type' => 0,
   'status' => '0'
 }
 
-p " ** Add 'Host availability disaster trigger'"
+p " ** Add 'Remote availability #{host} on port #{port} disaster trigger'"
 tr_id = zbx.add_or_get_trigger(t_id, options)

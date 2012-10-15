@@ -11,7 +11,7 @@ mount_point = opt["m"]
 group_name = opt["g"]
 zabbix_env = opt["E"]
 
-if mount_point == "/"
+if ( mount_point == "/" )
   template_name = "TMPL_Filesystem_root"
   app_name = "Filesystem_root"
 else
@@ -32,14 +32,14 @@ zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
 
 # Create new template
 p " * Creating template #{template_name}."
-g_id = zbx.get_group_id(group_name)
+g_id = zbx.add_or_get_group(group_name)
 
 options = {
   'groups' => [ g_id.to_i ],
   'host' => template_name
 }
 
-t_id = zbx.add_template(options)
+t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
 p " ** Create application #{app_name}."
@@ -48,7 +48,7 @@ application = {
   'name' => app_name
 }
 
-a_id = zbx.add_application(application)
+a_id = zbx.add_or_get_application(t_id, application)
 
 # Total disk space on #{mount_point}
 options = {
@@ -60,11 +60,11 @@ options = {
   'history' => 7,
   'trends' => 30, 
   'delay' => 600, 
-  'value_type' => 0
+  'value_type' => 3
 }
 
 p " ** Add 'Total disk space on #{mount_point}' to #{template_name}."
-total_in_b_item_id = zbx.add_item(options)
+total_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # Used disk space on #{mount_point}
 options = {
@@ -76,11 +76,11 @@ options = {
   'history' => 7,
   'trends' => 30, 
   'delay' => 60, 
-  'value_type' => 0
+  'value_type' => 3
 }
 
 p " ** Add 'Used disk space on #{mount_point}' to #{template_name}."
-used_in_b_item_id = zbx.add_item(options)
+used_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # Use disk space on #{mount_point} in %
 options = {
@@ -95,7 +95,7 @@ options = {
 }
 
 p " ** Add 'Used disk space on #{mount_point} in %' to #{template_name}."
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # Free disk space on #{mount_point}
 options = {
@@ -109,11 +109,11 @@ options = {
   'history' => 7,
   'trends' => 30,
   'delay' => 60,
-  'value_type' => 0
+  'value_type' => 3
 }
 
 p " ** Add 'Free disk space on #{mount_point}' to #{template_name}."
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # Free disk space on #{mount_point} in %
 options = {
@@ -130,7 +130,7 @@ options = {
 }
 
 p " ** Add 'Free disk space on #{mount_point} in %' to #{template_name}."
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # Free number of inodes on #{mount_point}
 options = {
@@ -142,11 +142,11 @@ options = {
   'history' => 7,
   'trends' => 30, 
   'delay' => 60, 
-  'value_type' => 0
+  'value_type' => 3
 }
 
 p " ** Add 'Free number of inodes on #{mount_point}' to #{template_name}."
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # Free number of inodes on #{mount_point} in %
 options = {
@@ -161,7 +161,7 @@ options = {
 }
 
 p " ** Add 'Free number of inodes on #{mount_point} in %' to #{template_name}."
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 ## TRIGGERS
 options = {
@@ -175,7 +175,7 @@ options = {
 }
 
 p " ** Add 'Free disk space on #{mount_point} warning trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Free disk space on #{mount_point}",
@@ -188,7 +188,7 @@ options = {
 }
 
 p " ** Add 'Free disk space on #{mount_point} disaster trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Free inodes on #{mount_point}",
@@ -201,7 +201,7 @@ options = {
 }
 
 p " ** Add 'Free inodes on #{mount_point} warning trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Free inodes on #{mount_point}",
@@ -214,7 +214,7 @@ options = {
 }
 
 p " ** Add 'Free inodes on #{mount_point} disaster trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'gitems' => [
@@ -246,4 +246,4 @@ options = {
   "templateid" =>  "0"
 }
 p " ** Add 'Disk space on #{mount_point} graph'"
-g_id = zbx.add_graph(options)
+g_id = zbx.add_or_get_graph(t_id, options)

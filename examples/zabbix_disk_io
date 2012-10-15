@@ -26,14 +26,14 @@ zbx.debug = true
 
 # Create new template
 p " * Creating template #{template_name}."
-g_id = zbx.get_group_id(group_name)
+g_id = zbx.add_or_get_group(group_name)
 
 options = {
   'groups' => [ g_id.to_i ],
   'host' => template_name
 }
 
-t_id = zbx.add_template(options)
+t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
 app_name = "Disk_" + disk_name.gsub(/\//, "_")
@@ -42,7 +42,7 @@ application = {
   'hostid' => t_id.to_i,
   'name' => app_name
 }
-a_id = zbx.add_application(application)
+a_id = zbx.add_or_get_application(t_id, application)
 
 # 'IOPS Read on #{disk_name} avg5'
 options = {
@@ -58,7 +58,7 @@ options = {
 }
 p " ** Add 'IOPS Read on #{disk_name} avg5' to #{template_name}."
 
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # 'IOPS Write on #{disk_name} avg5'
 options = {
@@ -74,7 +74,7 @@ options = {
 }
 p " ** Add 'IOPS Write on #{disk_name} avg5' to #{template_name}."
 
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # 'BPS Read on #{disk_name} avg5'
 options = {
@@ -95,7 +95,7 @@ options = {
 }
 p " ** Add 'BPS Read on #{disk_name} avg5' to #{template_name}."
 
-bps_r_avg5_id = zbx.add_item(options)
+bps_r_avg5_id = zbx.add_or_get_item(t_id, options)
 
 # 'BPS Write on #{disk_name}'
 options = {
@@ -116,7 +116,7 @@ options = {
 }
 p " ** Add 'BPS Write on #{disk_name} avg5' to #{template_name}."
 
-bps_w_avg5_id = zbx.add_item(options)
+bps_w_avg5_id = zbx.add_or_get_item(t_id, options)
 
 # Create graph 'Disk usage #{disk_name}'
 options = { 
@@ -149,4 +149,4 @@ options = {
   "templateid" =>  "0" 
 }
 p " ** Add 'Disk usage #{disk_name} graph'"
-g_id = zbx.add_graph(options)
+g_id = zbx.add_or_get_graph(t_id, options)

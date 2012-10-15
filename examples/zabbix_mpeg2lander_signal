@@ -1,16 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'yaml'
 require 'getopt/std'
+require 'yaml'
 require 'zabbixapi'
 
-opt = Getopt::Std.getopts("g:E:")
+opt = Getopt::Std.getopts("g:E:s:")
 
 group_name = opt["g"]
 zabbix_env = opt["E"]
+stream = opt["s"]
 
-template_name = "TMPL_Load_average"
+template_name = "TMPL_mpeg2lander_#{stream}"
+uri = "http://127.0.0.1:5000/api/lander_spec"
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -34,7 +36,7 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Load_average"
+app_name = "mpeg2lander_#{stream}"
 p " ** Create application #{app_name}."
 application = {
   'hostid' => t_id.to_i,
@@ -42,10 +44,10 @@ application = {
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Load Average 1'
+# 'mpeg2lander signal quality'
 options = {
-  'description' => "Load Average 1",
-  'key_' => "system.cpu.load[,avg1]",
+  'description' => "mpeg2lander #{stream} signal quality",
+  'key_' => "mpeg2lander.signal[#{uri},#{stream}]",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
@@ -53,59 +55,42 @@ options = {
   'delay' => 60,
   'value_type' => 0
 }
-p " ** Add 'Load Average 1' to #{template_name}."
-
-la_1_item_id = zbx.add_or_get_item(t_id, options)
-
-# 'Load Average 5'
-options = {
-  'description' => "Load Average 5",
-  'key_' => "system.cpu.load[,avg5]",
-  'hostid' => t_id.to_i,
-  'applications' => [ a_id.to_i ],
-  'history' => 7,
-  'trends' => 30,
-  'delay' => 300,
-  'value_type' => 0
-}
-p " ** Add 'Load Average 5' to #{template_name}."
-
-la_5_item_id = zbx.add_or_get_item(t_id, options)
+p " ** Add 'mpeg2lander #{stream} signal quality' to #{template_name}."
+signal_item_id = zbx.add_or_get_item(t_id, options)
 
 # TRIGGERS
-
+# signal quality warning
 options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>5",
+  'description' => "mpeg2lander #{stream} low signal",
+  'expression' => "{#{template_name}:mpeg2lander.signal[#{uri},#{stream}].last(0)}<81",
   'priority' => 2, # warning
   'templateid' => 0,
-  'comments' => "Load Average (warning)",
+  'comments' => "Mpeg2lander #{stream} low signal (Warning)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average warning trigger'"
+p " ** Add 'mpeg2lander signal warning' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
+# signal quality disaster
 options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>10",
+  'description' => "mpeg2lander #{stream} low signal",
+  'expression' => "{#{template_name}:mpeg2lander.signal[#{uri},#{stream}].last(0)}<71",
   'priority' => 5, # disaster
   'templateid' => 0,
-  'comments' => "Load Average (disaster)",
+  'comments' => "Mpeg2lander #{stream} low signal (disaster)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average disaster trigger'"
+p " ** Add 'mpeg2lander signal disaster' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
-# GRAPHS
 
+# GRAPH
 options = {
   'gitems' => [
-    {
-      "itemid" => la_1_item_id,
+    {   
+      "itemid" => signal_item_id,
       "drawtype" => "0",
       "sortorder" => "0",
       "color" => "AA0000",
@@ -113,24 +98,13 @@ options = {
       "calc_fnc" => "2",
       "type" => "0",
       "periods_cnt" => "5" 
-    },
-    {
-      "itemid" => la_5_item_id,
-      "drawtype" => "0",
-      "sortorder" => "0",
-      "color" => "009900",
-      "yaxisside" => "0",
-      "calc_fnc" => "2",
-      "type" => "0",
-      "periods_cnt" => "5" 
     }
-  ],
+  ],  
   "show_triggers" => "1",
-  "name" => "Load Average",
+  "name" => "Mpeg2lander #{stream} signal quality",
   "width" => "900",
   "height" => "200",
   "templateid" =>  "0" 
 }
 
-p " ** Add 'Load Average graph'"
 g_id = zbx.add_or_get_graph(t_id, options)

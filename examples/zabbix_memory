@@ -24,14 +24,14 @@ zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
 
 # Create new template
 p " * Creating template #{template_name}."
-g_id = zbx.get_group_id(group_name)
+g_id = zbx.add_or_get_group(group_name)
 
 options = {
   'groups' => [ g_id.to_i ],
   'host' => template_name
 }
 
-t_id = zbx.add_template(options)
+t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
 app_name = "Memory"
@@ -40,7 +40,7 @@ application = {
   'hostid' => t_id.to_i,
   'name' => app_name
 }
-a_id = zbx.add_application(application)
+a_id = zbx.add_or_get_application(t_id, application)
 
 # 'Buffers memory'
 options = {
@@ -55,7 +55,7 @@ options = {
 }
 p " ** Add 'Buffers memory' to #{template_name}."
 
-buffers_in_b_item_id = zbx.add_item(options)
+buffers_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # 'Cached memory'
 options = {
@@ -70,7 +70,7 @@ options = {
 }
 p " ** Add 'Cached memory' to #{template_name}."
 
-cached_in_b_item_id = zbx.add_item(options)
+cached_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # 'Total memory'
 options = {
@@ -86,15 +86,16 @@ options = {
 }
 p " ** Add 'Total memory' to #{template_name}."
 
-total_in_b_item_id = zbx.add_item(options)
+total_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # 'Used memory with buffers and cache'
 options = {
-  'description' => "Used memory",
+  'description' => "Used memory (without cache and buffers)",
   'key_' => "vm.memory.size[used]",
+  'params' => "last(\"vm.memory.size[total]\") - last(\"vm.memory.size[free]\") - last(\"vm.memory.size[cached]\") - last(\"vm.memory.size[buffers]\")",
   'hostid' => t_id.to_i,
+  'type' => '15', # calculated
   'applications' => [ a_id.to_i ],
-  'delay' => '300',
   'units' => 'B',
   'history' => 7,
   'trends' => 30,
@@ -102,7 +103,7 @@ options = {
 }
 p " ** Add 'Used memory' to #{template_name}."
 
-used_in_b_item_id = zbx.add_item(options)
+used_in_b_item_id = zbx.add_or_get_item(t_id, options)
 
 # 'Free memory'
 options = {
@@ -116,10 +117,23 @@ options = {
   'value_type' => 0
 }
 p " ** Add 'Free memory' to #{template_name}."
+i_id = zbx.add_or_get_item(t_id, options)
 
-i_id = zbx.add_item(options)
+# 'Free memory in %'
+options = {
+  'description' => "Free memory in %",
+  'key_' => "vm.memory.size[pfree]",
+  'hostid' => t_id.to_i,
+  'applications' => [ a_id.to_i ],
+  'units' => '%',
+  'history' => 7,
+  'trends' => 30,
+  'value_type' => 0
+}
+p " ** Add 'Free memory in %' to #{template_name}."
+i_id = zbx.add_or_get_item(t_id, options)
 
-# 'Free mmeory with buffers and cache'
+# 'Free memory with buffers and cache'
 options = {
   'description' => "Free memory with buffers and cache",
   'key_' => "vm.memory.size[free_with_buffer_cache]",
@@ -134,7 +148,7 @@ options = {
 }
 p " ** Add 'Free memory with buffers and cache' to #{template_name}."
 
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # 'Swap in all'
 options = {
@@ -151,7 +165,7 @@ options = {
 }
 p " ** Add 'Swap in all' to #{template_name}."
 
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # 'Swap out all'
 options = {
@@ -168,12 +182,12 @@ options = {
 }
 p " ** Add 'Swap out all' to #{template_name}."
 
-i_id = zbx.add_item(options)
+i_id = zbx.add_or_get_item(t_id, options)
 
 # TRIGGERS
 options = {
   'description' => "Free memory without cache, %",
-  'expression' => "{#{template_name}:vm.memory.size[free].last(0)}<15",
+  'expression' => "{#{template_name}:vm.memory.size[pfree].last(0)}<15",
   'priority' => 2, # warning
   'templateid' => 0,
   'comments' => "Free memory without cache, % warning trigger",
@@ -182,11 +196,11 @@ options = {
 }
 
 p " ** Add 'Free memory without cache, %'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Free memory without cache, %",
-  'expression' => "{#{template_name}:vm.memory.size[free].last(0)}<10",
+  'expression' => "{#{template_name}:vm.memory.size[pfree].last(0)}<10",
   'priority' => 5, # disaster
   'templateid' => 0,
   'commenty' => "Free memory without cache, %",
@@ -195,7 +209,7 @@ options = {
 }
 
 p " ** Add 'Free memory without cache, % disaster trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Swap usage in, B",
@@ -208,7 +222,7 @@ options = {
 }
 
 p " ** Add 'Swap usage in, B warning trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
   'description' => "Swap usage out, B",
@@ -221,7 +235,7 @@ options = {
 }
 
 p " ** Add 'Swap usage out, B warning trigger'"
-tr_id = zbx.add_trigger(options)
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
 options = {
     'gitems' => [
@@ -273,4 +287,4 @@ options = {
   "templateid" =>  "0" 
 }
 
-g_id = zbx.add_graph(options)
+g_id = zbx.add_or_get_graph(t_id, options)

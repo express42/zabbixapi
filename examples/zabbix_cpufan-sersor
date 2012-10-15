@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'yaml'
 require 'getopt/std'
+require 'yaml'
 require 'zabbixapi'
 
 opt = Getopt::Std.getopts("g:E:")
@@ -10,7 +10,10 @@ opt = Getopt::Std.getopts("g:E:")
 group_name = opt["g"]
 zabbix_env = opt["E"]
 
-template_name = "TMPL_Load_average"
+template_name = "TMPL_cpufan_sensor"
+app_name = "cpufan_sensor"
+high_disaster_rpm = '5000'
+low_disaster_rpm = '800'
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -34,7 +37,7 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Load_average"
+app_name = "cpufan_sensor"
 p " ** Create application #{app_name}."
 application = {
   'hostid' => t_id.to_i,
@@ -42,70 +45,56 @@ application = {
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Load Average 1'
+# 'cpu fan speed'
 options = {
-  'description' => "Load Average 1",
-  'key_' => "system.cpu.load[,avg1]",
+  'description' => "CPU FAN Speed sensor",
+  'key_' => "cpufansensor",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
   'trends' => 30,
   'delay' => 60,
-  'value_type' => 0
+  'templateid' => t_id, 
+  'value_type' => '3',
+  'units' => 'rpm'
 }
-p " ** Add 'Load Average 1' to #{template_name}."
+p " ** Add 'cpufansensor' to #{template_name}."
+sensor_item_id = zbx.add_or_get_item(t_id, options)
 
-la_1_item_id = zbx.add_or_get_item(t_id, options)
-
-# 'Load Average 5'
+# TRIGGER
+# cpufan disaster (high threshold)
 options = {
-  'description' => "Load Average 5",
-  'key_' => "system.cpu.load[,avg5]",
-  'hostid' => t_id.to_i,
-  'applications' => [ a_id.to_i ],
-  'history' => 7,
-  'trends' => 30,
-  'delay' => 300,
-  'value_type' => 0
-}
-p " ** Add 'Load Average 5' to #{template_name}."
-
-la_5_item_id = zbx.add_or_get_item(t_id, options)
-
-# TRIGGERS
-
-options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>5",
-  'priority' => 2, # warning
-  'templateid' => 0,
-  'comments' => "Load Average (warning)",
-  'type' => 0,
-  'status' => '0'
-}
-
-p " ** Add 'Load Average warning trigger'"
-tr_id = zbx.add_or_get_trigger(t_id, options)
-
-options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>10",
+  'description' => "CPU FAN sensor high",
+  'expression' => "{#{template_name}:cpufansensor.last(0)}>#{high_disaster_rpm}",
   'priority' => 5, # disaster
   'templateid' => 0,
-  'comments' => "Load Average (disaster)",
+  'comments' => "Cpufan sensor high threshold (Disaster)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average disaster trigger'"
+p " ** Add 'cpufan sensor high disaster' trigger"
+zbx.debug = true
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
-# GRAPHS
+# TRIGGER
+# cpufan disaster (high threshold)
+options = {
+  'description' => "CPU FAN sensor low",
+  'expression' => "{#{template_name}:cpufansensor.last(0)}<#{low_disaster_rpm}",
+  'priority' => 5, # disaster
+  'templateid' => 0,
+  'comments' => "Cpufan sensor low threshold (Disaster)",
+  'type' => 0,
+  'status' => '0'
+}
+p " ** Add 'cpufan sensor low disaster' trigger"
+tr_id = zbx.add_or_get_trigger(t_id, options)
 
+# GRAPH
 options = {
   'gitems' => [
-    {
-      "itemid" => la_1_item_id,
+    {   
+      "itemid" => sensor_item_id,
       "drawtype" => "0",
       "sortorder" => "0",
       "color" => "AA0000",
@@ -113,24 +102,13 @@ options = {
       "calc_fnc" => "2",
       "type" => "0",
       "periods_cnt" => "5" 
-    },
-    {
-      "itemid" => la_5_item_id,
-      "drawtype" => "0",
-      "sortorder" => "0",
-      "color" => "009900",
-      "yaxisside" => "0",
-      "calc_fnc" => "2",
-      "type" => "0",
-      "periods_cnt" => "5" 
     }
-  ],
+  ],  
   "show_triggers" => "1",
-  "name" => "Load Average",
+  "name" => "CPU FAN Speed sensor data from lm-sensors",
   "width" => "900",
   "height" => "200",
   "templateid" =>  "0" 
 }
 
-p " ** Add 'Load Average graph'"
 g_id = zbx.add_or_get_graph(t_id, options)

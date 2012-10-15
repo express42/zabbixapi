@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'getopt/std'
+require 'yaml'
+require 'zabbixapi'
+require 'digest'
+
+opt = Getopt::Std.getopts("g:i:E:")
+
+group_name = opt["g"]
+zabbix_env = opt["E"]
+
+template_name = "TMPL_nginx_500"
+app_name = "Nginx_500"
+
+# read config
+config = YAML::load(open('./config.yml'))
+
+api_url = config[zabbix_env]["api_url"]
+api_login = config[zabbix_env]["api_login"]
+api_password = config[zabbix_env]["api_password"]
+
+# Monitor all /var/log/nginx/#{access_log_files}.log
+access_log_files = ["face-server-500", "api-server-500", "logger-face-500", "site-500"]
+# Search in log last min
+in_sec = 60 # in seconds
+# Monitor delay
+mon_delay_in_sec = 60 # in seconds
+# Disaster value
+disaster_value = 5
+
+# Esablish new connection
+zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
+
+# Create new template
+p " * Creating template #{template_name}."
+g_id = zbx.add_or_get_group(group_name)
+
+options = {
+  'groups' => [ g_id.to_i ],
+  'host' => template_name
+}
+
+t_id = zbx.add_or_get_template(options)
+
+# Create application #{app_name}
+p " ** Create application #{app_name}."
+application = {
+  'hostid' => t_id.to_i,
+  'name' => app_name
+}
+a_id = zbx.add_or_get_application(t_id, application)
+
+store = Hash.new()
+# 'nginx_500 error rate'
+access_log_files.each do |param|
+  # 'nginx #{param}'
+  options = {
+    'description' => "nginx error rate #{param}.log",
+    'key_' => "nginx_500[/var/log/nginx/#{param}.log,#{in_sec}]",
+    'hostid' => t_id.to_i,
+    'applications' => [ a_id.to_i ],
+    'history' => 70,
+    'trends' => 30,
+    'delay' => "#{mon_delay_in_sec}",
+    'value_type' => 0
+  }
+  p " ** Add 'nginx_500 #{param}' to #{template_name}."
+  item_id = zbx.add_or_get_item(t_id, options)
+
+  store["nginx_500_error_rate_log_#{param}"] = item_id
+end
+
+# TRIGGERS
+access_log_files.each do |param|
+  # 'nginx #{param}'
+  options = {
+    'description' => "nginx error log disaster for /var/log/nginx/#{param}.log",
+    'expression' => "{#{template_name}:nginx_500[/var/log/nginx/#{param}.log,#{in_sec}].last(0)}>#{disaster_value}",
+    'priority' => 5, # disaster
+    'templateid' => 0,
+    'comments' => "nginx error rate disaster for /var/log/nginx/#{param}.log errors > #{disaster_value} in last #{in_sec} min",
+    'type' => 0,
+    'status' => '0'
+  }
+  p " ** Add 'nginx service status' trigger for #{param}"
+  tr_id = zbx.add_or_get_trigger(t_id, options)
+
+end
+
+# GRAPHS
+gitems = access_log_files.map do |param| { 
+  "itemid" => store["nginx_500_error_rate_log_#{param}"], 
+  "drawtype" => "0",
+  "sortorder" => "0",
+  "color" => Digest::MD5.hexdigest("#{param}").to_s[0..6],
+  "yaxisside" => "0",
+  "calc_fnc" => "2",
+  "type" => "0",
+  "periods_cnt" => "5" 
+} 
+end
+options = {
+  'gitems' => gitems,
+  "show_triggers" => "0",
+  "name" => "Nginx error rate",
+  "width" => "900",
+  "height" => "200"
+}
+
+g_id = zbx.add_or_get_graph(t_id, options)

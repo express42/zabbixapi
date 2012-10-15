@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'yaml'
 require 'getopt/std'
+require 'yaml'
 require 'zabbixapi'
 
 opt = Getopt::Std.getopts("g:E:")
@@ -10,7 +10,10 @@ opt = Getopt::Std.getopts("g:E:")
 group_name = opt["g"]
 zabbix_env = opt["E"]
 
-template_name = "TMPL_Load_average"
+template_name = "TMPL_cputemp_sensor"
+app_name = "cputemp_sensor"
+high_temperature = '60'
+crit_temperature = '80'
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -34,7 +37,7 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Load_average"
+app_name = "cputemp_sensor"
 p " ** Create application #{app_name}."
 application = {
   'hostid' => t_id.to_i,
@@ -42,70 +45,54 @@ application = {
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Load Average 1'
+# 'cpu temperature sensor'
 options = {
-  'description' => "Load Average 1",
-  'key_' => "system.cpu.load[,avg1]",
+  'description' => "CPU Temperature sensor",
+  'key_' => "cputempsensor",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
   'trends' => 30,
   'delay' => 60,
-  'value_type' => 0
+  'value_type' => '3',
+  'units' => 'C'
 }
-p " ** Add 'Load Average 1' to #{template_name}."
+p " ** Add 'cputempsensor' to #{template_name}."
+sensor_item_id = zbx.add_or_get_item(t_id, options)
 
-la_1_item_id = zbx.add_or_get_item(t_id, options)
-
-# 'Load Average 5'
+# TRIGGER
+# cputemp disaster (high threshold)
 options = {
-  'description' => "Load Average 5",
-  'key_' => "system.cpu.load[,avg5]",
-  'hostid' => t_id.to_i,
-  'applications' => [ a_id.to_i ],
-  'history' => 7,
-  'trends' => 30,
-  'delay' => 300,
-  'value_type' => 0
-}
-p " ** Add 'Load Average 5' to #{template_name}."
-
-la_5_item_id = zbx.add_or_get_item(t_id, options)
-
-# TRIGGERS
-
-options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>5",
+  'description' => "CPU Temperature sensor warning",
+  'expression' => "{#{template_name}:cputempsensor.last(0)}>#{high_temperature}",
   'priority' => 2, # warning
   'templateid' => 0,
-  'comments' => "Load Average (warning)",
+  'comments' => "Cputemp sensor (Warning)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average warning trigger'"
+p " ** Add 'cputemp sensor warning' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
+# TRIGGER
+# cputemp disaster (high threshold)
 options = {
-  'description' => "Load Average",
-  'expression' => "{#{template_name}:system.cpu.load[,avg5].last(0)}>10",
+  'description' => "CPU temperature sensor disaster",
+  'expression' => "{#{template_name}:cputempsensor.last(0)}>#{crit_temperature}",
   'priority' => 5, # disaster
   'templateid' => 0,
-  'comments' => "Load Average (disaster)",
+  'comments' => "Cputemp sensor (Disaster)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Load Average disaster trigger'"
+p " ** Add 'cputemp sensor disaster' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)
 
-# GRAPHS
-
+# GRAPH
 options = {
   'gitems' => [
-    {
-      "itemid" => la_1_item_id,
+    {   
+      "itemid" => sensor_item_id,
       "drawtype" => "0",
       "sortorder" => "0",
       "color" => "AA0000",
@@ -113,24 +100,13 @@ options = {
       "calc_fnc" => "2",
       "type" => "0",
       "periods_cnt" => "5" 
-    },
-    {
-      "itemid" => la_5_item_id,
-      "drawtype" => "0",
-      "sortorder" => "0",
-      "color" => "009900",
-      "yaxisside" => "0",
-      "calc_fnc" => "2",
-      "type" => "0",
-      "periods_cnt" => "5" 
     }
-  ],
+  ],  
   "show_triggers" => "1",
-  "name" => "Load Average",
+  "name" => "CPU Temperature from lm-sensors",
   "width" => "900",
   "height" => "200",
   "templateid" =>  "0" 
 }
 
-p " ** Add 'Load Average graph'"
 g_id = zbx.add_or_get_graph(t_id, options)

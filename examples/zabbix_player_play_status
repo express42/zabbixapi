@@ -10,7 +10,8 @@ opt = Getopt::Std.getopts("g:E:")
 group_name = opt["g"]
 zabbix_env = opt["E"]
 
-template_name = "TMPL_Availability"
+template_name = "TMPL_player_play_status"
+app_name = "player_play_status"
 
 # read config
 config = YAML::load(open('./config.yml'))
@@ -18,7 +19,6 @@ config = YAML::load(open('./config.yml'))
 api_url = config[zabbix_env]["api_url"]
 api_login = config[zabbix_env]["api_login"]
 api_password = config[zabbix_env]["api_password"]
-
 
 # Esablish new connection
 zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
@@ -35,39 +35,37 @@ options = {
 t_id = zbx.add_or_get_template(options)
 
 # Create application #{app_name}
-app_name = "Availability"
 p " ** Create application #{app_name}."
 application = {
-  'hostid' => t_id,
+  'hostid' => t_id.to_i,
   'name' => app_name
 }
 a_id = zbx.add_or_get_application(t_id, application)
 
-# 'Ping.'
+# 'used buffer size'
 options = {
-  'description' => "Ping",
-  'key_' => "agent.ping",
+  'description' => "NPTV player play status",
+  'key_' => "player_play_status",
   'hostid' => t_id.to_i,
   'applications' => [ a_id.to_i ],
   'history' => 7,
   'trends' => 30,
-  'delay' => 30,
-  'value_type' => 0,
-  'type' => '0'
+  'delay' => 60,
+  'value_type' => 0
 }
-p " ** Add 'Ping' to #{template_name}."
-i_id = zbx.add_or_get_item(t_id, options)
+p " ** Add 'player_play_status' to #{template_name}."
+sensor_item_id = zbx.add_or_get_item(t_id, options)
 
-# TRIGGERS
+# TRIGGER
+# used buffer size disaster (high threshold)
 options = {
-  'description' => "Host availability",
-  'expression' => "{#{template_name}:agent.ping.nodata(61)}=1",
-  'priority' => 5, #disaster
+  'description' => "NPTV player play status",
+  'expression' => "{#{template_name}:player_play_status.last(0)}>0",
+  'priority' => 5, # disaster
   'templateid' => 0,
-  'comments' => "Host availability",
+  'comments' => "NPTV player play status (Disaster)",
   'type' => 0,
   'status' => '0'
 }
-
-p " ** Add 'Host availability disaster trigger'"
+p " ** Add 'player_play_status sensor disaster' trigger"
 tr_id = zbx.add_or_get_trigger(t_id, options)
