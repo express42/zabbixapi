@@ -8,8 +8,8 @@ module Zabbix
           'method' => 'host.update',
           'params' => host
       }
-      responce = send_request(message)
-      responce.empty? ?  nil :  response['hostids'][0].to_i 
+      response = send_request(message)
+      response.empty? ?  nil :  response['hostids'][0].to_i 
     end
 
     def add_host(host_options)
@@ -50,7 +50,7 @@ module Zabbix
           }
       }
       response = send_request(message)
-      response.empty? ?  nil : response[0]['hostid'].to_i
+      response.empty? ? nil : response[0]['hostid'].to_i
     end
 
     def delete_host(hostname)

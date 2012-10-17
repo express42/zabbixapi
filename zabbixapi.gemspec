@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Ruby module for work with zabbix api.'
 
   spec.email = 'vadv.mkn@gmail.com'
-  spec.author = 'Eduard Snesarev and Dmitry Vasiliev'
+  spec.author = 'Eduard Snesarev and Dmitry Vasiliev, mathiasmethner@googlemail.com'
   spec.homepage = 'https://github.com/vadv/zabbixapi/wiki'
   spec.description = 'Ruby module for work with zabbix api v1.8.'
 

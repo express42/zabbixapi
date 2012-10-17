@@ -5,7 +5,7 @@ Simple and lightweight ruby module for work with zabbix api version 1.8.x
 {<img src="https://travis-ci.org/vadv/zabbixapi.png">}[https://travis-ci.org/vadv/zabbixapi]
 
 You can:
-* Create and delete host/template/application/items/triggers and screens;
+* Create and delete host/template/application/items/triggers/maintenance and screens;
 * Get info about all zabbix essences;
 
 == Installation
@@ -35,6 +35,12 @@ You can:
       puts zbx.get_group_id('some_group')
     end
 
+* Debugging
+
+For debug information on requests set
+
+	zbx.debug = true
+	
 More see in spec please... 
 
 == Dependencies

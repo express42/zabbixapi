@@ -10,7 +10,7 @@ api_password = 'zabbix'
 zbx = Zabbix::ZabbixApi.new(api_url, api_login, api_password)
 #zbx.debug = true
 
-describe Zabbix::ZabbixApi, "test1" do
+describe Zabbix::ZabbixApi, "test_api" do
 
   # 01. Create group
   it "Create some group" do
