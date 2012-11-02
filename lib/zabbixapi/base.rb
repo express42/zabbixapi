@@ -25,12 +25,10 @@ module Zabbix
 
     attr_accessor :debug, :basic_auth
 
-    def initialize (api_url, api_user, api_password, http_user = nil, http_password = nil)
+    def initialize (api_url, api_user, api_password)
       @api_url = api_url
       @api_user = api_user
       @api_password = api_password
-      @http_user = http_user
-      @http_password = http_password
 
       @debug = false # Disable debug by default
       @basic_auth = false #Disable basic_auth by default
@@ -56,7 +54,6 @@ module Zabbix
       request = Net::HTTP::Post.new(uri.request_uri)
       request.add_field('Content-Type', 'application/json-rpc')
       request.body=(message_json)
-      request.basic_auth @http_user, @http_password if @http_user
 
       if @basic_auth
         request.basic_auth @api_user, @api_password
