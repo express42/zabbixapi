@@ -23,7 +23,7 @@ module Zabbix
 
   class ZabbixApi
 
-    attr_accessor :debug
+    attr_accessor :debug, :basic_auth
 
     def initialize (api_url, api_user, api_password, http_user = nil, http_password = nil)
       @api_url = api_url
@@ -33,6 +33,7 @@ module Zabbix
       @http_password = http_password
 
       @debug = false # Disable debug by default
+      @basic_auth = false #Disable basic_auth by default
     end
 
     def do_request(message)
@@ -56,6 +57,10 @@ module Zabbix
       request.add_field('Content-Type', 'application/json-rpc')
       request.body=(message_json)
       request.basic_auth @http_user, @http_password if @http_user
+
+      if @basic_auth
+        request.basic_auth @api_user, @api_password
+      end
 
       begin
         puts "[ZBXAPI] : #{Time.now()} : INFO : Do request. Body => #{request.body}" if @debug
