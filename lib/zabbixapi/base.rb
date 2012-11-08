@@ -116,7 +116,12 @@ module Zabbix
         end
       end
 
-      return response_body_hash['result']
+      if response_body_hash['result'].class == TrueClass || response_body_hash['result'].class == FalseClass
+        return ""
+      else
+        return response_body_hash['result']
+      end
+      
     end
 
     def send_request(message)
