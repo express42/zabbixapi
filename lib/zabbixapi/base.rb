@@ -33,11 +33,13 @@ module Zabbix
       @debug = false # Disable debug by default
       @basic_auth = false #Disable basic_auth by default
 
+      @proxy_uri = nil
+      
       unless ENV['http_proxy'].nil?
         @proxy_uri =  URI.parse(ENV['http_proxy'])
         @proxy_host = proxy_uri.host
         @proxy_port = proxy_uri.port
-        @proxy_user, proxy_pass = proxy_uri.userinfo.split(/:/) if proxy_uri.userinfo
+        @proxy_user, @proxy_pass = proxy_uri.userinfo.split(/:/) if proxy_uri.userinfo
       end
     end
 
