@@ -72,7 +72,7 @@ p " ** Add 'nginx active_connections' to #{template_name}."
 item_id = zbx.add_or_get_item(t_id, options)
 store["active_connections"] = item_id
 
-["writing", "reading", "waiting"].each do |param|
+%w(writing reading waiting).each do |param|
   # 'nginx #{param}'
   options = {
     'description' => "nginx #{param}",
@@ -90,7 +90,7 @@ store["active_connections"] = item_id
   store[param] = item_id
 end
 
-["handled", "accepts", "requests"].each do |param|
+%w(handled accepts requests).each do |param|
   # 'nginx #{param}'
   options = {
     'description' => "nginx #{param}",

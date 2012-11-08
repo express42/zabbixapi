@@ -22,7 +22,7 @@ api_login = config[zabbix_env]["api_login"]
 api_password = config[zabbix_env]["api_password"]
 
 # Monitor all /var/log/nginx/#{access_log_files}.log
-access_log_files = ["face-server-500", "api-server-500", "logger-face-500", "site-500"]
+access_log_files = %w(face-server-500 api-server-500 logger-face-500 site-500)
 # Search in log last min
 in_sec = 60 # in seconds
 # Monitor delay
