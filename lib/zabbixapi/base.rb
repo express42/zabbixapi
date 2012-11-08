@@ -32,8 +32,8 @@ module Zabbix
 
       @debug = false # Disable debug by default
       @basic_auth = false #Disable basic_auth by default
-      
-      if ENV['http_proxy'].nil?
+
+      unless ENV['http_proxy'].nil?
         @proxy_uri =  URI.parse(ENV['http_proxy'])
         @proxy_host = proxy_uri.host
         @proxy_port = proxy_uri.port
@@ -55,7 +55,7 @@ module Zabbix
       if @proxy_uri.nil?
         http = Net::HTTP.new(uri.host, uri.port)
       else
-        http = Net::HTTP.new(uri.host, uri.port, @proxy_host, @proxy_port, @proxy_user, @proxy_pass)
+        http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
       end
 
       if uri.scheme == "https"
