@@ -32,6 +32,13 @@ module Zabbix
 
       @debug = false # Disable debug by default
       @basic_auth = false #Disable basic_auth by default
+      
+      if ENV['http_proxy'].nil?
+        @proxy_uri =  URI.parse(ENV['http_proxy'])
+        @proxy_host = proxy_uri.host
+        @proxy_port = proxy_uri.port
+        @proxy_user, proxy_pass = proxy_uri.userinfo.split(/:/) if proxy_uri.userinfo
+      end
     end
 
     def do_request(message)
@@ -44,7 +51,12 @@ module Zabbix
       message_json = JSON.generate(message)
 
       uri = URI.parse(@api_url)
-      http = Net::HTTP.new(uri.host, uri.port)
+
+      if @proxy_uri.nil?
+        http = Net::HTTP.new(uri.host, uri.port)
+      else
+        http = Net::HTTP.new(uri.host, uri.port, @proxy_host, @proxy_port, @proxy_user, @proxy_pass)
+      end
 
       if uri.scheme == "https"
         http.use_ssl = true
