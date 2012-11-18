@@ -1,30 +1,26 @@
 require 'zabbixapi'
 
 # settings
-api_url = 'http://monitor01.undev.cc/api_jsonrpc.php'
-api_login = 'Admin'
-api_password = '123456'
-
-api_url = 'http://localhost/api_jsonrpc.php'
-api_login = 'Admin'
-api_password = 'zabbix'
+@api_url = 'http://localhost/zabbix/api_jsonrpc.php'
+@api_login = 'Admin'
+@api_password = 'zabbix'
 
 zbx = ZabbixApi.connect(
-  :url => api_url,
-  :user => api_login,
-  :password => api_password,
-  :debug => true
+  :url => @api_url,
+  :user => @api_login,
+  :password => @api_password,
+  :debug => false
 )
 
-hostgroup = "hostgroup______1"
-template  = "template______1"
-application = "application_____1"
-item = "item_____1"
-host = "hostname____1"
-trigger = "trigger____1"
-user = "user____1"
-user2 = "user____2"
-graph = "graph___a"
+hostgroup = "hostgroup"
+template  = "template"
+application = "application"
+item = "item"
+host = "hostname"
+trigger = "trigger"
+user = "user"
+user2 = "user2"
+graph = "graph"
 
 describe ZabbixApi, "test_api" do
 
