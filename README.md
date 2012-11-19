@@ -58,6 +58,24 @@ zbx.hosts.add(
 )
 ```
 
+### Get all templates linked with host
+```ruby
+zbx.templates.get_ids_by_host( :hostids => [zbx.hosts.get_id(:host => "hostname")] )
+returned hash:
+{
+  "Templatename" => "10",
+  "Templatename" => "1021"
+}
+``` 
+
+### Link host with templates
+```ruby
+zbx.hosts.unlink_templates(
+  :hosts_id => [zbx.hosts.get_id(:host => "hostname")],
+  :templates_id => [111, 214]
+)
+```
+
 ## Dependencies
 
 * net/http
