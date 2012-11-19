@@ -5,8 +5,8 @@ require "zabbixapi/version"
 Gem::Specification.new do |s|
   s.name        = "zabbixapi"
   s.version     = ZabbixApi::VERSION
-  s.authors     = ["Vasiliev D.V."]
-  s.email       = ["vadv.mkn@gmail.com"]
+  s.authors     = %w("Vasiliev D.V.")
+  s.email       = %w(vadv.mkn@gmail.com)
   s.homepage    = "https://github.com/vadv/zabbixapi"
   s.summary     = %q{Realization for Zabbix API.}
   s.description = %q{Allows you to work with zabbix api from ruby.}
@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.require_paths = %w(lib)
 end

@@ -31,6 +31,10 @@ class ZabbixApi
     @current ||= ZabbixApi.new
   end
 
+  def query(data)
+    @client.api_request(:method => data[:method], :params => data[:params])
+  end
+
   def initialize(options = {})
     @client = Client.new(options)
     @server = Server.new(options)

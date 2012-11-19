@@ -1,13 +1,9 @@
 require 'zabbixapi'
 
 # settings
-api_url = 'http://monitor01.undev.cc/api_jsonrpc.php'
+api_url = 'http://localhost/api_jsonrpc.php'
 api_login = 'Admin'
-api_password = '123456'
-
-#api_url = 'http://localhost/api_jsonrpc.php'
-#api_login = 'Admin'
-#api_password = 'zabbix'
+api_password = 'zabbix'
 
 zbx = ZabbixApi.connect(
   :url => api_url,
@@ -256,6 +252,13 @@ describe ZabbixApi, "test_api" do
 
   it "USER: Delete" do
     zbx.users.delete(zbx.users.get_id(:name => user2)).should be_kind_of(Integer)
+  end
+
+  it "QUERY" do
+    zbx.query(
+      :method => "apiinfo.version", 
+      :params => {}
+    ).should be_kind_of(String)
   end
 
 end

@@ -36,8 +36,8 @@ class ZabbixApi
       result = @client.api_request(
         :method => "template.massAdd", 
         :params => {
-          :hosts => data[:hosts_id].map { |t| {"hostid" => t} },
-          :templates => data[:templates_id].map { |t| {"templateid" => t} }
+          :hosts => data[:hosts_id].map { |t| {:hostid => t} },
+          :templates => data[:templates_id].map { |t| {:templateid => t} }
         }
       )
       result.empty? ? false : true

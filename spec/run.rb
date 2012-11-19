@@ -255,4 +255,11 @@ describe ZabbixApi, "test_api" do
     zbx.users.delete(zbx.users.get_id(:name => user2)).should be_kind_of(Integer)
   end
 
+  it "QUERY" do
+    zbx.query(
+        :method => "apiinfo.version",
+        :params => {}
+    ).should be_kind_of(String)
+  end
+
 end

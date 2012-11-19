@@ -45,7 +45,7 @@ class ZabbixApi
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body
       response = http.request(request)
-      raise "HTTP Error: #{response.code} on #{api_url}" unless response.code == "200"
+      raise "HTTP Error: #{response.code} on #{@options[:url]}" unless response.code == "200"
       puts "[DEBUG] Get answer: #{response.body}" if @options[:debug]
       response.body
     end
