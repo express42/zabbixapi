@@ -66,6 +66,7 @@ zbx.items.update(
 ```ruby
 zbx.hosts.add(
   :host => "hostname",
+  :usedns => 1,
   :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
 )
 ```
@@ -181,5 +182,5 @@ zbx.query(
 
 ## Zabbix documentation
 
-* Zabbix Project Homepage -> http://zabbix.com/
-* Zabbix Api docs -> http://www.zabbix.com/documentation/1.8/api
+* [Zabbix Project Homepage](http://zabbix.com/)
+* [Zabbix Api docs](http://www.zabbix.com/documentation/1.8/api) 
