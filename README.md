@@ -54,12 +54,64 @@ zbx.items.create(
 )
 ```
 
+### Update Item
+```ruby
+zbx.items.update(
+  :itemid => zbx.items.get_id(:description => "item"),
+  :status => 0
+)
+```
+
 ### Create host
 ```ruby
 zbx.hosts.add(
   :host => "hostname",
   :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
 )
+```
+
+### Update host
+```ruby
+zbx.hosts.update(
+  :hostid => zbx.hosts.get_id(:host => "hostname"),
+  :status => 0
+)
+```
+
+### Delete host
+```ruby
+zbx.hosts.delete zbx.hosts.get_id(:host => "hostname")
+```
+
+### Create graph
+```ruby
+gitems = {
+  :itemid => zbx.items.get_id(:description => "item"), 
+  :calc_fnc => "2",
+  :type => "0",
+  :periods_cnt => "5"
+}
+
+zbx.graphs.create(
+  :gitems => [gitems],
+  :show_triggers => "0",
+  :name => "graph",
+  :width => "900",
+  :height => "200"
+)
+```
+
+### Update graph
+```ruby
+zbx.graphs.update(
+  :graphid => zbx.graphs.get_id( :name => "graph"), 
+  :ymax_type => 1
+)
+```
+
+### Delete graph
+```ruby
+zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
 ```
 
 ### Get all templates linked with host
@@ -101,6 +153,16 @@ zbx.users.create(
   :surname => "usersername",
   :passwd => "password"
 )
+```
+
+### Update user
+```ruby
+zbx.users.update(:userid => zbx.users.get_id(:name => "user"), :name => "user2")
+```
+
+### Delete graph
+```ruby
+zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
 ```
 
 ### Custom queries
