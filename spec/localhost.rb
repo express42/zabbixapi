@@ -5,15 +5,15 @@ api_url = 'http://monitor01.undev.cc/api_jsonrpc.php'
 api_login = 'Admin'
 api_password = '123456'
 
-api_url = 'http://localhost/api_jsonrpc.php'
-api_login = 'Admin'
-api_password = 'zabbix'
+#api_url = 'http://localhost/api_jsonrpc.php'
+#api_login = 'Admin'
+#api_password = 'zabbix'
 
 zbx = ZabbixApi.connect(
   :url => api_url,
   :user => api_login,
   :password => api_password,
-  :debug => true
+  :debug => false
 )
 
 hostgroup = "hostgroup______1"

@@ -24,6 +24,7 @@ graph = "graph"
 
 describe ZabbixApi, "test_api" do
 
+
   it "SERVER: Get version api" do
     zbx.server.version.should be_kind_of(String)
   end
