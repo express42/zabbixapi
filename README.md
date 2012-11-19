@@ -180,6 +180,13 @@ zbx.query(
 * net/https
 * json
 
+## Contributing
+
+* Fork the project.
+* Make your feature addition or bug fix, write tests.
+* Commit, do not mess with rakefile, version.
+* Make a pull request.
+
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
