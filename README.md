@@ -76,6 +76,37 @@ zbx.hosts.unlink_templates(
 )
 ```
 
+### Create trigger
+```ruby
+zbx.triggers.create(
+  :description => "trigger",
+  :expression => "{template:proc.num[aaa].last(0)}<1",
+  :comments => "Bla-bla is faulty (disaster)",
+  :priority => 5,
+  :status     => 0,
+  :templateid => 0,
+  :type => 0
+ )
+````
+
+### Create user
+```ruby
+zbx.users.create(
+  :alias => "Test user",
+  :name => "username",
+  :surname => "usersername",
+  :passwd => "password"
+)
+```
+
+### Custom queries
+```ruby
+zbx.query(
+  :method => "apiinfo.version", 
+  :params => {}
+)
+```
+
 ## Dependencies
 
 * net/http
