@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/vadv/zabbixapi"
   s.summary     = %q{Realization for Zabbix API.}
   s.description = %q{Allows you to work with zabbix api from ruby.}
-  s.licenses    = ["MIT"]
+  s.licenses    = %w(MIT)
 
   s.rubyforge_project = "zabbixapi"
 

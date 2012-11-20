@@ -208,7 +208,7 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
-  it "GRAPH: Find ugititems" do
+  it "GRAPH: Find gititems" do
     zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
   end
 

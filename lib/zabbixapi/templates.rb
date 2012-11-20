@@ -6,24 +6,55 @@ class ZabbixApi
       @options = options
     end
 
+    # Create template
+    #
+    # * *Args*    :
+    #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
+    # * *Returns* :
+    #   - nil if template does not created or integer with templateid if template created successfully
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def create(data)
       result = @client.api_request(:method => "template.create", :params => [data])
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
+    # Add template
+    # Synonym create
     def add(data)
       create(data)
     end
 
+    # Delete template
+    #
+    # * *Args*    :
+    #   - +data+ -> Hash with :host => "Template_Name"
+    # * *Returns* :
+    #   - nil if template does not created or integer with templateid if template deleted successfully
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def delete(data)
       result = @client.api_request(:method => "template.delete", :params => [:templateid => data])
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
+    # Destroy template
+    # Synonym delete
     def destroy(data)
       delete(data)
     end
 
+    # Return templateids linked with host 
+    # 
+    # * *Args*    :
+    #   - +data+ -> Hash with :hostids => [hostid]
+    # * *Returns* :
+    #   - Array with templateids
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def get_ids_by_host(data)
       result = []
       @client.api_request(:method => "template.get", :params => data).each do |tmpl|
@@ -32,6 +63,15 @@ class ZabbixApi
       result
     end
 
+    # Analog Zabbix api call massAdd 
+    # 
+    # * *Args*    :
+    #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
+    # * *Returns* :
+    #   - True if operation ended successfully or false
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def mass_add(data)
       result = @client.api_request(
         :method => "template.massAdd", 
@@ -43,6 +83,15 @@ class ZabbixApi
       result.empty? ? false : true
     end
 
+    # Analog Zabbix api call massRemove
+    # 
+    # * *Args*    :
+    #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
+    # * *Returns* :
+    #   - True if operation ended successfully or false
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def mass_remove(data)
       result = @client.api_request(
         :method => "template.massRemove", 
@@ -54,6 +103,13 @@ class ZabbixApi
       result.empty? ? false : true      
     end
 
+    # Return all templates
+    # 
+    # * *Returns* :
+    #   - Hash with {"Template_Name1" => "templateid1", "Template_Name2" => "templateid2"}
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def all
       result = {}
       case @client.api_version
@@ -69,6 +125,15 @@ class ZabbixApi
       result
     end
 
+    # Return info about template
+    # 
+    # * *Args*    : 
+    #   - +data+ -> Hash with :host => "Template name"
+    # * *Returns* :
+    #   - Hash with template info
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def get_full_data(data)
       case @client.api_version
         when "1.2"
@@ -80,10 +145,18 @@ class ZabbixApi
       end
     end
 
+    # Return info about template
+    # 
+    # * *Args*    : 
+    #   - +data+ -> Hash with :host => "Template name"
+    # * *Returns* :
+    #   - nil if template does not exists or integer with templateid if template present
+    # * *Raises* :
+    #   - +Runtime Error+ with API error message
+    #
     def get_id(data)
-      result = get_full_data(data)
       templateid = nil
-      result.each { |template| templateid = template['templateid'].to_i if template['host'] == data[:host] }
+      get_full_data(data).each { |template| templateid = template['templateid'].to_i if template['host'] == data[:host] }
       templateid
     end
 
