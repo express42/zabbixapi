@@ -22,8 +22,9 @@ user = "user"
 user2 = "user2"
 graph = "graph"
 
-describe ZabbixApi, "test_api" do
+puts "### Zabbix API server version #{zbx.server.version} ###"
 
+describe ZabbixApi, "test_api" do
 
   it "SERVER: Get version api" do
     zbx.server.version.should be_kind_of(String)
@@ -85,7 +86,7 @@ describe ZabbixApi, "test_api" do
       :key_ => "proc.num[aaa]",
       :hostid => zbx.templates.get_id(:host => template),
       :applications => [zbx.applications.get_id(:name => application)]
-    )
+    ).should be_kind_of(Integer)
   end
 
   it "ITEM: Full info check" do
@@ -103,6 +104,16 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
+  it "ITEM: Create or update" do
+    zbx.items.create_or_update(
+      :description => item,
+      :key_ => "proc.num[aaa]",
+      :type => 6,
+      :hostid => zbx.templates.get_id(:host => template),
+      :applications => [zbx.applications.get_id(:name => application)]
+    ).should be_kind_of(Integer)
+  end
+
   it "ITEM: Get unknown" do
     zbx.items.get_id(:description => "#{item}_____")
   end
@@ -111,6 +122,14 @@ describe ZabbixApi, "test_api" do
     zbx.hosts.create(
       :host => host,
       :ip => "10.20.48.88",
+      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+    ).should be_kind_of(Integer)
+  end
+
+  it "HOST: Update or create" do
+    zbx.hosts.create_or_update(
+      :host => host,
+      :ip => "10.20.48.89",
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
     ).should be_kind_of(Integer)
   end
@@ -136,15 +155,18 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Array)
   end
 
-  it "HOSTS: Linked host with templates" do
-    zbx.hosts.unlink_templates(
+  it "TEMPLATE: Linked hosts with templates" do
+    zbx.templates.mass_add(
       :hosts_id => [zbx.hosts.get_id(:host => host)],
       :templates_id => [zbx.templates.get_id(:host => template)]
     ).should be_kind_of(TrueClass)
   end
 
-  it "TEMPLATE: Unlink host from templates" do
-
+  it "TEMPLATE: Unlink hosts from templates" do
+    zbx.templates.mass_remove(
+      :hosts_id => [zbx.hosts.get_id(:host => host)],
+      :templates_id => [zbx.templates.get_id(:host => template)]
+    ).should be_kind_of(TrueClass)
   end
 
   it "TEMPLATE: Get all" do 
@@ -181,7 +203,10 @@ describe ZabbixApi, "test_api" do
       :width => "900",
       :height => "200"
     ).should be_kind_of(Integer)
-    #
+  end
+
+  it "GRAPH: Find ugititems" do
+    zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
   end
 
   it "GRAPH: Find" do
@@ -196,6 +221,22 @@ describe ZabbixApi, "test_api" do
       ), 
       :ymax_type => 1
     ).should be_kind_of(Integer)
+  end
+
+  it "GRAPH: Create or Update" do
+    gitems = {
+      :itemid => zbx.items.get_id(:description => item), 
+      :calc_fnc => "3",
+      :type => "0",
+      :periods_cnt => "5"
+    }
+  zbx.graphs.create_or_update(
+    :gitems => [gitems],
+    :show_triggers => "1",
+    :name => graph,
+    :width => "900",
+    :height => "200"
+  ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Delete" do
@@ -257,8 +298,8 @@ describe ZabbixApi, "test_api" do
 
   it "QUERY" do
     zbx.query(
-        :method => "apiinfo.version",
-        :params => {}
+      :method => "apiinfo.version", 
+      :params => {}
     ).should be_kind_of(String)
   end
 

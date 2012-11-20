@@ -72,19 +72,15 @@ class ZabbixApi
     end
 
     def create_or_update(data)
-      result = get_id(data)
-      unless result
-        create(data)
-      else
-        result # not update now
-      end
+      hostid = get_id(:host => data[:host])
+      hostid ? update(data.merge(:hostid => hostid)) : create(data)
     end
 
     def get_id(data)
       result = get_full_data(data)
       hostid = nil
       result.each do |host|
-        hostid = host['hostid'].to_i if host['name'] == data[:name]
+        hostid = host['hostid'].to_i if host['host'] == data[:host]
       end
       hostid
     end

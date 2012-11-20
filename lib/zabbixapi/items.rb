@@ -67,6 +67,11 @@ class ZabbixApi
       itemid
     end
 
+    def create_or_update(data)
+      itemid = get_id(:description => data[:description])
+      itemid ? update(data.merge(:itemid => itemid)) : create(data)
+    end
+
     def update(data)
       result = @client.api_request(:method => "item.update", :params => data)
       result.empty? ? nil : result['itemids'][0].to_i

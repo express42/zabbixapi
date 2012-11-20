@@ -29,6 +29,11 @@ class ZabbixApi
       result.empty? ? nil : result['triggerid'][0].to_i
     end
 
+    def create_or_update(data)
+      triggerid = get_id(:description => data[:description])
+      triggerid ? update(data.merge(:triggerid => triggerid)) : create(data)
+    end
+
     def get_full_data(data)
       @client.api_request(:method => "trigger.get", :params => {:filter => data, :output => "extend"})
     end

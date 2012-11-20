@@ -54,6 +54,14 @@ zbx.items.create(
   :hostid => zbx.templates.get_id(:host => "template"),
   :applications => [zbx.applications.get_id(:name => "application")]
 )
+# or use (lib merge json):
+zbx.items.create_or_update(
+  :description => "item",
+  :key_ => "proc.num[aaa]",
+  :type => 6,
+  :hostid => zbx.templates.get_id(:host => "template"),
+  :applications => [zbx.applications.get_id(:name => "application")]
+)
 ```
 
 ### Update Item
@@ -62,6 +70,8 @@ zbx.items.update(
   :itemid => zbx.items.get_id(:description => "item"),
   :status => 0
 )
+#You can check item:
+puts zbx.items.get_full_data(:description => "item")
 ```
 
 ### Create host
@@ -71,6 +81,13 @@ zbx.hosts.add(
   :usedns => 1,
   :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
 )
+#or use:
+zbx.hosts.create_or_update(
+  :host => host,
+  :usedns => 0,
+  :ip => "10.20.48.89",
+  :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+)
 ```
 
 ### Update host
@@ -79,6 +96,8 @@ zbx.hosts.update(
   :hostid => zbx.hosts.get_id(:host => "hostname"),
   :status => 0
 )
+#You can check host:
+puts zbx.hosts.get_full_data(:host => "hostname")
 ```
 
 ### Delete host
@@ -110,6 +129,20 @@ zbx.graphs.update(
   :graphid => zbx.graphs.get_id( :name => "graph"), 
   :ymax_type => 1
 )
+#Also you can use:
+gitems = {
+  :itemid => zbx.items.get_id(:description => item), 
+  :calc_fnc => "3",
+  :type => "0",
+  :periods_cnt => "5"
+}
+zbx.graphs.create_or_update(
+  :gitems => [gitems],
+  :show_triggers => "1",
+  :name => graph,
+  :width => "900",
+  :height => "200"
+)
 ```
 
 ### Delete graph
@@ -127,9 +160,13 @@ returned hash:
 }
 ``` 
 
-### Link host with templates
+### Mass (Un)Link host with templates
 ```ruby
-zbx.hosts.unlink_templates(
+zbx.templates.mass_add(
+  :hosts_id => [zbx.hosts.get_id(:host => "hostname")],
+  :templates_id => [111, 214]
+)
+zbx.templates.mass_remove(
   :hosts_id => [zbx.hosts.get_id(:host => "hostname")],
   :templates_id => [111, 214]
 )

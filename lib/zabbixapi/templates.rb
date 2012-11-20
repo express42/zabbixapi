@@ -32,7 +32,7 @@ class ZabbixApi
       result
     end
 
-    def link_with_host(data)
+    def mass_add(data)
       result = @client.api_request(
         :method => "template.massAdd", 
         :params => {
@@ -41,6 +41,17 @@ class ZabbixApi
         }
       )
       result.empty? ? false : true
+    end
+
+    def mass_remove(data)
+      result = @client.api_request(
+        :method => "template.massRemove", 
+        :params => {
+          :hosts => data[:hosts_id].map { |t| {:hostid => t} },
+          :templates => data[:templates_id].map { |t| {:templateid => t} }
+        }
+      )
+      result.empty? ? false : true      
     end
 
     def all

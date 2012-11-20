@@ -46,6 +46,11 @@ class ZabbixApi
       graphid
     end
 
+    def create_or_update(data)
+      graphid = get_id(:name => data[:name])
+      graphid ? update(data.merge(:graphid => graphid)) : create(data)
+    end
+
     def update(data)
       case @client.api_version
         when "1.2"
