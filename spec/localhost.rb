@@ -1,7 +1,9 @@
 require 'zabbixapi'
 
 # settings
-api_url = 'http://localhost/api_jsonrpc.php'
+#api_url = 'http://zabbix/zabbix12/api_jsonrpc.php'
+api_url = 'http://zabbix/zabbix13/api_jsonrpc.php'
+#api_url = 'http://zabbix/zabbix20/api_jsonrpc.php'
 api_login = 'Admin'
 api_password = 'zabbix'
 
@@ -21,6 +23,8 @@ trigger = "trigger____1"
 user = "user____1"
 user2 = "user____2"
 graph = "graph___a"
+
+puts "### Zabbix API server version #{zbx.server.version} ###"
 
 describe ZabbixApi, "test_api" do
 

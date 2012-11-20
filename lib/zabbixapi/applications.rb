@@ -30,7 +30,11 @@ class ZabbixApi
 
     def get_id(data)
       result = get_full_data(data)
-      result.empty? ? nil : result[0]['applicationid'].to_i
+      applicationid = nil
+      result.each do |app|
+        applicationid = app['applicationid'].to_i if app['name'] == data[:name]
+      end
+      applicationid
     end
 
   end

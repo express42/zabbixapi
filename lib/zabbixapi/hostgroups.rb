@@ -35,7 +35,11 @@ class ZabbixApi
 
     def get_id(data)
       result = get_full_data(data)
-      result.empty? ? nil : result[0]['groupid'].to_i
+      hostgroupid = nil
+      result.each do |hgroup|
+        hostgroupid = hgroup['groupid'].to_i if hgroup['name'] == data[:name]
+      end
+      hostgroupid
     end
 
   end

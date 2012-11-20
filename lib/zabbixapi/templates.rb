@@ -71,7 +71,11 @@ class ZabbixApi
 
     def get_id(data)
       result = get_full_data(data)
-      result.empty? ? nil : result[0]['templateid'].to_i
+      templateid = nil
+      result.each do |template|
+        templateid = template['templateid'].to_i if template['name'] == data[:name]
+      end
+      templateid
     end
 
   end

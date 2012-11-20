@@ -2,3 +2,4 @@
 *.gem
 *.swp
 pkg
+test

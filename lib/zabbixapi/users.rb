@@ -38,16 +38,11 @@ class ZabbixApi
 
     def get_id(data)
       result = get_full_data(data)
-      userid = -1
-      case @client.api_version
-        when "1.2"
-          result.each do |usr|
-            userid = usr['userid'] if usr['name'] == data[:name]
-          end
-          userid
-        else
-          result.empty? ? nil : result[0]['userid']
+      userid = nil
+      result.each do |usr|
+        userid = usr['userid'].to_i if usr['name'] == data[:name]
       end
+      userid
     end
 
     def update(data)

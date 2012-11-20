@@ -17,6 +17,8 @@ gem install zabbixapi
 
 ### Connect
 ```ruby
+require "zabbixapi"
+
 zbx = ZabbixApi.connect(
   :url => 'http://localhost/zabbix/api_jsonrpc.php',
   :user => 'Admin',
