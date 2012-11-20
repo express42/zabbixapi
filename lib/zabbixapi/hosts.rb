@@ -79,9 +79,7 @@ class ZabbixApi
     def get_id(data)
       result = get_full_data(data)
       hostid = nil
-      result.each do |host|
-        hostid = host['hostid'].to_i if host['host'] == data[:host]
-      end
+      result.each { |host| hostid = host['hostid'].to_i if host['host'] == data[:host] }
       hostid
     end
 

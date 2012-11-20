@@ -40,9 +40,7 @@ class ZabbixApi
     def get_id(data)
       result = @client.api_request(:method => "graph.get", :params => {:filter => {:name=> data[:name]}, :output => "extend"})
       graphid = nil
-      result.each do |graph|
-        graphid = graph['graphid'].to_i if graph['name'] == data[:name]
-      end
+      result.each { |graph| graphid = graph['graphid'].to_i if graph['name'] == data[:name] }
       graphid
     end
 

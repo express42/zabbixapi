@@ -36,9 +36,7 @@ class ZabbixApi
     def get_id(data)
       result = get_full_data(data)
       hostgroupid = nil
-      result.each do |hgroup|
-        hostgroupid = hgroup['groupid'].to_i if hgroup['name'] == data[:name]
-      end
+      result.each { |hgroup| hostgroupid = hgroup['groupid'].to_i if hgroup['name'] == data[:name] }
       hostgroupid
     end
 

@@ -61,9 +61,7 @@ class ZabbixApi
     def get_id(data)
       result = get_full_data(data)
       itemid = nil
-      result.each do |item|
-        itemid = item['itemid'].to_i if item['name'] == data[:name]
-      end
+      result.each { |item| itemid = item['itemid'].to_i if item['name'] == data[:name] }
       itemid
     end
 

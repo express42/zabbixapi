@@ -39,9 +39,7 @@ class ZabbixApi
     def get_id(data)
       result = get_full_data(data)
       userid = nil
-      result.each do |usr|
-        userid = usr['userid'].to_i if usr['name'] == data[:name]
-      end
+      result.each { |usr| userid = usr['userid'].to_i if usr['name'] == data[:name] }
       userid
     end
 
