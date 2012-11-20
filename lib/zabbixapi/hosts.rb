@@ -71,6 +71,15 @@ class ZabbixApi
       @client.api_request(:method => "host.get", :params => {:filter => data, :output => "extend"})
     end
 
+    def create_or_update(data)
+      result = get_id(data)
+      unless result
+        create(data)
+      else
+        result # not update now
+      end
+    end
+
     def get_id(data)
       result = get_full_data(data)
       hostid = nil

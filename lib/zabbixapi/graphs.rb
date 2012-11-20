@@ -19,7 +19,7 @@ class ZabbixApi
       result = @client.api_request(:method => "graph.delete", :params => [data])
       case @client.api_version
         when "1.3"
-          result ? 1 : 0  #return "true" or "false" for this api version
+          result ? 1 : nil  #return "true" or "false" for this api version
         else
           result.empty? ? nil : result['graphids'][0].to_i
       end
@@ -33,18 +33,27 @@ class ZabbixApi
       @client.api_request(:method => "graph.get", :params => {:search => {:name => data}, :output => "extend"})
     end
 
+    def get_items(data)
+      @client.api_request(:method => "graphitem.get", :params => { :graphids => [data], :output => "extend" } )
+    end
+
     def get_id(data)
       result = @client.api_request(:method => "graph.get", :params => {:filter => {:name=> data[:name]}, :output => "extend"})
       graphid = nil
-      result.each do |grph|
-        graphid = grph['graphid'].to_i if grph['name'] == data[:name]
+      result.each do |graph|
+        graphid = graph['graphid'].to_i if graph['name'] == data[:name]
       end
       graphid
     end
 
     def update(data)
-      result = @client.api_request(:method => "graph.update", :params => data)
-      result.empty? ? nil : result['graphids'][0].to_i
+      case @client.api_version
+        when "1.2"
+          return -1
+        else
+          result = @client.api_request(:method => "graph.update", :params => data)
+          result.empty? ? nil : result['graphids'][0].to_i
+      end
     end
 
   end

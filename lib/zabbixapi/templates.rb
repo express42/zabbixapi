@@ -73,7 +73,7 @@ class ZabbixApi
       result = get_full_data(data)
       templateid = nil
       result.each do |template|
-        templateid = template['templateid'].to_i if template['name'] == data[:name]
+        templateid = template['templateid'].to_i if template['host'] == data[:host]
       end
       templateid
     end

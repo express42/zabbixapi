@@ -118,6 +118,14 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
+  it "HOST: Update or create" do
+    zbx.hosts.update_or_create(
+      :host => host,
+      :ip => "10.20.48.89",
+      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+    ).should be_kind_of(Integer)
+  end
+
   it "HOST: Find unknown" do
     zbx.hosts.get_id(:host => "#{host}___").should be_kind_of(NilClass)
   end
@@ -127,7 +135,7 @@ describe ZabbixApi, "test_api" do
   end
 
   it "HOST: Update" do
-    zbx.hosts.update(
+    puts zbx.hosts.update(
       :hostid => zbx.hosts.get_id(:host => host),
       :status => 0
     )
@@ -185,6 +193,10 @@ describe ZabbixApi, "test_api" do
       :height => "200"
     ).should be_kind_of(Integer)
     #
+  end
+
+  it "GRAPH: Find ugititems" do
+    zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
   end
 
   it "GRAPH: Find" do
