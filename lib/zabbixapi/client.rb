@@ -25,6 +25,12 @@ class ZabbixApi
     def initialize(options = {})
       @options = options
       @auth_hash = auth
+      unless ENV['http_proxy'].nil?
+        @proxy_uri = URI.parse(ENV['http_proxy'])
+        @proxy_host = @proxy_uri.host
+        @proxy_port = @proxy_uri.port
+        @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
+      end
     end
 
     def message_json(body)
@@ -40,7 +46,11 @@ class ZabbixApi
 
     def http_request(body)
       uri = URI.parse(@options[:url])
-      http = Net::HTTP.new(uri.host, uri.port)
+      unless @proxy_uri.nil? 
+        http = Net::HTTP.new(uri.host, uri.port)
+      else
+        http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
+      end
       request = Net::HTTP::Post.new(uri.request_uri)
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body

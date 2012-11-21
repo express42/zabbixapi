@@ -11,10 +11,7 @@ class ZabbixApi
     # * *Args*    :
     #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
     # * *Returns* :
-    #   - nil if template does not created or integer with templateid if template created successfully
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
+    #   - Nil or Integer
     def create(data)
       result = @client.api_request(:method => "template.create", :params => [data])
       result.empty? ? nil : result['templateids'][0].to_i
@@ -31,10 +28,7 @@ class ZabbixApi
     # * *Args*    :
     #   - +data+ -> Hash with :host => "Template_Name"
     # * *Returns* :
-    #   - nil if template does not created or integer with templateid if template deleted successfully
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
+    #   - Nil or Integer
     def delete(data)
       result = @client.api_request(:method => "template.delete", :params => [:templateid => data])
       result.empty? ? nil : result['templateids'][0].to_i
@@ -52,9 +46,6 @@ class ZabbixApi
     #   - +data+ -> Hash with :hostids => [hostid]
     # * *Returns* :
     #   - Array with templateids
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
     def get_ids_by_host(data)
       result = []
       @client.api_request(:method => "template.get", :params => data).each do |tmpl|
@@ -68,10 +59,7 @@ class ZabbixApi
     # * *Args*    :
     #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
     # * *Returns* :
-    #   - True if operation ended successfully or false
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
+    #   - True or False
     def mass_add(data)
       result = @client.api_request(
         :method => "template.massAdd", 
@@ -88,10 +76,7 @@ class ZabbixApi
     # * *Args*    :
     #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
     # * *Returns* :
-    #   - True if operation ended successfully or false
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
+    #   - True or False
     def mass_remove(data)
       result = @client.api_request(
         :method => "template.massRemove", 
@@ -107,9 +92,6 @@ class ZabbixApi
     # 
     # * *Returns* :
     #   - Hash with {"Template_Name1" => "templateid1", "Template_Name2" => "templateid2"}
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
     def all
       result = {}
       case @client.api_version
@@ -131,9 +113,6 @@ class ZabbixApi
     #   - +data+ -> Hash with :host => "Template name"
     # * *Returns* :
     #   - Hash with template info
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
     def get_full_data(data)
       case @client.api_version
         when "1.2"
@@ -150,10 +129,7 @@ class ZabbixApi
     # * *Args*    : 
     #   - +data+ -> Hash with :host => "Template name"
     # * *Returns* :
-    #   - nil if template does not exists or integer with templateid if template present
-    # * *Raises* :
-    #   - +Runtime Error+ with API error message
-    #
+    #   - Nil or Integer
     def get_id(data)
       templateid = nil
       get_full_data(data).each { |template| templateid = template['templateid'].to_i if template['host'] == data[:host] }

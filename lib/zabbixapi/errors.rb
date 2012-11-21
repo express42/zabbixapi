@@ -9,4 +9,7 @@ class ZabbixApi
   class HttpError < BaseError
   end
 
+  class SocketError < BaseError
+  end
+
 end
