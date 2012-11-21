@@ -169,7 +169,7 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
-  it "TEMPLATE: Get all" do 
+  it "TEMPLATE: Get all" do
     zbx.templates.all.should be_kind_of(Hash)
   end
 
@@ -189,12 +189,12 @@ describe ZabbixApi, "test_api" do
     zbx.triggers.get_id(:description => trigger).should be_kind_of(Integer)
   end
 
-  it "GRAPH: Create" do 
+  it "GRAPH: Create" do
     gitems = {
-        :itemid => zbx.items.get_id(:description => item), 
-        :calc_fnc => "2",
-        :type => "0",
-        :periods_cnt => "5"
+      :itemid => zbx.items.get_id(:description => item),
+      :calc_fnc => "2",
+      :type => "0",
+      :periods_cnt => "5"
     }
     zbx.graphs.create(
       :gitems => [gitems],
@@ -205,7 +205,7 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
-  it "GRAPH: Find ugititems" do
+  it "GRAPH: Find gititems" do
     zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
   end
 
@@ -218,25 +218,25 @@ describe ZabbixApi, "test_api" do
       :graphid => zbx.graphs.get_id(
         :name => graph,
         :hostid => zbx.hosts.get_id(:host => host)
-      ), 
+      ),
       :ymax_type => 1
     ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Create or Update" do
     gitems = {
-      :itemid => zbx.items.get_id(:description => item), 
+      :itemid => zbx.items.get_id(:description => item),
       :calc_fnc => "3",
       :type => "0",
       :periods_cnt => "5"
     }
-  zbx.graphs.create_or_update(
-    :gitems => [gitems],
-    :show_triggers => "1",
-    :name => graph,
-    :width => "900",
-    :height => "200"
-  ).should be_kind_of(Integer)
+    zbx.graphs.create_or_update(
+      :gitems => [gitems],
+      :show_triggers => "1",
+      :name => graph,
+      :width => "900",
+      :height => "200"
+    ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Delete" do
@@ -298,9 +298,9 @@ describe ZabbixApi, "test_api" do
 
   it "QUERY" do
     zbx.query(
-      :method => "apiinfo.version", 
+      :method => "apiinfo.version",
       :params => {}
     ).should be_kind_of(String)
   end
-
+  
 end
