@@ -63,7 +63,7 @@ class ZabbixApi
     def _request(body)
       puts "[DEBUG] Send request: #{body}" if @options[:debug]
       result = JSON.parse(http_request(body))
-      raise "Server answer API error: #{result['error'].inspect} on request: #{body}" if result['error']
+      raise "Server answer API error:\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}" if result['error']
       result['result']
     end
 

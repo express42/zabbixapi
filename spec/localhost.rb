@@ -234,6 +234,22 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
+  it "GRAPH: Create or get" do 
+    gitems = {
+        :itemid => zbx.items.get_id(:description => item), 
+        :calc_fnc => "2",
+        :type => "0",
+        :periods_cnt => "5"
+    }
+    zbx.graphs.get_or_create(
+      :gitems => [gitems],
+      :show_triggers => "0",
+      :name => graph,
+      :width => "900",
+      :height => "200"
+    ).should be_kind_of(Integer)
+  end
+
   it "GRAPH: Find gititems" do
     zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
   end

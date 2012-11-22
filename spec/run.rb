@@ -24,6 +24,8 @@ graph = "graph"
 
 puts "### Zabbix API server version #{zbx.server.version} ###"
 
+puts "### Zabbix API server version #{zbx.server.version} ###"
+
 describe ZabbixApi, "test_api" do
 
   it "SERVER: Get version api" do
@@ -42,7 +44,7 @@ describe ZabbixApi, "test_api" do
     zbx.hostgroups.get_id(:name => "#{hostgroup}______").should be_kind_of(NilClass)
   end
 
-  it "HOSTGROUP: Get or create" do
+  it "HOSTGROUP: Create or get" do
     zbx.hostgroups.get_or_create(:name => hostgroup).should be_kind_of(Integer)
   end
 
@@ -222,6 +224,22 @@ describe ZabbixApi, "test_api" do
         :periods_cnt => "5"
     }
     zbx.graphs.create(
+      :gitems => [gitems],
+      :show_triggers => "0",
+      :name => graph,
+      :width => "900",
+      :height => "200"
+    ).should be_kind_of(Integer)
+  end
+
+  it "GRAPH: Create or get" do 
+    gitems = {
+        :itemid => zbx.items.get_id(:description => item), 
+        :calc_fnc => "2",
+        :type => "0",
+        :periods_cnt => "5"
+    }
+    zbx.graphs.get_or_create(
       :gitems => [gitems],
       :show_triggers => "0",
       :name => graph,
