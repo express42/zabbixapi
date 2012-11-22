@@ -24,6 +24,11 @@ class ZabbixApi
       delete(data)
     end
 
+    def create_or_update(data)
+      hostgroupid = get_id(:name => data[:name])
+      hostgroupid ? update(data.merge(:groupid => hostgroupid)) : create(data)
+    end
+
     def get_full_data(data)
       case @client.api_version 
         when "1.2"

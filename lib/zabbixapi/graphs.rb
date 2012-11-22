@@ -52,7 +52,7 @@ class ZabbixApi
     def update(data)
       case @client.api_version
         when "1.2"
-          return -1
+          @client.api_request(:method => "graph.update", :params => data) 
         else
           result = @client.api_request(:method => "graph.update", :params => data)
           result.empty? ? nil : result['graphids'][0].to_i

@@ -26,7 +26,7 @@ class ZabbixApi
 
     def update(data)
       result = @client.api_request(:method => "trigger.update", :params => data)
-      result.empty? ? nil : result['triggerid'][0].to_i
+      result.empty? ? nil : result['triggerids'][0].to_i
     end
 
     def create_or_update(data)

@@ -45,6 +45,10 @@ describe ZabbixApi, "test_api" do
     zbx.hostgroups.get_id(:name => "#{hostgroup}______").should be_kind_of(NilClass)
   end
 
+  it "HOSTGROUP: Create or update" do
+    zbx.hostgroups.create_or_update(:name => hostgroup).should be_kind_of(Integer)
+  end
+
   it "TEMPLATE: Create" do
     zbx.templates.create(
       :host => template,
