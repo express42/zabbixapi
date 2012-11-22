@@ -20,6 +20,13 @@ class ZabbixApi
       result.empty? ? nil : result['applicationids'][0].to_i
     end
 
+    def get_or_create(data)
+      unless appid = get_id(data)
+        appid = create(data)
+      end
+      appid
+    end
+
     def destroy(data)
       delete(data)
     end

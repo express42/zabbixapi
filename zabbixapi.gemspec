@@ -5,7 +5,7 @@ require "zabbixapi/version"
 Gem::Specification.new do |s|
   s.name        = "zabbixapi"
   s.version     = ZabbixApi::VERSION
-  s.authors     = %w("Vasiliev D.V.")
+  s.authors     = ["Vasiliev D.V."]
   s.email       = %w(vadv.mkn@gmail.com)
   s.homepage    = "https://github.com/vadv/zabbixapi"
   s.summary     = %q{Realization for Zabbix API.}

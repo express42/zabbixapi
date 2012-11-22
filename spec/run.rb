@@ -42,8 +42,19 @@ describe ZabbixApi, "test_api" do
     zbx.hostgroups.get_id(:name => "#{hostgroup}______").should be_kind_of(NilClass)
   end
 
+  it "HOSTGROUP: Create or update" do
+    zbx.hostgroups.create_or_update(:name => hostgroup).should be_kind_of(Integer)
+  end
+
   it "TEMPLATE: Create" do
     zbx.templates.create(
+      :host => template,
+      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+    ).should be_kind_of(Integer)
+  end
+
+  it "TEMPLATE: Get get or create" do
+    zbx.templates.get_or_create(
       :host => template,
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
     ).should be_kind_of(Integer)
@@ -63,6 +74,13 @@ describe ZabbixApi, "test_api" do
 
   it "APPLICATION: Create" do
     zbx.applications.create(
+      :name => application,
+      :hostid => zbx.templates.get_id(:host => template)
+    )
+  end
+
+  it "APPLICATION: Get or create" do
+    zbx.applications.get_or_create(
       :name => application,
       :hostid => zbx.templates.get_id(:host => template)
     )
@@ -162,6 +180,13 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
+  it "TEMPLATE: Update hosts with templates" do
+    zbx.templates.mass_update(
+      :hosts_id => [zbx.hosts.get_id(:host => host)],
+      :templates_id => [zbx.templates.get_id(:host => template)]
+    ).should be_kind_of(TrueClass)
+  end
+
   it "TEMPLATE: Unlink hosts from templates" do
     zbx.templates.mass_remove(
       :hosts_id => [zbx.hosts.get_id(:host => host)],
@@ -169,7 +194,7 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
-  it "TEMPLATE: Get all" do
+  it "TEMPLATE: Get all" do 
     zbx.templates.all.should be_kind_of(Hash)
   end
 
@@ -189,12 +214,12 @@ describe ZabbixApi, "test_api" do
     zbx.triggers.get_id(:description => trigger).should be_kind_of(Integer)
   end
 
-  it "GRAPH: Create" do
+  it "GRAPH: Create" do 
     gitems = {
-      :itemid => zbx.items.get_id(:description => item),
-      :calc_fnc => "2",
-      :type => "0",
-      :periods_cnt => "5"
+        :itemid => zbx.items.get_id(:description => item), 
+        :calc_fnc => "2",
+        :type => "0",
+        :periods_cnt => "5"
     }
     zbx.graphs.create(
       :gitems => [gitems],
@@ -218,25 +243,25 @@ describe ZabbixApi, "test_api" do
       :graphid => zbx.graphs.get_id(
         :name => graph,
         :hostid => zbx.hosts.get_id(:host => host)
-      ),
+      ), 
       :ymax_type => 1
     ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Create or Update" do
     gitems = {
-      :itemid => zbx.items.get_id(:description => item),
+      :itemid => zbx.items.get_id(:description => item), 
       :calc_fnc => "3",
       :type => "0",
       :periods_cnt => "5"
     }
-    zbx.graphs.create_or_update(
-      :gitems => [gitems],
-      :show_triggers => "1",
-      :name => graph,
-      :width => "900",
-      :height => "200"
-    ).should be_kind_of(Integer)
+  zbx.graphs.create_or_update(
+    :gitems => [gitems],
+    :show_triggers => "1",
+    :name => graph,
+    :width => "900",
+    :height => "200"
+  ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Delete" do
@@ -298,9 +323,9 @@ describe ZabbixApi, "test_api" do
 
   it "QUERY" do
     zbx.query(
-      :method => "apiinfo.version",
+      :method => "apiinfo.version", 
       :params => {}
     ).should be_kind_of(String)
   end
-  
+
 end

@@ -56,6 +56,13 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
+  it "TEMPLATE: Get get or create" do
+    zbx.templates.get_or_create(
+      :host => template,
+      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+    ).should be_kind_of(Integer)
+  end
+
   it "TEMPLATE: Check full data" do
     zbx.templates.get_full_data(:host => template)[0]['host'].should be_kind_of(String)
   end
@@ -70,6 +77,13 @@ describe ZabbixApi, "test_api" do
 
   it "APPLICATION: Create" do
     zbx.applications.create(
+      :name => application,
+      :hostid => zbx.templates.get_id(:host => template)
+    )
+  end
+
+  it "APPLICATION: Get or create" do
+    zbx.applications.get_or_create(
       :name => application,
       :hostid => zbx.templates.get_id(:host => template)
     )
@@ -164,6 +178,13 @@ describe ZabbixApi, "test_api" do
 
   it "TEMPLATE: Linked hosts with templates" do
     zbx.templates.mass_add(
+      :hosts_id => [zbx.hosts.get_id(:host => host)],
+      :templates_id => [zbx.templates.get_id(:host => template)]
+    ).should be_kind_of(TrueClass)
+  end
+
+  it "TEMPLATE: Update hosts with templates" do
+    zbx.templates.mass_update(
       :hosts_id => [zbx.hosts.get_id(:host => host)],
       :templates_id => [zbx.templates.get_id(:host => template)]
     ).should be_kind_of(TrueClass)
