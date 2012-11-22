@@ -3,6 +3,7 @@ require 'zabbixapi'
 # settings
 #api_url = 'http://zabbix/zabbix12/api_jsonrpc.php'
 api_url = 'http://zabbix/zabbix13/api_jsonrpc.php'
+api_url = 'http://monitor02.undev.cc/api_jsonrpc.php'
 #api_url = 'http://zabbix/zabbix20/api_jsonrpc.php'
 
 api_login = 'Admin'

@@ -66,7 +66,7 @@ class ZabbixApi
     end
 
     def create_or_update(data)
-      itemid = get_id(:description => data[:description])
+      itemid = get_id(:description => data[:description], :hostid => data[:hostid])
       itemid ? update(data.merge(:itemid => itemid)) : create(data)
     end
 

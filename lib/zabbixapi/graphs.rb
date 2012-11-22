@@ -45,7 +45,7 @@ class ZabbixApi
     end
 
     def create_or_update(data)
-      graphid = get_id(:name => data[:name])
+      graphid = get_id(:name => data[:name], :templateid => data[:templateid])
       graphid ? update(data.merge(:graphid => graphid)) : create(data)
     end
 
