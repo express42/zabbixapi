@@ -111,8 +111,8 @@ class ZabbixApi
       result = @client.api_request(
         :method => "template.massRemove", 
         :params => {
-          :hosts => data[:hosts_id].map { |t| {:hostid => t} },
-          :templates => data[:templates_id].map { |t| {:templateid => t} }
+          :hostids => data[:hosts_id],
+          :templateids => data[:templates_id]
         }
       )
       result.empty? ? false : true      
