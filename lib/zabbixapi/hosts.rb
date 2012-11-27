@@ -1,9 +1,8 @@
 class ZabbixApi
   class Hosts
 
-    def initialize(options = {})
-      @client = Client.new(options)
-      @options = options
+    def initialize(client)
+      @client = client
       @host_default_options = {
         :host => nil,
         :port => 10050,

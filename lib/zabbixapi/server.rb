@@ -3,8 +3,8 @@ class ZabbixApi
 
     attr :version
 
-    def initialize(options = {})
-      @client = Client.new(options)
+    def initialize(client)
+      @client = client
       @version = @client.api_request(:method => "apiinfo.version", :params => {})
     end
 

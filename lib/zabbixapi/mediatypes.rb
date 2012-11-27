@@ -1,9 +1,8 @@
 class ZabbixApi
   class Mediatypes
 
-    def initialize(options = {})
-      @client = Client.new(options)
-      @options = options
+    def initialize(client)
+      @client = client
       @default_mediatype_options = {
         :description => "",  #Name
         :type => 0,          #0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting

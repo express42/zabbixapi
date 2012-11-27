@@ -42,19 +42,21 @@ class ZabbixApi
   end
 
   def initialize(options = {})
+    
     @client = Client.new(options)
-    @server = Server.new(options)
-    @users   = Users.new(options)
-    @items   = Items.new(options)
-    @hosts   = Hosts.new(options)
-    @applications = Applications.new(options)
-    @templates    = Templates.new(options)
-    @hostgroups   = HostGroups.new(options)
-    @triggers = Triggers.new(options)
-    @graphs = Graphs.new(options)
-    @screens = Screens.new(options)
-    @usergroups = Usergroups.new(options)
-    @mediatypes = Mediatypes.new(options)
+
+    @server = Server.new(@client)
+    @users   = Users.new(@client)
+    @items   = Items.new(@client)
+    @hosts   = Hosts.new(@client)
+    @applications = Applications.new(@client)
+    @templates    = Templates.new(@client)
+    @hostgroups   = HostGroups.new(@client)
+    @triggers = Triggers.new(@client)
+    @graphs = Graphs.new(@client)
+    @screens = Screens.new(@client)
+    @usergroups = Usergroups.new(@client)
+    @mediatypes = Mediatypes.new(@client)
   end
 
 end

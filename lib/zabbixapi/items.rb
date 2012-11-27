@@ -1,9 +1,8 @@
 class ZabbixApi
   class Items
 
-    def initialize(options = {})
-      @client = Client.new(options)
-      @options = options
+    def initialize(client)
+      @client = client
       @item_default_options = {
         :description => nil,
         :key_ => nil,

@@ -1,9 +1,8 @@
 class ZabbixApi
   class Applications
 
-    def initialize(options = {})
-      @client = Client.new(options)
-      @options = options
+    def initialize(client)
+      @client = client
     end
 
     def create(data)

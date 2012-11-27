@@ -1,9 +1,8 @@
 class ZabbixApi
   class Usergroups
 
-    def initialize(options = {})
-      @client = Client.new(options)
-      @options = options
+    def initialize(client)
+      @client = client
     end
 
     # Create UserGroup
