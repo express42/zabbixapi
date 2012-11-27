@@ -112,7 +112,9 @@ class ZabbixApi
         :method => "template.massRemove", 
         :params => {
           :hostids => data[:hosts_id],
-          :templateids => data[:templates_id]
+          :templateids => data[:templates_id],
+          :groupids => data[:group_id],
+          :force => 1
         }
       )
       result.empty? ? false : true      

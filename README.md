@@ -144,6 +144,10 @@ zbx.graphs.create_or_update(
   :height => "200"
 )
 ```
+### Get ids by host ###
+```ruby
+zbx.graphs.get_ids_by_host(:host => "hostname")
+```
 
 ### Delete graph
 ```ruby
@@ -203,6 +207,14 @@ zbx.users.update(:userid => zbx.users.get_id(:name => "user"), :name => "user2")
 ### Delete graph
 ```ruby
 zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
+```
+
+### Create screen for host  ###
+```ruby
+zbx.screens.get_or_create_for_host(
+  :hostname => "hostname",
+  :graphids => zbx.graphs.get_ids_by_host(:host => "hostname")
+)
 ```
 
 ### Custom queries

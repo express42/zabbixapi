@@ -33,6 +33,15 @@ class ZabbixApi
       @client.api_request(:method => "graph.get", :params => {:search => {:name => data}, :output => "extend"})
     end
 
+    def get_ids_by_host(data)
+      ids = []
+      result = @client.api_request(:method => "graph.get", :params => {:filter => {:host => data[:host]}, :output => "extend"})
+      result.each do |graph|
+        ids << graph['graphid']
+      end
+      ids
+    end
+
     def get_items(data)
       @client.api_request(:method => "graphitem.get", :params => { :graphids => [data], :output => "extend" } )
     end
