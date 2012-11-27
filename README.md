@@ -212,7 +212,7 @@ zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
 ### Create screen for host  ###
 ```ruby
 zbx.screens.get_or_create_for_host(
-  :hostname => "hostname",
+  :host => "hostname",
   :graphids => zbx.graphs.get_ids_by_host(:host => "hostname")
 )
 ```
