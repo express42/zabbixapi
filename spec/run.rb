@@ -24,8 +24,6 @@ graph = "graph"
 
 puts "### Zabbix API server version #{zbx.server.version} ###"
 
-puts "### Zabbix API server version #{zbx.server.version} ###"
-
 describe ZabbixApi, "test_api" do
 
   it "SERVER: Get version api" do
@@ -189,13 +187,6 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
-  it "TEMPLATE: Unlink hosts from templates" do
-    zbx.templates.mass_remove(
-      :hosts_id => [zbx.hosts.get_id(:host => host)],
-      :templates_id => [zbx.templates.get_id(:host => template)]
-    ).should be_kind_of(TrueClass)
-  end
-
   it "TEMPLATE: Get all" do 
     zbx.templates.all.should be_kind_of(Hash)
   end
@@ -256,6 +247,10 @@ describe ZabbixApi, "test_api" do
     zbx.graphs.get_id( :name => graph ).should be_kind_of(Integer)
   end
 
+  it "GRAPH: get_ids_by_host" do
+    zbx.graphs.get_ids_by_host( :host => host ).should be_kind_of(Array)
+  end
+
   it "GRAPH: Update" do
     zbx.graphs.update(
       :graphid => zbx.graphs.get_id(
@@ -280,6 +275,26 @@ describe ZabbixApi, "test_api" do
     :width => "900",
     :height => "200"
   ).should be_kind_of(Integer)
+  end
+
+  it "SCREEN: Get or create for host" do
+    zbx.screens.get_or_create_for_host(
+      :host => host,
+      :graphids => zbx.graphs.get_ids_by_host(:host => host)
+    ).should be_kind_of(Integer)
+  end
+
+  it "TEMPLATE: Unlink hosts from templates" do
+    zbx.templates.mass_remove(
+      :hosts_id => [zbx.hosts.get_id(:host => host)],
+      :templates_id => [zbx.templates.get_id(:host => template)]
+    ).should be_kind_of(TrueClass)
+  end
+
+  it "SCREEN: Delete" do
+    zbx.screens.delete(
+      [zbx.screens.get_id(:name => "#{host}_graphs")]
+    ).should be_kind_of(Integer)
   end
 
   it "GRAPH: Delete" do
