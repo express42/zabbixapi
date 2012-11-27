@@ -40,6 +40,18 @@ class ZabbixApi
       end
     end
 
+    # Return all hostgroups
+    # 
+    # * *Returns* :
+    #   - Hash with {"Hostgroup1" => "id1", "Hostgroup2" => "id2"}
+    def all
+      result = {}
+      @client.api_request(:method => "hostgroup.get", :params => {:output => "extend"}).each do |hostgrp|
+        result[hostgrp['name']] = hostgrp['groupid']
+      end
+      result
+    end
+
     def get_id(data)
       result = get_full_data(data)
       hostgroupid = nil

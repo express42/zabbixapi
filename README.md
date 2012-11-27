@@ -217,6 +217,20 @@ zbx.screens.get_or_create_for_host(
 )
 ```
 
+### Create UserGroup, add user and add rights ###
+```ruby
+zbx.usergroups.add(:name => "Some user group")
+zbx.usergroups.add_user(
+  :usrgrpids => [zbx.usergroups.get_id(:name => "Some user group")],
+  :userids => [zbx.users.get_id(:name => "Some user")]
+)
+# get read permissions for UserGroup on all hostgroup
+zbx.usergroups.set_perm_read(
+   :usrgrpids => zbx.usergroups.get_or_create(:name => "Some user group"),
+   :hostgroupids => zbx.hostgroups.all.values
+)
+```
+
 ### Custom queries
 ```ruby
 zbx.query(

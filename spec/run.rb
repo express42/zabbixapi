@@ -20,6 +20,7 @@ host = "hostname"
 trigger = "trigger"
 user = "user"
 user2 = "user2"
+usergroup = "SomeUserGroup"
 graph = "graph"
 
 puts "### Zabbix API server version #{zbx.server.version} ###"
@@ -44,6 +45,10 @@ describe ZabbixApi, "test_api" do
 
   it "HOSTGROUP: Create or get" do
     zbx.hostgroups.get_or_create(:name => hostgroup).should be_kind_of(Integer)
+  end
+
+  it "HOSTGROUP: Get all" do
+    zbx.hostgroups.all.should be_kind_of(Hash)
   end
 
   it "TEMPLATE: Create" do
@@ -350,8 +355,34 @@ describe ZabbixApi, "test_api" do
     zbx.users.get_id(:name => "#{user}_____")
   end
 
+  it "USERGROUPS: Create" do
+    zbx.usergroups.create(:name => usergroup).should be_kind_of(Integer)
+  end
+
+  it "USERGROUPS: Create or update" do
+    zbx.usergroups.get_or_create(:name => usergroup).should be_kind_of(Integer)
+  end
+
+  it "USERGROUPS: Add user" do
+    zbx.usergroups.add_user(
+        :usrgrpids => [zbx.usergroups.get_id(:name => usergroup)],
+        :userids => [zbx.users.get_id(:name => user2)]
+    ).should be_kind_of(Integer)
+  end
+
+  it "USERGROUPS: Set UserGroup read perm" do
+    puts zbx.usergroups.set_perm_read(
+      :usrgrpids => zbx.usergroups.get_or_create(:name => usergroup).to_s,
+      :hostgroupids => zbx.hostgroups.all.values
+    )
+  end
+
   it "USER: Delete" do
     zbx.users.delete(zbx.users.get_id(:name => user2)).should be_kind_of(Integer)
+  end
+
+  it "USERGROUPS: Delete" do
+    zbx.usergroups.delete([zbx.usergroups.get_id(:name => usergroup)]).should be_kind_of(Integer)
   end
 
   it "QUERY" do
