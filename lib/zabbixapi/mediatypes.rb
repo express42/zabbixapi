@@ -5,8 +5,8 @@ class ZabbixApi
       @client = Client.new(options)
       @options = options
       @default_mediatype_options = {
-        :description => "", #Name
-        :type => 0,         #0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting
+        :description => "",  #Name
+        :type => 0,          #0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting
         :smtp_server => "", 
         :smtp_helo   => "",
         :smtp_email  => "",  #Email address of Zabbix server
