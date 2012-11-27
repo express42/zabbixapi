@@ -234,14 +234,14 @@ zbx.usergroups.set_perm(
 
 ### Create MediaType and add it to user ###
 ```ruby
-zbx.mediatypes.create(
+zbx.mediatypes.create_or_update(
   :description => "mediatype",
   :type => 0,
   :smtp_server => "127.0.0.1",
   :smtp_email => "zabbix@test.com"
 )
 zbx.users.add_medias(
-  :userids => [zbx.users.get_id(:name => user2)],
+  :userids => [zbx.users.get_id(:name => "user")],
   :media => [
     {
       :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"), 
