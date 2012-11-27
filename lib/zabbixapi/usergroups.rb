@@ -98,7 +98,7 @@ class ZabbixApi
       result = @client.api_request(
         :method => "usergroup.massAdd", 
         :params => {
-          :usrgrpids => [data[:usrgrpids]],
+          :usrgrpids => [data[:usrgrpid]],
           :rights => data[:hostgroupids].map { |t| {:permission => permission, :id => t} }
         }
       )

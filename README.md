@@ -224,7 +224,7 @@ zbx.usergroups.add_user(
   :usrgrpids => [zbx.usergroups.get_id(:name => "Some user group")],
   :userids => [zbx.users.get_id(:name => "Some user")]
 )
-# set write and read permissions for UserGroup on all hostgroup
+# set write and read permissions for UserGroup on all hostgroups
 zbx.usergroups.set_perm_read(
    :usrgrpid => zbx.usergroups.get_or_create(:name => "Some user group"),
    :hostgroupids => zbx.hostgroups.all.values,
