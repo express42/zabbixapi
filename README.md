@@ -232,6 +232,28 @@ zbx.usergroups.set_perm(
 )
 ```
 
+### Create MediaType and add it to user ###
+```ruby
+zbx.mediatypes.create(
+  :description => "mediatype",
+  :type => 0,
+  :smtp_server => "127.0.0.1",
+  :smtp_email => "zabbix@test.com"
+)
+zbx.users.add_medias(
+  :userids => [zbx.users.get_id(:name => user2)],
+  :media => [
+    {
+      :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"), 
+      :sendto => "test@test", 
+      :active => 0, 
+      :period => "1-7,00:00-24:00",
+      :severity => "56"
+    }
+  ]
+)
+```
+
 ### Custom queries
 ```ruby
 zbx.query(

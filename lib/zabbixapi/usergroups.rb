@@ -93,7 +93,7 @@ class ZabbixApi
     #   - +data+ -> Hash with :usrgrpids => id, :hostgroupids => [], :permission => 2,3 (read and read write)
     # * *Returns* :
     #   - Integer
-    def set_perm(data)
+    def set_perms(data)
       permission = data[:permission] || 2 
       result = @client.api_request(
         :method => "usergroup.massAdd", 

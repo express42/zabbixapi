@@ -36,6 +36,22 @@ class ZabbixApi
       get_full_data(data)
     end
 
+    def create_or_update(data)
+      userid = get_id(:name => data[:name])
+      userid ? update(data.merge(:userid => userid)) : create(data)
+    end
+
+    def add_medias(data)
+      result = @client.api_request(
+        :method => "user.addMedia", 
+        :params => {
+          :users => data[:userids].map { |t| {:userid => t} },
+          :medias => data[:media]
+        }
+      )
+      result ? result['userids'][0].to_i : nil
+    end
+
     def get_id(data)
       result = get_full_data(data)
       userid = nil

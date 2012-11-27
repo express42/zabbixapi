@@ -11,7 +11,7 @@ zbx = ZabbixApi.connect(
   :url => api_url,
   :user => api_login,
   :password => api_password,
-  :debug => true
+  :debug => false
 )
 
 hostgroup = "hostgroup______1"
@@ -24,6 +24,7 @@ user = "user____1"
 user2 = "user____2"
 usergroup = "SomeUserGroup"
 graph = "graph___a"
+mediatype = "somemediatype"
 
 
 puts "### Zabbix API server version #{zbx.server.version} ###"
@@ -346,6 +347,15 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
+  it "USER: Create or update" do
+    zbx.users.create_or_update(
+      :alias => "Test #{user}",
+      :name => user,
+      :surname => user,
+      :passwd => user
+    ).should be_kind_of(Integer)
+  end
+
   it "USER: Find" do
     zbx.users.get_full_data(:name => user)[0]['name'].should be_kind_of(String)
   end
@@ -374,11 +384,48 @@ describe ZabbixApi, "test_api" do
   end
 
   it "USERGROUPS: Set UserGroup read & write perm" do
-    puts zbx.usergroups.set_perm(
+    zbx.usergroups.set_perms(
       :usrgrpid => zbx.usergroups.get_or_create(:name => usergroup).to_s,
       :hostgroupids => zbx.hostgroups.all.values,
       :permission => 3
-    )
+    ).should be_kind_of(Integer)
+  end
+
+  it "MEDIATYPE: Create" do
+    zbx.mediatypes.create(
+      :description => mediatype,
+      :type => 0,
+      :smtp_server => "127.0.0.1",
+      :smtp_email => "zabbix@test.com"
+    ).should be_kind_of(Integer)
+  end
+
+  it "MEDIATYPE: Update or create" do
+    zbx.mediatypes.create_or_update(
+      :description => mediatype,
+      :smtp_email => "zabbix2@test.com"
+    ).should be_kind_of(Integer)
+  end
+
+  it "USER: Add mediatype" do
+    zbx.users.add_medias(
+      :userids => [zbx.users.get_id(:name => user2)],
+      :media => [
+        {
+          :mediatypeid => zbx.mediatypes.get_id(:description => mediatype), 
+          :sendto => "test@test", 
+          :active => 0, 
+          :period => "1-7,00:00-24:00",
+          :severity => "56"
+        }
+      ]
+    ).should be_kind_of(Integer)
+  end
+
+  it "MEDIATYPE: Delete" do
+    zbx.mediatypes.delete(
+      zbx.mediatypes.get_id(:description => mediatype)
+    ).should be_kind_of(Integer)
   end
 
   it "USER: Delete" do

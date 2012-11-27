@@ -11,6 +11,7 @@ require "zabbixapi/items"
 require "zabbixapi/graphs"
 require "zabbixapi/screens"
 require "zabbixapi/usergroups"
+require "zabbixapi/mediatypes"
 
 class ZabbixApi
 
@@ -26,6 +27,7 @@ class ZabbixApi
   attr :graphs
   attr :screens
   attr :usergroups
+  attr :mediatypes
 
   def self.connect(options = {})
     new(options)
@@ -52,6 +54,7 @@ class ZabbixApi
     @graphs = Graphs.new(options)
     @screens = Screens.new(options)
     @usergroups = Usergroups.new(options)
+    @mediatypes = Mediatypes.new(options)
   end
 
 end
