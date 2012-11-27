@@ -87,18 +87,19 @@ class ZabbixApi
       usrgrpid
     end
 
-    # Set read permisssion for usrgrp on some hostgroup
+    # Set permission for usrgrp on some hostgroup
     # 
     # * *Args*    :
-    #   - +data+ -> Hash with :usrgrpids => id, :hostgroupids => []
+    #   - +data+ -> Hash with :usrgrpids => id, :hostgroupids => [], :permission => 2,3 (read and read write)
     # * *Returns* :
     #   - Integer
-    def set_perm_read(data)
+    def set_perm(data)
+      permission = data[:permission] || 2 
       result = @client.api_request(
         :method => "usergroup.massAdd", 
         :params => {
           :usrgrpids => [data[:usrgrpids]],
-          :rights => data[:hostgroupids].map { |t| {:permission => 2, :id => t} }
+          :rights => data[:hostgroupids].map { |t| {:permission => permission, :id => t} }
         }
       )
       result ? result['usrgrpids'][0].to_i : nil

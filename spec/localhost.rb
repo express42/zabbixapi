@@ -373,10 +373,11 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(Integer)
   end
 
-  it "USERGROUPS: Set UserGroup read perm" do
-    puts zbx.usergroups.set_perm_read(
-      :usrgrpids => zbx.usergroups.get_or_create(:name => usergroup).to_s,
-      :hostgroupids => zbx.hostgroups.all.values
+  it "USERGROUPS: Set UserGroup read & write perm" do
+    puts zbx.usergroups.set_perm(
+      :usrgrpid => zbx.usergroups.get_or_create(:name => usergroup).to_s,
+      :hostgroupids => zbx.hostgroups.all.values,
+      :permission => 3
     )
   end
 
