@@ -236,7 +236,7 @@ zbx.usergroups.set_perm(
 ```ruby
 zbx.mediatypes.create_or_update(
   :description => "mediatype",
-  :type => 0,
+  :type => 0, #0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting, 
   :smtp_server => "127.0.0.1",
   :smtp_email => "zabbix@test.com"
 )
