@@ -220,8 +220,7 @@ describe ZabbixApi, "test_api" do
   end
 
   it "TRIGGER: Find" do
-    puts zbx.triggers.all
-    zbx.triggers.get_id(:description => trigger).should equal be_kind_of(Integer)
+    zbx.triggers.get_id(:description => trigger).should be_kind_of(Integer)
   end
 
   it "TRIGGER: Find unknown" do
