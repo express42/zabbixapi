@@ -3,6 +3,7 @@
 Simple and lightweight ruby module for work with zabbix api 
 
 [![Build Status](https://travis-ci.org/vadv/zabbixapi.png)](https://travis-ci.org/vadv/zabbixapi)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/vadv/zabbixapi)
 
 #####Now worked with zabbix 
 * 1.8.2 (api version 1.2)
