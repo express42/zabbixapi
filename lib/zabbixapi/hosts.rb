@@ -1,5 +1,13 @@
 class ZabbixApi
-  class Hosts
+  class Hosts < Basic
+
+    def api_method_name
+      "host"
+    end
+
+    def api_identify
+      "host"
+    end
 
     def initialize(client)
       @client = client
@@ -32,10 +40,6 @@ class ZabbixApi
       result.empty? ? nil : result['hostids'][0].to_i
     end
 
-    def add(data)
-      create(data)
-    end
-
     def unlink_templates(data)
       result = @client.api_request(
         :method => "host.massRemove", 
@@ -53,33 +57,12 @@ class ZabbixApi
     end
 
     def delete(data)
-      result = @client.api_request(:method => "host.delete", :params => [:hostid => data])
-      result.empty? ? nil : result['hostids'][0].to_i
+      delete_array_sym(data)
     end
 
-    def destroy(data)
-      delete(data)
-    end
-
-    def update(data)
-      result = @client.api_request(:method => "host.update", :params => data)
-      result.empty? ? nil : result['hostids'][0].to_i
-    end
 
     def get_full_data(data)
-      @client.api_request(:method => "host.get", :params => {:filter => data, :output => "extend"})
-    end
-
-    def create_or_update(data)
-      hostid = get_id(:host => data[:host])
-      hostid ? update(data.merge(:hostid => hostid)) : create(data)
-    end
-
-    def get_id(data)
-      result = get_full_data(data)
-      hostid = nil
-      result.each { |host| hostid = host['hostid'].to_i if host['host'] == data[:host] }
-      hostid
+      get_full_data_filter(data)
     end
 
   end

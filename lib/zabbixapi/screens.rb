@@ -1,5 +1,13 @@
 class ZabbixApi
-  class Screens
+  class Screens < Basic
+
+    def api_method_name
+      "screen"
+    end
+
+    def api_identify
+      "name"
+    end
 
     # extracted from frontends/php/include/defines.inc.php
     #SCREEN_RESOURCE_GRAPH => 0,
@@ -20,41 +28,6 @@ class ZabbixApi
     #SCREEN_RESOURCE_SYSTEM_STATUS => 15,
     #SCREEN_RESOURCE_HOST_TRIGGERS => 16
 
-    def initialize(client)
-      @client = client
-      @screen_default_options = {
-        :vsize => 3
-      }
-    end
-
-    # Create screen
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :name => "Screen name", hsize (rows) and vsize (columns) and array :screenitems => []
-    #   screenitems contains :resourcetype (0 - graph), :resourcetypeid (id item) and :x and :y position
-    # * *Returns* :
-    #   - Nil or Integer
-    def create(data)
-      result = @client.api_request(:method => "screen.create", :params => data)
-      result ? result['screenids'][0].to_i : nil
-    end
-
-    # Create screen
-    # Synonym create
-    def add(data)
-      create(data)
-    end
-
-    # Update screen
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :screenid => [ "screenid" ]
-    # * *Returns* :
-    #   - Nil or Integer
-    def update(data)
-      result = @client.api_request(:method => "screen.update", :params => data)
-      result ? result['screenids'][0].to_i : nil      
-    end
 
     # Return info about screen
     # 
@@ -67,29 +40,6 @@ class ZabbixApi
       result.empty? ? [] : result
     end
 
-    # Return screenid
-    # 
-    # * *Args*    : 
-    #   - +data+ -> Hash with :name => "Screen name"
-    # * *Returns* :
-    #   - Nil or Integer
-    def get_id(data)
-      result = get_full_data(data)
-      screenid = nil
-      result.each { |screen| screenid = screen['screenid'].to_i if screen['name'] == data[:name] }
-      screenid
-    end
-
-    # Delete screen
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :params => [screenid]
-    # * *Returns* :
-    #   - Nil or Integer
-    def delete(data)
-      result = @client.api_request(:method => "screen.delete", :params => data)
-      result.empty? ? nil : result['screenids'][0].to_i
-    end
 
     # Create screen all graphs for host
     #

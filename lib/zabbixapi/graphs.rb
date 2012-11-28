@@ -1,17 +1,17 @@
 class ZabbixApi
-  class Graphs
+  class Graphs < Basic
 
-    def initialize(client)
-      @client = client
+
+    def api_method_name
+      "graph"
+    end
+
+    def api_identify
+      "name"
     end
 
     def create(data)
-      result = @client.api_request(:method => "graph.create", :params => [data])
-      result.empty? ? nil : result['graphids'][0].to_i
-    end
-
-    def add(data)
-      create(data)
+      create_array(data)
     end
 
     def delete(data)
@@ -24,12 +24,8 @@ class ZabbixApi
       end
     end
 
-    def destroy(data)
-      delete(data)
-    end
-
     def get_full_data(data)
-      @client.api_request(:method => "graph.get", :params => {:search => {:name => data}, :output => "extend"})
+      get_full_data_filter()
     end
 
     def get_ids_by_host(data)

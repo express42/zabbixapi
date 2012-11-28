@@ -1,5 +1,13 @@
 class ZabbixApi
-  class Items
+  class Items < Basic
+
+    def api_method_name
+      "item"
+    end
+
+    def api_identify
+      "description"
+    end
 
     def initialize(client)
       @client = client
@@ -47,40 +55,14 @@ class ZabbixApi
     def create(data)
       result = @client.api_request(:method => "item.create", :params => [merge_params(data)] )
       result.empty? ? nil : result['itemids'][0].to_i
-    end
-
-    def add(data)
-      create(data)
-    end    
+    end  
 
     def get_full_data(data)
-      @client.api_request(:method => "item.get", :params => {:filter => data, :output => "extend"})
-    end
-
-    def get_id(data)
-      result = get_full_data(data)
-      itemid = nil
-      result.each { |item| itemid = item['itemid'].to_i if item['name'] == data[:name] }
-      itemid
-    end
-
-    def create_or_update(data)
-      itemid = get_id(:description => data[:description], :hostid => data[:hostid])
-      itemid ? update(data.merge(:itemid => itemid)) : create(data)
-    end
-
-    def update(data)
-      result = @client.api_request(:method => "item.update", :params => data)
-      result.empty? ? nil : result['itemids'][0].to_i
+      get_full_data_filter(data)
     end
 
     def delete(data)
-      result = @client.api_request(:method => "item.delete", :params => [data])
-      result.empty? ? nil : result['itemids'][0].to_i
-    end
-
-    def destroy(data)
-      delete(data)
+      delete_array(data)
     end
 
   end

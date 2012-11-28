@@ -33,11 +33,12 @@ describe ZabbixApi, "test_api" do
   end
 
   it "HOSTGROUP: Create" do
-    zbx.hostgroups.create(:name => hostgroup).should be_kind_of(Integer)
+    $hostgroup_id_real = zbx.hostgroups.create(:name => hostgroup)
+    $hostgroup_id_real.should be_kind_of(Integer)
   end
 
   it "HOSTGROUP: Find" do
-    zbx.hostgroups.get_id(:name => hostgroup).should be_kind_of(Integer)
+    zbx.hostgroups.get_id(:name => hostgroup).should equal $hostgroup_id_real
   end
 
   it "HOSTGROUP: Find unknown" do
@@ -45,59 +46,61 @@ describe ZabbixApi, "test_api" do
   end
 
   it "HOSTGROUP: Create or get" do
-    zbx.hostgroups.get_or_create(:name => hostgroup).should be_kind_of(Integer)
+    zbx.hostgroups.get_or_create(:name => hostgroup).should equal $hostgroup_id_real
   end
 
   it "HOSTGROUP: Get all" do
-    zbx.hostgroups.all.should be_kind_of(Hash)
+    zbx.hostgroups.all.should include(hostgroup => $hostgroup_id_real.to_s)
   end
 
   it "TEMPLATE: Create" do
-    zbx.templates.create(
+    $template_id_real = zbx.templates.create(
       :host => template,
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should be_kind_of(Integer)
+    )
+    $template_id_real.should be_kind_of(Integer)
   end
 
   it "TEMPLATE: Get get or create" do
     zbx.templates.get_or_create(
       :host => template,
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should be_kind_of(Integer)
-  end
-
-  it "TEMPLATE: Check full data" do
-    zbx.templates.get_full_data(:host => template)[0]['host'].should be_kind_of(String)
+    ).should equal $template_id_real
   end
 
   it "TEMPLATE: Find" do
-    zbx.templates.get_id(:host => template).should be_kind_of(Integer)
+    zbx.templates.get_id(:host => template).should equal $template_id_real
   end
 
   it "TEMPLATE: Find unknown" do
     zbx.templates.get_id(:host => "#{template}_____").should be_kind_of(NilClass)
   end
 
+  it "TEMPLATE: Get all" do
+    zbx.templates.all.should include(template => $template_id_real.to_s)
+  end
+
   it "APPLICATION: Create" do
-    zbx.applications.create(
+    $application_id_real = zbx.applications.create(
       :name => application,
       :hostid => zbx.templates.get_id(:host => template)
     )
+    $application_id_real.should be_kind_of(Integer)
+  end
+
+  it "APPLICATION: Get all" do
+    zbx.applications.all.should include(application => $application_id_real.to_s)
   end
 
   it "APPLICATION: Get or create" do
     zbx.applications.get_or_create(
       :name => application,
       :hostid => zbx.templates.get_id(:host => template)
-    )
-  end
-
-  it "APPLICATION: Full info check" do
-    zbx.applications.get_full_data(:name => application)[0]['applicationid'].should be_kind_of(String)
+    ).should equal $application_id_real
   end
 
   it "APPLICATION: Find" do
-    zbx.applications.get_id(:name => application).should be_kind_of(Integer)
+    zbx.applications.get_id(:name => application).should equal $application_id_real
   end
 
   it "APPLICATION: Find unknown" do
@@ -105,27 +108,28 @@ describe ZabbixApi, "test_api" do
   end
 
   it "ITEM: Create" do
-    zbx.items.create(
+    $item_id_real = zbx.items.create(
       :description => item,
       :key_ => "proc.num[aaa]",
       :hostid => zbx.templates.get_id(:host => template),
       :applications => [zbx.applications.get_id(:name => application)]
-    ).should be_kind_of(Integer)
-  end
-
-  it "ITEM: Full info check" do
-    zbx.items.get_full_data(:description => item)[0]['itemid'].should be_kind_of(String)
+    )
+    $item_id_real.should be_kind_of(Integer)
   end
 
   it "ITEM: Find" do
-    zbx.items.get_id(:description => item).should be_kind_of(Integer)
+    zbx.items.get_id(:description => item).should equal $item_id_real
+  end
+
+  it "ITEM: Get all" do
+    zbx.items.all.should include(item => $item_id_real.to_s)
   end
 
   it "ITEM: Update" do
     zbx.items.update(
       :itemid => zbx.items.get_id(:description => item),
       :status => 0
-    ).should be_kind_of(Integer)
+    ).should equal $item_id_real
   end
 
   it "ITEM: Create or update" do
@@ -135,19 +139,20 @@ describe ZabbixApi, "test_api" do
       :type => 6,
       :hostid => zbx.templates.get_id(:host => template),
       :applications => [zbx.applications.get_id(:name => application)]
-    ).should be_kind_of(Integer)
+    ).should equal $item_id_real
   end
 
   it "ITEM: Get unknown" do
-    zbx.items.get_id(:description => "#{item}_____")
+    zbx.items.get_id(:description => "#{item}_____").should be_kind_of(NilClass)
   end
 
   it "HOST: Create" do
-    zbx.hosts.create(
+    $host_id_real = zbx.hosts.create(
       :host => host,
       :ip => "10.20.48.88",
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should be_kind_of(Integer)
+    )
+    $host_id_real.should be_kind_of(Integer)
   end
 
   it "HOST: Update or create" do
@@ -155,7 +160,7 @@ describe ZabbixApi, "test_api" do
       :host => host,
       :ip => "10.20.48.89",
       :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should be_kind_of(Integer)
+    ).should equal $host_id_real
   end
 
   it "HOST: Find unknown" do
@@ -163,20 +168,18 @@ describe ZabbixApi, "test_api" do
   end
 
   it "HOST: Find" do
-    zbx.hosts.get_id(:host => host).should be_kind_of(Integer)
+    zbx.hosts.get_id(:host => host).should equal $host_id_real
   end
 
   it "HOST: Update" do
     zbx.hosts.update(
       :hostid => zbx.hosts.get_id(:host => host),
       :status => 0
-    )
+    ).should equal $host_id_real
   end
 
-  it "TEMPLATE: Get all templates linked with host" do
-    zbx.templates.get_ids_by_host(
-      :hostids => [zbx.hosts.get_id(:host => host)]
-    ).should be_kind_of(Array)
+  it "HOST: Get all" do
+    zbx.hosts.all.should include(host => $host_id_real.to_s)
   end
 
   it "TEMPLATE: Linked hosts with templates" do
@@ -193,12 +196,18 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
+  it "TEMPLATE: Get all templates linked with host" do
+    zbx.templates.get_ids_by_host(
+      :hostids => [zbx.hosts.get_id(:host => host)]
+    ).should include($template_id_real.to_s)
+  end
+
   it "TEMPLATE: Get all" do 
-    zbx.templates.all.should be_kind_of(Hash)
+    zbx.templates.all.should include(template => $template_id_real.to_s)
   end
 
   it "TRIGGER: Create" do
-    zbx.triggers.create(
+    $trigger_id_real = zbx.triggers.create(
       :description => trigger,
       :expression => "{#{template}:proc.num[aaa].last(0)}<1",
       :comments => "Bla-bla is faulty (disaster)",
@@ -206,11 +215,21 @@ describe ZabbixApi, "test_api" do
       :status     => 0,
       :templateid => 0,
       :type => 0
-    ).should be_kind_of(Integer)
+    )
+    $trigger_id_real.should be_kind_of(Integer)
   end
 
   it "TRIGGER: Find" do
-    zbx.triggers.get_id(:description => trigger).should be_kind_of(Integer)
+    puts zbx.triggers.all
+    zbx.triggers.get_id(:description => trigger).should equal be_kind_of(Integer)
+  end
+
+  it "TRIGGER: Find unknown" do
+    zbx.triggers.get_id(:description => "#{trigger}____").should be_kind_of(NilClass)
+  end
+
+  it "TRIGGER: Get all" do
+    zbx.triggers.all.should be_kind_of(Hash)
   end
 
   it "GRAPH: Create" do 
@@ -220,13 +239,14 @@ describe ZabbixApi, "test_api" do
         :type => "0",
         :periods_cnt => "5"
     }
-    zbx.graphs.create(
+    $graph_id_real = zbx.graphs.create(
       :gitems => [gitems],
       :show_triggers => "0",
       :name => graph,
       :width => "900",
       :height => "200"
-    ).should be_kind_of(Integer)
+    )
+    $graph_id_real.should be_kind_of(Integer)
   end
 
   it "GRAPH: Create or get" do 
@@ -242,19 +262,23 @@ describe ZabbixApi, "test_api" do
       :name => graph,
       :width => "900",
       :height => "200"
-    ).should be_kind_of(Integer)
+    ).should equal $graph_id_real
   end
 
   it "GRAPH: Find gititems" do
-    zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
+    zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) ).should be_kind_of(Array)
   end
 
   it "GRAPH: Find" do
-    zbx.graphs.get_id( :name => graph ).should be_kind_of(Integer)
+    zbx.graphs.get_id( :name => graph ).should equal $graph_id_real
   end
 
   it "GRAPH: get_ids_by_host" do
     zbx.graphs.get_ids_by_host( :host => host ).should be_kind_of(Array)
+  end
+
+  it "GRAPH: Get all" do
+    zbx.graphs.all.should include(graph => $graph_id_real.to_s)
   end
 
   it "GRAPH: Update" do
@@ -264,7 +288,7 @@ describe ZabbixApi, "test_api" do
         :hostid => zbx.hosts.get_id(:host => host)
       ), 
       :ymax_type => 1
-    ).should be_kind_of(Integer)
+    ).should equal $graph_id_real
   end
 
   it "GRAPH: Create or Update" do
@@ -280,14 +304,15 @@ describe ZabbixApi, "test_api" do
     :name => graph,
     :width => "900",
     :height => "200"
-  ).should be_kind_of(Integer)
+  ).should equal $graph_id_real
   end
 
   it "SCREEN: Get or create for host" do
-    zbx.screens.get_or_create_for_host(
+    $screen_id_real = zbx.screens.get_or_create_for_host(
       :host => host,
       :graphids => zbx.graphs.get_ids_by_host(:host => host)
-    ).should be_kind_of(Integer)
+    )
+    $screen_id_real.should be_kind_of(Integer)
   end
 
   it "TEMPLATE: Unlink hosts from templates" do
@@ -297,10 +322,14 @@ describe ZabbixApi, "test_api" do
     ).should be_kind_of(TrueClass)
   end
 
+  it "SCREEN: Get all" do
+    zbx.screens.all.should be_kind_of(Hash)
+  end
+
   it "SCREEN: Delete" do
     zbx.screens.delete(
       [zbx.screens.get_id(:name => "#{host}_graphs")]
-    ).should be_kind_of(Integer)
+    ).should equal $screen_id_real
   end
 
   it "GRAPH: Delete" do
@@ -312,36 +341,37 @@ describe ZabbixApi, "test_api" do
   end
 
   it "HOST: Delete" do
-    zbx.hosts.delete( zbx.hosts.get_id(:host => host) ).should be_kind_of(Integer)
+    zbx.hosts.delete( zbx.hosts.get_id(:host => host) ).should equal $host_id_real
   end
 
   it "ITEM: Delete" do
     zbx.items.delete(
       zbx.items.get_id(:description => item)
-    ).should be_kind_of(Integer)
+    ).should equal $item_id_real
   end
 
   it "APPLICATION: Delete" do
-    zbx.applications.delete( zbx.applications.get_id(:name => application) )
+    zbx.applications.delete( zbx.applications.get_id(:name => application) ).should equal $application_id_real
   end
 
   it "TEMPLATE: Delete" do
-    zbx.templates.delete(zbx.templates.get_id(:host => template))
+    zbx.templates.delete(zbx.templates.get_id(:host => template)).should equal $template_id_real
   end
 
   it "HOSTGROUP: Delete" do
     zbx.hostgroups.delete(
       zbx.hostgroups.get_id(:name => hostgroup)
-    ).should be_kind_of(Integer)
+    ).should equal $hostgroup_id_real
   end
 
   it "USER: Create" do
-    zbx.users.create(
+    $user_id_real = zbx.users.create(
       :alias => "Test #{user}",
       :name => user,
       :surname => user,
       :passwd => user
-    ).should be_kind_of(Integer)
+    )
+    $user_id_real.should be_kind_of(Integer)
   end
 
   it "USER: Create or update" do
@@ -350,34 +380,31 @@ describe ZabbixApi, "test_api" do
       :name => user,
       :surname => user,
       :passwd => user
-    ).should be_kind_of(Integer)
-  end
-
-  it "USER: Find" do
-    zbx.users.get_full_data(:name => user)[0]['name'].should be_kind_of(String)
+    ).should equal $user_id_real
   end
 
   it "USER: Update" do
-    zbx.users.update(:userid => zbx.users.get_id(:name => user), :name => user2).should be_kind_of(Integer)
+    zbx.users.update(:userid => zbx.users.get_id(:name => user), :name => user2).should equal $user_id_real
   end
 
   it "USER: Find unknown" do
-    zbx.users.get_id(:name => "#{user}_____")
+    zbx.users.get_id(:name => "#{user}_____").should be_kind_of(NilClass)
   end
 
   it "USERGROUPS: Create" do
-    zbx.usergroups.create(:name => usergroup).should be_kind_of(Integer)
+    $usergrp_id_real = zbx.usergroups.create(:name => usergroup)
+    $usergrp_id_real.should be_kind_of(Integer)
   end
 
   it "USERGROUPS: Create or update" do
-    zbx.usergroups.get_or_create(:name => usergroup).should be_kind_of(Integer)
+    zbx.usergroups.get_or_create(:name => usergroup).should equal $usergrp_id_real
   end
 
   it "USERGROUPS: Add user" do
     zbx.usergroups.add_user(
         :usrgrpids => [zbx.usergroups.get_id(:name => usergroup)],
         :userids => [zbx.users.get_id(:name => user2)]
-    ).should be_kind_of(Integer)
+    ).should equal $usergrp_id_real
   end
 
   it "USERGROUPS: Set UserGroup read & write perm" do
@@ -385,23 +412,24 @@ describe ZabbixApi, "test_api" do
       :usrgrpid => zbx.usergroups.get_or_create(:name => usergroup).to_s,
       :hostgroupids => zbx.hostgroups.all.values,
       :permission => 3
-    ).should be_kind_of(Integer)
+    ).should equal $usergrp_id_real
   end
 
   it "MEDIATYPE: Create" do
-    zbx.mediatypes.create(
+    $meditype_id_real = zbx.mediatypes.create(
       :description => mediatype,
       :type => 0,
       :smtp_server => "127.0.0.1",
       :smtp_email => "zabbix@test.com"
-    ).should be_kind_of(Integer)
+    )
+    $meditype_id_real.should be_kind_of(Integer)
   end
 
   it "MEDIATYPE: Update or create" do
     zbx.mediatypes.create_or_update(
       :description => mediatype,
       :smtp_email => "zabbix2@test.com"
-    ).should be_kind_of(Integer)
+    ).should equal $meditype_id_real
   end
 
   it "USER: Add mediatype" do
@@ -416,21 +444,21 @@ describe ZabbixApi, "test_api" do
           :severity => "56"
         }
       ]
-    ).should be_kind_of(Integer)
+    ).should equal $user_id_real
   end
 
   it "MEDIATYPE: Delete" do
     zbx.mediatypes.delete(
       zbx.mediatypes.get_id(:description => mediatype)
-    ).should be_kind_of(Integer)
+    ).should equal $meditype_id_real
   end
 
   it "USER: Delete" do
-    zbx.users.delete(zbx.users.get_id(:name => user2)).should be_kind_of(Integer)
+    zbx.users.delete(zbx.users.get_id(:name => user2)).should equal $user_id_real
   end
 
   it "USERGROUPS: Delete" do
-    zbx.usergroups.delete([zbx.usergroups.get_id(:name => usergroup)]).should be_kind_of(Integer)
+    zbx.usergroups.delete([zbx.usergroups.get_id(:name => usergroup)]).should equal $usergrp_id_real
   end
 
   it "QUERY" do

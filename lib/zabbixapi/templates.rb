@@ -1,50 +1,22 @@
 class ZabbixApi
-  class Templates
+  class Templates < Basic
 
-    def initialize(client)
-      @client = client
+    def api_method_name
+      "template"
     end
 
-    # Create template
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
-    # * *Returns* :
-    #   - Nil or Integer
+    def api_identify
+      "name"
+    end
+
     def create(data)
-      result = @client.api_request(:method => "template.create", :params => [data])
-      result.empty? ? nil : result['templateids'][0].to_i
+      create_array(data)
     end
 
-    # Add template
-    # Synonym create
-    def add(data)
-      create(data)
-    end
-
-    # Delete template
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :host => "Template_Name"
-    # * *Returns* :
-    #   - Nil or Integer
     def delete(data)
-      result = @client.api_request(:method => "template.delete", :params => [:templateid => data])
-      result.empty? ? nil : result['templateids'][0].to_i
+      delete_array_sym(data)
     end
 
-    # Destroy template
-    # Synonym delete
-    def destroy(data)
-      delete(data)
-    end
-
-    # Return templateids linked with host 
-    # 
-    # * *Args*    :
-    #   - +data+ -> Hash with :hostids => [hostid]
-    # * *Returns* :
-    #   - Array with templateids
     def get_ids_by_host(data)
       result = []
       @client.api_request(:method => "template.get", :params => data).each do |tmpl|
@@ -52,19 +24,7 @@ class ZabbixApi
       end
       result
     end
-
-    # Return templateid
-    # 
-    # * *Args*    :
-    #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
-    # * *Returns* :
-    #   - Integer
-    def get_or_create(data)
-      unless templateid = get_id(:host => data[:host])
-        templateid = create(data)
-      end
-      templateid
-    end   
+   
 
     # Analog Zabbix api call massUpdate
     # 
@@ -153,18 +113,6 @@ class ZabbixApi
         else
           @client.api_request(:method => "template.get", :params => {:filter => data, :output => "extend"})
       end
-    end
-
-    # Return info about template
-    # 
-    # * *Args*    : 
-    #   - +data+ -> Hash with :host => "Template name"
-    # * *Returns* :
-    #   - Nil or Integer
-    def get_id(data)
-      templateid = nil
-      get_full_data(data).each { |template| templateid = template['templateid'].to_i if template['host'] == data[:host] }
-      templateid
     end
 
   end

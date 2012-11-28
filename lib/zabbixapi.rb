@@ -1,5 +1,6 @@
-require "zabbixapi/version"
+require "zabbixapi/basic"
 require "zabbixapi/client"
+require "zabbixapi/version"
 require "zabbixapi/server"
 require "zabbixapi/applications"
 require "zabbixapi/templates"
@@ -42,7 +43,7 @@ class ZabbixApi
   end
 
   def initialize(options = {})
-    
+
     @client = Client.new(options)
 
     @server = Server.new(@client)
