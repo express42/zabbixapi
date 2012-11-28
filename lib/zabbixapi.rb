@@ -22,10 +22,6 @@ class ZabbixApi
     new(options)
   end
 
-  def self.current
-    @current ||= ZabbixApi.new
-  end
-
   def query(data)
     @client.api_request(:method => data[:method], :params => data[:params])
   end
