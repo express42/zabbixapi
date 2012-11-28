@@ -17,18 +17,6 @@ require "zabbixapi/mediatypes"
 class ZabbixApi
 
   attr :client
-  attr :server
-  attr :users
-  attr :items
-  attr :applications
-  attr :templates
-  attr :hostgroups
-  attr :hosts
-  attr :triggers
-  attr :graphs
-  attr :screens
-  attr :usergroups
-  attr :mediatypes
 
   def self.connect(options = {})
     new(options)
@@ -43,21 +31,55 @@ class ZabbixApi
   end
 
   def initialize(options = {})
-
     @client = Client.new(options)
+  end
 
-    @server = Server.new(@client)
-    @users   = Users.new(@client)
-    @items   = Items.new(@client)
-    @hosts   = Hosts.new(@client)
-    @applications = Applications.new(@client)
-    @templates    = Templates.new(@client)
-    @hostgroups   = HostGroups.new(@client)
-    @triggers = Triggers.new(@client)
-    @graphs = Graphs.new(@client)
-    @screens = Screens.new(@client)
-    @usergroups = Usergroups.new(@client)
-    @mediatypes = Mediatypes.new(@client)
+  def server
+    @server ||= Server.new(@client)
+  end
+
+  def users
+    @users ||= Users.new(@client)
+  end
+
+  def items
+    @items ||= Items.new(@client)
+  end
+
+  def hosts
+    @hosts ||= Hosts.new(@client)
+  end
+
+  def applications
+    @applications ||= Applications.new(@client)
+  end
+
+  def templates
+    @templates ||= Templates.new(@client)
+  end
+
+  def hostgroups
+    @hostgroups ||= HostGroups.new(@client)
+  end
+
+  def triggers
+    @triggers ||= Triggers.new(@client)
+  end
+
+  def graphs
+    @graphs ||= Graphs.new(@client)
+  end
+
+  def screens
+    @screens ||= Screens.new(@client)
+  end
+
+  def usergroups
+    @usergroups ||= Usergroups.new(@client)
+  end
+
+  def mediatypes
+    @mediatypes ||= Mediatypes.new(@client)
   end
 
 end

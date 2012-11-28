@@ -46,10 +46,10 @@ class ZabbixApi
 
     def http_request(body)
       uri = URI.parse(@options[:url])
-      unless @proxy_uri.nil? 
-        http = Net::HTTP.new(uri.host, uri.port)
-      else
+      if @proxy_uri.nil?
         http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
+      else
+        http = Net::HTTP.new(uri.host, uri.port)
       end
       request = Net::HTTP::Post.new(uri.request_uri)
       request.add_field('Content-Type', 'application/json-rpc')
