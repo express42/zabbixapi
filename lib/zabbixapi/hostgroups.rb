@@ -23,6 +23,16 @@ class ZabbixApi
       delete(data)
     end
 
+    def create_or_update(data)
+      userid = get_id(:name => data[:name])
+      userid ? update(data.merge(:groupid => userid)) : create(data)
+    end
+
+    def update(data)
+      result = @client.api_request(:method => "hostgroup.update", :params => data)
+      result ? result['groupids'][0].to_i : nil
+    end
+
     def get_or_create(data)
       unless hostgroupid = get_id(data)
         hostgroupid = update(data)

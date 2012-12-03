@@ -94,7 +94,7 @@ class ZabbixApi
     # Create screen all graphs for host
     #
     # * *Args*    :
-    #   - +data+ -> Hash with :host=> "hostname", :graphsid => [], [:hsize, :vsize]
+    #   - +data+ -> Hash with :host=> "hostname", :graphsid => [], [:hsize, :vsize, :valign, :halign]
     # * *Returns* :
     #   - Nil or Integer
     def get_or_create_for_host(data)
@@ -102,6 +102,8 @@ class ZabbixApi
       graphids = data[:graphids]
       screenitems = []
       hsize = data[:hsize] || 3
+      valign = data[:valign] || 2
+      halign = data[:halign] || 2
       vsize = data[:vsize] || ((graphids.size/hsize) + 1).to_i
       screenid = get_id(:name => screen_name)
       unless screenid
@@ -111,7 +113,9 @@ class ZabbixApi
             :resourcetype => 0,
             :resourceid => graphid,
             :x => (index % hsize).to_i,
-            :y => (index % graphids.size/hsize).to_i
+            :y => (index % graphids.size/hsize).to_i,
+            :valign =>valign,
+            :halign =>halign
           }
         end
         screenid = create(
