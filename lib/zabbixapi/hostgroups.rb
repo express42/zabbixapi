@@ -35,7 +35,7 @@ class ZabbixApi
 
     def get_or_create(data)
       unless hostgroupid = get_id(data)
-        hostgroupid = update(data)
+        hostgroupid = create(data)
       end
       hostgroupid
     end
