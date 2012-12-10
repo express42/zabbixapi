@@ -51,8 +51,8 @@ class ZabbixApi
       else
         http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
       end
-      request.basic_auth @options[:http_user], @options[:http_password] if @options[:http_user]
       request = Net::HTTP::Post.new(uri.request_uri)
+      request.basic_auth @options[:http_user], @options[:http_password] if @options[:http_user]
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body
       response = http.request(request)

@@ -24,6 +24,14 @@ zbx = ZabbixApi.connect(
   :user => 'Admin',
   :password => 'zabbix'
 )
+# use basic_auth 
+zbx = ZabbixApi.connect(
+  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :user => 'Admin',
+  :password => 'zabbix',
+  :http_password => 'bla-bla',
+  :http_user => 'bla-bla'
+)
 ```
 ### Create Hostgroup
 ```ruby
