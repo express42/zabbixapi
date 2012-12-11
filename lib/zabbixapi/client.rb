@@ -5,7 +5,7 @@ class ZabbixApi
   class Client
 
     def id
-      Random.rand(100000)
+      rand(100000)
     end
 
     def api_version
