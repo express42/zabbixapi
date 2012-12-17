@@ -1,5 +1,6 @@
 require "zabbixapi/version"
 require "zabbixapi/client"
+require "zabbixapi/basic"
 require "zabbixapi/server"
 require "zabbixapi/applications"
 require "zabbixapi/templates"

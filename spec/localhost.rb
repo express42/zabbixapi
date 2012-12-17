@@ -311,7 +311,7 @@ describe ZabbixApi, "test_api" do
   end
 
   it "GRAPH: Delete" do
-    zbx.graphs.delete(zbx.graphs.get_id(:name => graph)).should be_kind_of(Integer)
+    zbx.graphs.delete(zbx.graphs.get_id(:name => graph)).should be_kind_of(TrueClass)
   end
 
   it "TRIGGER: Delete" do

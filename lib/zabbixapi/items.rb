@@ -1,9 +1,20 @@
 class ZabbixApi
-  class Items
+  class Items < Basic
 
-    def initialize(client)
-      @client = client
-      @item_default_options = {
+    def array_flag
+      true
+    end
+
+    def method_name
+      "item"
+    end
+
+    def indentify
+      "name"
+    end
+
+    def default_options 
+      {
         :description => nil,
         :key_ => nil,
         :hostid => nil,
@@ -37,50 +48,6 @@ class ZabbixApi
         :params => '',
         :ipmi_sensor => ''
       }
-    end
-
-    def merge_params(params)
-      result = JSON.generate(@item_default_options).to_s + "," + JSON.generate(params).to_s
-      JSON.parse(result.gsub('},{', ','))
-    end
-
-    def create(data)
-      result = @client.api_request(:method => "item.create", :params => [merge_params(data)] )
-      result.empty? ? nil : result['itemids'][0].to_i
-    end
-
-    def add(data)
-      create(data)
-    end    
-
-    def get_full_data(data)
-      @client.api_request(:method => "item.get", :params => {:filter => data, :output => "extend"})
-    end
-
-    def get_id(data)
-      result = get_full_data(data)
-      itemid = nil
-      result.each { |item| itemid = item['itemid'].to_i if item['name'] == data[:name] }
-      itemid
-    end
-
-    def create_or_update(data)
-      itemid = get_id(:description => data[:description], :hostid => data[:hostid])
-      itemid ? update(data.merge(:itemid => itemid)) : create(data)
-    end
-
-    def update(data)
-      result = @client.api_request(:method => "item.update", :params => data)
-      result.empty? ? nil : result['itemids'][0].to_i
-    end
-
-    def delete(data)
-      result = @client.api_request(:method => "item.delete", :params => [data])
-      result.empty? ? nil : result['itemids'][0].to_i
-    end
-
-    def destroy(data)
-      delete(data)
     end
 
   end

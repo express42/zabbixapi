@@ -1,8 +1,16 @@
 class ZabbixApi
-  class Templates
+  class Templates < Basic
 
-    def initialize(client)
-      @client = client
+    def array_flag
+      true
+    end
+
+    def method_name
+      "template"
+    end
+
+    def indentify
+      "description"
     end
 
     # Create template
