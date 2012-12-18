@@ -20,16 +20,20 @@ class ZabbixApi
     end
 
     def update(data)
+      
       dump = {}
+      item_id = data[key.to_sym].to_i
       get_full_data(data).each do |item|
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
-      unless dump.deep_include?(data)
-        result = @client.api_request(:method => "#{method_name}.update", :params => data)
+
+      unless dump.deep_include?(data, key.to_sym)
+       result = @client.api_request(:method => "#{method_name}.update", :params => data)
         parse_keys result
       else
-        data[key.to_sym].to_i
+        item_id
       end
+
     end
 
     def get_full_data(data)

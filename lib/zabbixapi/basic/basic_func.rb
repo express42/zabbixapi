@@ -1,6 +1,8 @@
 class Hash
-  def deep_include?(sub_hash)
+  
+  def deep_include?(sub_hash, without_key)
     sub_hash.keys.all? do |key|
+      next if key == without_key
       self.has_key?(key) && if sub_hash[key].is_a?(Hash)
       self[key].is_a?(Hash) && self[key].deep_include?(sub_hash[key])
       else
@@ -8,6 +10,7 @@ class Hash
       end
     end
   end
+
 end
 
 class ZabbixApi
