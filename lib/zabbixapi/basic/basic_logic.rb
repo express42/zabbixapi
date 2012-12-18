@@ -23,7 +23,7 @@ class ZabbixApi
       
       dump = {}
       item_id = data[key.to_sym].to_i
-      get_full_data(data).each do |item|
+      get_full_data(indentify.to_sym => data[indentify.to_sym]).each do |item|
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 

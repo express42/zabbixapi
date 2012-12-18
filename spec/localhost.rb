@@ -11,7 +11,7 @@ zbx = ZabbixApi.connect(
   :url => api_url,
   :user => api_login,
   :password => api_password,
-  :debug => false
+  :debug => true
 )
 
 hostgroup = "hostgroup______1"
@@ -139,7 +139,7 @@ describe ZabbixApi, "test_api" do
     zbx.items.create_or_update(
       :description => item,
       :key_ => "proc.num[aaa]",
-      :type => 6,
+      :status => 0,
       :hostid => zbx.templates.get_id(:host => template),
       :applications => [zbx.applications.get_id(:name => application)]
     ).should be_kind_of(Integer)
