@@ -57,9 +57,9 @@ class ZabbixApi
     end
 
     def get_id(data)
-      result = get_full_data(data)
+      result = symbolize_keys( get_full_data(data) )
       id = nil
-      result.each { |item| id = item[key].to_i if item[indentify] == data[indentify.to_sym] }
+      result.each { |item| id = item[key.to_sym].to_i if item[indentify.to_sym] == data[indentify.to_sym] }
       id
     end
 
