@@ -28,7 +28,7 @@ class ZabbixApi
       end
 
       unless dump.deep_include?(data, key.to_sym)
-       result = @client.api_request(:method => "#{method_name}.update", :params => data)
+        result = @client.api_request(:method => "#{method_name}.update", :params => data)
         parse_keys result
       else
         item_id

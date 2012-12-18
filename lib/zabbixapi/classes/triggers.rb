@@ -10,7 +10,7 @@ class ZabbixApi
     end
 
     def indentify
-      "name"
+      "description"
     end
 
   end
