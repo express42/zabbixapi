@@ -23,7 +23,7 @@ class ZabbixApi
       
       dump = {}
       item_id = data[key.to_sym].to_i
-      get_full_data(indentify.to_sym => data[indentify.to_sym]).each do |item|
+      dump_by_id(key.to_sym => data[key.to_sym]).each do |item|
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 
@@ -42,6 +42,18 @@ class ZabbixApi
         :params => {
           :filter => {
             indentify.to_sym => data[indentify.to_sym]
+          },
+          :output => "extend"
+        }
+      )
+    end
+
+    def dump_by_id(data)
+      @client.api_request(
+        :method => "#{method_name}.get",
+        :params => {
+          :filter => {
+            key.to_sym => data[key.to_sym]
           },
           :output => "extend"
         }
