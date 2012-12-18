@@ -5,7 +5,7 @@ class ZabbixApi
   class Client
 
     def id
-      rand(100000)
+      @id = @id + 1
     end
 
     def api_version
@@ -24,6 +24,7 @@ class ZabbixApi
 
     def initialize(options = {})
       @options = options
+      @id = 1
       unless ENV['http_proxy'].nil?
         @proxy_uri = URI.parse(ENV['http_proxy'])
         @proxy_host = @proxy_uri.host

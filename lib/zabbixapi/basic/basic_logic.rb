@@ -1,48 +1,6 @@
 class ZabbixApi
   class Basic
 
-    def get(data)
-      get_full_data(data)
-    end
-
-    def add(data)
-      create(data)
-    end
-
-    def destroy(data)
-      delete(data)
-    end
-
-    ####
-
-    def initialize(client)
-      @client = client
-    end
-
-    def method_name
-      raise "Can't call method_name here"
-    end
-
-    def default_options
-      {}
-    end
-
-    def keys
-      key + "s"
-    end
-
-    def key
-      method_name + "id"
-    end
-
-    def indentify
-      raise "Can't call indentify here"
-    end
-
-    def array_flag
-      false
-    end
-
     def parse_keys(data)
       case data
         when Hash
@@ -60,8 +18,6 @@ class ZabbixApi
       result = JSON.generate(default_options).to_s + "," + JSON.generate(params).to_s
       JSON.parse(result.gsub('},{', ','))
     end
-
-#### Methods
 
     def create(data)
       data_with_default = default_options.empty? ? data : merge_params(data)
@@ -109,7 +65,7 @@ class ZabbixApi
     def get_id(data)
       result = get_full_data(data)
       id = nil
-      result.each { |usr| id = usr[key].to_i if usr[indentify] == data[indentify.to_sym] }
+      result.each { |item| id = item[key].to_i if item[indentify] == data[indentify.to_sym] }
       id
     end
 
@@ -119,8 +75,6 @@ class ZabbixApi
       end
       id
     end
-
-############
 
   end
 end

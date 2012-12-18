@@ -1,18 +1,10 @@
 require "zabbixapi/version"
 require "zabbixapi/client"
-require "zabbixapi/basic"
-require "zabbixapi/server"
-require "zabbixapi/applications"
-require "zabbixapi/templates"
-require "zabbixapi/hostgroups"
-require "zabbixapi/users"
-require "zabbixapi/hosts"
-require "zabbixapi/triggers"
-require "zabbixapi/items"
-require "zabbixapi/graphs"
-require "zabbixapi/screens"
-require "zabbixapi/usergroups"
-require "zabbixapi/mediatypes"
+
+
+Dir["#{File.dirname(__FILE__)}/zabbixapi/basic/*.rb"].each { |f| load(f) }
+Dir["#{File.dirname(__FILE__)}/zabbixapi/classes/*.rb"].each { |f| load(f) }
+
 
 class ZabbixApi
 
@@ -58,6 +50,7 @@ class ZabbixApi
     @screens = Screens.new(@client)
     @usergroups = Usergroups.new(@client)
     @mediatypes = Mediatypes.new(@client)
+    
   end
 
 end
