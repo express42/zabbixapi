@@ -41,7 +41,7 @@ class ZabbixApi
         :method => "#{method_name}.get",
         :params => {
           :filter => {
-            indentify.to_sym => data[indentify.to_sym]
+            indentify.to_sym => symbolize_keys(data)[indentify.to_sym]
           },
           :output => "extend"
         }
@@ -53,7 +53,7 @@ class ZabbixApi
         :method => "#{method_name}.get",
         :params => {
           :filter => {
-            key.to_sym => data[key.to_sym]
+            key.to_sym => symbolize_keys(data)[key.to_sym]
           },
           :output => "extend"
         }
@@ -71,7 +71,7 @@ class ZabbixApi
     def get_id(data)
       result = symbolize_keys( get_full_data(data) )
       id = nil
-      result.each { |item| id = item[key.to_sym].to_i if item[indentify.to_sym] == data[indentify.to_sym] }
+      result.each { |item| id = symbolize_keys(item)[key.to_sym].to_i if symbolize_keys(item)[indentify.to_sym] == data[indentify.to_sym] }
       id
     end
 
