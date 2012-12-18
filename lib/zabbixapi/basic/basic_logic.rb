@@ -1,16 +1,34 @@
+class Hash
+  def deep_include?(sub_hash)
+    sub_hash.keys.all? do |key|
+      self.has_key?(key) && if sub_hash[key].is_a?(Hash)
+      self[key].is_a?(Hash) && self[key].deep_include?(sub_hash[key])
+      else
+        self[key] == sub_hash[key]
+      end
+    end
+  end
+end
+
 class ZabbixApi
   class Basic
 
+    def symbolize_keys(obj)
+      return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize_keys(v); memo} if obj.is_a? Hash
+      return obj.inject([]){|memo,v    | memo           << symbolize_keys(v); memo} if obj.is_a? Array
+      return obj
+    end
+
     def parse_keys(data)
       case data
-        when Hash
-          data.empty? ? nil : data[keys][0].to_i 
-        when TrueClass
-          true
-        when FalseClass
-          false
-        else
-          nil
+      when Hash
+        data.empty? ? nil : data[keys][0].to_i
+      when TrueClass
+        true
+      when FalseClass
+        false
+      else
+        nil
       end
     end
 
@@ -34,24 +52,32 @@ class ZabbixApi
 
     def create_or_update(data)
       id = get_id(indentify.to_sym => data[indentify.to_sym])
-      id ? update(data.merge(key.to_sym => id)) : create(data)
+      id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
 
     def update(data)
-      result = @client.api_request(:method => "#{method_name}.update", :params => data)
-      parse_keys result
+      dump = {}
+      get_full_data(data).each do |item|
+        dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
+      end
+      unless dump.deep_include?(data)
+        result = @client.api_request(:method => "#{method_name}.update", :params => data)
+        parse_keys result
+      else
+        data[key.to_sym].to_i
+      end
     end
 
     def get_full_data(data)
       @client.api_request(
-        :method => "#{method_name}.get", 
+        :method => "#{method_name}.get",
         :params => {
           :filter => {
             indentify.to_sym => data[indentify.to_sym]
           },
           :output => "extend"
-          }
-        )
+        }
+      )
     end
 
     def all
