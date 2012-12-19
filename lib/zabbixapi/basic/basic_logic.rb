@@ -20,6 +20,7 @@ class ZabbixApi
 
     def create_or_update(data)
       puts "[DEBUG] Call create_or_update with parametrs: #{data.inspect}" if @client.options[:debug]
+
       id = get_id(indentify.to_sym => data[indentify.to_sym])
       id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
@@ -34,7 +35,8 @@ class ZabbixApi
       end
 
       unless dump.deep_include?(data, key.to_sym)
-        result = @client.api_request(:method => "#{method_name}.update", :params => data)
+        data_update = array_flag ? [data] : data
+        result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
         parse_keys result
       else
         item_id
@@ -89,7 +91,7 @@ class ZabbixApi
 
     def get_or_create(data)
       puts "[DEBUG] Call get_or_create with parametrs: #{data.inspect}" if @client.options[:debug]
-      
+
       unless id = get_id(data)
         id = create(data)
       end
