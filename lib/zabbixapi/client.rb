@@ -4,6 +4,8 @@ require 'net/http'
 class ZabbixApi
   class Client
 
+    attr :options
+
     def id
       rand(100000)
     end
