@@ -1,19 +1,11 @@
-class Hash
-  
-  def deep_include?(sub_hash)
-    sub_hash.keys.all? do |key|
-      self.has_key?(key) && if sub_hash[key].is_a?(Hash)
-      self[key].is_a?(Hash) && self[key].deep_include?(sub_hash[key])
-      else
-        self[key] == sub_hash[key]
-      end
-    end
-  end
-
-end
-
 class ZabbixApi
   class Basic
+
+    def hash_equals?(a, b)
+      hash1 = a.merge(b)
+      hash2 = b.merge(a)
+      hash1 == hash2
+    end
 
     def log(message)
       puts "#{message}" if @client.options[:debug]

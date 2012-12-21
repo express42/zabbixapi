@@ -34,7 +34,11 @@ class ZabbixApi
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 
-      if dump.deep_include?(data)
+      puts "dump: #{dump}"
+      puts "data: #{data}"
+
+      if hash_equals?(dump, data) #dump.deep_include?(data)
+        puts "eq keys!"
         item_id
       else
         data_update = array_flag ? [data] : data
