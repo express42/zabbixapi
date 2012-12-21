@@ -13,5 +13,9 @@ class ZabbixApi
       "description"
     end
 
+    def create_or_update(data)
+      raise "Don't use this shit, use get_or_create"
+    end
+
   end
 end

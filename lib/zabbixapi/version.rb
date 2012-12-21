@@ -1,3 +1,3 @@
 class ZabbixApi
-  VERSION = "0.5.1b10"
+  VERSION = "0.5.1b11"
 end
