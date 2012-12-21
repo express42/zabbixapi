@@ -1,5 +1,6 @@
 .rvmrc
 *.gem
 *.swp
+.idea
 pkg
 test

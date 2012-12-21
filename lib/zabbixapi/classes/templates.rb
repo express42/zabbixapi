@@ -46,7 +46,7 @@ class ZabbixApi
     # * *Returns* :
     #   - Integer
     def get_or_create(data)
-      unless templateid = get_id(:host => data[:host])
+      unless (templateid = get_id(:host => data[:host]))
         templateid = create(data)
       end
       templateid

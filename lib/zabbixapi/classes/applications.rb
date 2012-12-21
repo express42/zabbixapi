@@ -20,7 +20,7 @@ class ZabbixApi
     end
 
     def get_or_create(data)
-      unless appid = get_id(data)
+      unless (appid = get_id(data))
         appid = create(data)
       end
       appid

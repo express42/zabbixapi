@@ -1,8 +1,7 @@
 class Hash
   
-  def deep_include?(sub_hash, without_key = nil)
+  def deep_include?(sub_hash)
     sub_hash.keys.all? do |key|
-      next if key == without_key
       self.has_key?(key) && if sub_hash[key].is_a?(Hash)
       self[key].is_a?(Hash) && self[key].deep_include?(sub_hash[key])
       else
@@ -16,10 +15,14 @@ end
 class ZabbixApi
   class Basic
 
+    def log(message)
+      puts "#{message}" if @client.options[:debug]
+    end
+
     def symbolize_keys(obj)
       return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize_keys(v); memo} if obj.is_a? Hash
       return obj.inject([]){|memo,v    | memo           << symbolize_keys(v); memo} if obj.is_a? Array
-      return obj
+      obj
     end
 
     def parse_keys(data)

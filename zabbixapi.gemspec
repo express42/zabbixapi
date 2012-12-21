@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "zabbixapi/version"
+require File.dirname(__FILE__) + '/zabbixapi/version'
 
 Gem::Specification.new do |s|
   s.name        = "zabbixapi"
@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
   s.summary     = %q{Realization for Zabbix API.}
   s.description = %q{Allows you to work with zabbix api from ruby.}
   s.licenses    = %w(MIT)
+  
+  s.add_dependency('json')
 
   s.rubyforge_project = "zabbixapi"
 

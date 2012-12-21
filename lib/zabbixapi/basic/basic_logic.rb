@@ -2,7 +2,7 @@ class ZabbixApi
   class Basic
 
     def create(data)
-      puts "[DEBUG] Call create with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call create with parametrs: #{data.inspect}"
 
       data_with_default = default_options.empty? ? data : merge_params(data)
       data_create = array_flag ? [data_with_default] : data_with_default
@@ -11,7 +11,7 @@ class ZabbixApi
     end
 
     def delete(data)
-      puts "[DEBUG] Call delete with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call delete with parametrs: #{data.inspect}"
 
       data_delete = array_flag ? [data] : [key.to_sym => data]
       result = @client.api_request(:method => "#{method_name}.delete", :params => data_delete)
@@ -19,14 +19,14 @@ class ZabbixApi
     end
 
     def create_or_update(data)
-      puts "[DEBUG] Call create_or_update with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call create_or_update with parametrs: #{data.inspect}"
 
       id = get_id(indentify.to_sym => data[indentify.to_sym])
       id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
 
     def update(data)
-      puts "[DEBUG] Call update with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call update with parametrs: #{data.inspect}"
       
       dump = {}
       item_id = data[key.to_sym].to_i
@@ -34,18 +34,18 @@ class ZabbixApi
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 
-      unless dump.deep_include?(data, key.to_sym)
+      if dump.deep_include?(data)
+        item_id
+      else
         data_update = array_flag ? [data] : data
         result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
         parse_keys result
-      else
-        item_id
       end
 
     end
 
     def get_full_data(data)
-      puts "[DEBUG] Call get_full_data with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call get_full_data with parametrs: #{data.inspect}"
 
       @client.api_request(
         :method => "#{method_name}.get",
@@ -59,7 +59,7 @@ class ZabbixApi
     end
 
     def dump_by_id(data)
-      puts "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
 
       @client.api_request(
         :method => "#{method_name}.get",
@@ -81,7 +81,7 @@ class ZabbixApi
     end
 
     def get_id(data)
-      puts "[DEBUG] Call get_id with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call get_id with parametrs: #{data.inspect}"
 
       result = symbolize_keys( get_full_data(data) )
       id = nil
@@ -90,9 +90,9 @@ class ZabbixApi
     end
 
     def get_or_create(data)
-      puts "[DEBUG] Call get_or_create with parametrs: #{data.inspect}" if @client.options[:debug]
+      log "[DEBUG] Call get_or_create with parametrs: #{data.inspect}"
 
-      unless id = get_id(data)
+      unless (id = get_id(data))
         id = create(data)
       end
       id
