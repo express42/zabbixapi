@@ -1,5 +1,5 @@
 #encoding: utf-8
-
+require 'rspec'
 require 'zabbixapi'
 
 # settings
@@ -13,7 +13,7 @@ zbx = ZabbixApi.connect(
   :url => api_url,
   :user => api_login,
   :password => api_password,
-  :debug => false
+  :debug => true
 )
 
 hostgroup = "hostgroup______1"
@@ -21,7 +21,7 @@ template  = "template______1"
 application = "application_____1"
 item = "item_____1"
 host = "hostname____1"
-trigger = "trigger____1"
+trigger = "trigger____1" #TODO !saDSASDAS
 user = "user____1"
 user2 = "user____2"
 usergroup = "SomeUserGroup"

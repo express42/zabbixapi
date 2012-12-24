@@ -13,5 +13,9 @@ class ZabbixApi
       delete(data)
     end
 
+    def method_name
+      
+    end
+
   end
 end

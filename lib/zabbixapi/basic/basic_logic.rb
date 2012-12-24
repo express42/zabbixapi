@@ -26,6 +26,7 @@ class ZabbixApi
     end
 
     def update(data)
+      
       log "[DEBUG] Call update with parametrs: #{data.inspect}"
       
       dump = {}
@@ -34,11 +35,8 @@ class ZabbixApi
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 
-      puts "dump: #{dump}"
-      puts "data: #{data}"
-
       if hash_equals?(dump, data) #dump.deep_include?(data)
-        puts "eq keys!"
+        log "equal keys #{dump} and #{data}, skip update"
         item_id
       else
         data_update = array_flag ? [data] : data

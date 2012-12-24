@@ -1,20 +1,37 @@
 class ZabbixApi
   class Basic
 
-    def hash_equals?(a, b)
-      hash1 = a.merge(b)
-      hash2 = b.merge(a)
-      hash1 == hash2
-    end
-
     def log(message)
       puts "#{message}" if @client.options[:debug]
+    end
+
+    def hash_equals?(a, b)
+      a_new = normalize_hash(a)
+      b_new = normalize_hash(b)
+      hash1 = a_new.merge(b_new)
+      hash2 = b_new.merge(a_new)
+      log("hash1 == #{hash1}")
+      log("hash2 == #{hash2}")
+      hash1 == hash2
     end
 
     def symbolize_keys(obj)
       return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize_keys(v); memo} if obj.is_a? Hash
       return obj.inject([]){|memo,v    | memo           << symbolize_keys(v); memo} if obj.is_a? Array
       obj
+    end
+
+    def normalize_hash(hash)
+      result = hash.dup
+      result.each do |key, value|
+        case value
+          when Hash
+            result[key] = value.to_s
+          when Array
+            result.delete(key)
+        end
+      end
+      result
     end
 
     def parse_keys(data)
