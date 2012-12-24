@@ -13,7 +13,7 @@ zbx = ZabbixApi.connect(
   :url => api_url,
   :user => api_login,
   :password => api_password,
-  :debug => true
+  :debug => false
 )
 
 hostgroup = "hostgroup______1"
@@ -246,6 +246,36 @@ describe ZabbixApi do
       :type => 0
     )
     triggerid.should be_kind_of(Integer)
+  end
+
+  it "TRIGGER: Create or update (not realy update)" do
+    zbx.triggers.create_or_update(
+      :description => trigger,
+      :expression => "{#{template}:proc.num[aaa].last(0)}<1",
+      :comments => "Bla-bla is faulty (disaster)",
+      :priority => 5,
+      :status     => 0,
+      :templateid => 0,
+      :type => 0
+    ).should eq triggerid + 1
+  end
+
+
+  it "TRIGGER: Create or update (realy update)" do
+    zbx.triggers.create_or_update(
+      :description => trigger,
+      :expression => "{#{template}:proc.num[aaa].last(2)}<1",
+      :comments => "Bla-bla (2) is faulty (disaster)",
+      :priority => 5,
+      :status     => 0,
+      :templateid => 0,
+      :type => 0
+    ).should eq triggerid + 1
+  end
+
+  it "TRIGGER: Get full data" do
+    dump = zbx.triggers.get_full_data(:description => trigger)
+    puts "dump: #{dump}"
   end
 
   it "TRIGGER: Find" do
