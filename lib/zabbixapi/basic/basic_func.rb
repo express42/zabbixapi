@@ -10,8 +10,6 @@ class ZabbixApi
       b_new = normalize_hash(b)
       hash1 = a_new.merge(b_new)
       hash2 = b_new.merge(a_new)
-      log("hash1 == #{hash1}")
-      log("hash2 == #{hash2}")
       hash1 == hash2
     end
 
@@ -23,7 +21,7 @@ class ZabbixApi
 
     def normalize_hash(hash)
       result = hash.dup
-      result.delete(:hostid)
+      result.delete(:hostid) #TODO remove to logig. TemplateID and HostID has different id 
       result.each do |key, value|
         case value
           when Array
