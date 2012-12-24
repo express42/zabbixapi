@@ -10,8 +10,8 @@ class ZabbixApi
       b_new = normalize_hash(b)
       hash1 = a_new.merge(b_new)
       hash2 = b_new.merge(a_new)
-      log("hash1 == #{hash1}")
-      log("hash2 == #{hash2}")
+      #log("hash1 == #{hash1}")
+      #log("hash2 == #{hash2}")
       hash1 == hash2
     end
 
@@ -23,12 +23,13 @@ class ZabbixApi
 
     def normalize_hash(hash)
       result = hash.dup
+      result.delete(:hostid)
       result.each do |key, value|
         case value
-          when Hash
-            result[key] = value.to_s
           when Array
             result.delete(key)
+          else
+            result[key] = value.to_s
         end
       end
       result
