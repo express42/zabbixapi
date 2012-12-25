@@ -273,11 +273,6 @@ describe ZabbixApi do
     ).should eq triggerid + 1
   end
 
-  it "TRIGGER: Get full data" do
-    dump = zbx.triggers.get_full_data(:description => trigger)
-    puts "dump: #{dump}"
-  end
-
   it "TRIGGER: Find" do
     zbx.triggers.get_id(:description => trigger).should eq triggerid + 1 # вау блять
   end

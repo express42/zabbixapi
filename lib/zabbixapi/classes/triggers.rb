@@ -24,9 +24,7 @@ class ZabbixApi
           },
           :output => "extend",
           :select_items => "extend",
-          :select_functions => "extend",
-          :templated => 0
-          #:selectParentTemplates => "extend"
+          :select_functions => "extend"
         }
       )
     end
