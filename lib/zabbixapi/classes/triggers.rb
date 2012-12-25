@@ -47,20 +47,18 @@ class ZabbixApi
       data[:expression] = data[:expression].gsub(/{.*\:/,"{") #TODO ugly regexp
       data.delete(:templateid)
       
-      log "[DEBUG] expression: #{expression}\n data: #{data[:expression]}"
+      log "[DEBUG] expression: #{dump[:expression]}\n data: #{data[:expression]}"
 
       if hash_equals?(dump, data) 
         log "[DEBUG] Equal keys #{dump} and #{data}, skip update"
         item_id
       else
         data[:expression] = old_expression
-        data_update = array_flag ? [data] : data
-        data_update.delete(:triggerid)
         # disable old trigger
         log "[DEBUG] disable :" + @client.api_request(:method => "#{method_name}.update", :params => [{:triggerid=> data[:triggerid], :status => "1" }]).inspect
         # create new trigger
-        result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
-        parse_keys result
+        data.delete(:triggerid)
+        create(data)
       end
 
     end
