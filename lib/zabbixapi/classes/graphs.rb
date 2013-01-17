@@ -13,6 +13,20 @@ class ZabbixApi
       "name"
     end
 
+    def get_full_data(data)
+      log "[DEBUG] Call get_full_data with parametrs: #{data.inspect}"
+
+      @client.api_request(
+        :method => "#{method_name}.get",
+        :params => {
+          :search => {
+            indentify.to_sym => data[indentify.to_sym]
+          },
+          :output => "extend"
+        }
+      )
+    end
+
     def get_ids_by_host(data)
       ids = []
       result = @client.api_request(:method => "graph.get", :params => {:filter => {:host => data[:host]}, :output => "extend"})
