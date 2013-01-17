@@ -39,11 +39,6 @@ class ZabbixApi
       applicationid = nil
       result.each { |app| applicationid = app['applicationid'].to_i if app['name'] == data[:name] }
       applicationid
-      if %w(127.0.0.1 localhost).include? host
-        host_cmd = ""
-      else
-        host_cmd = "-h #{host}"
-      end
     end
 
   end
