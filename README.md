@@ -7,6 +7,7 @@ Simple and lightweight ruby module for work with zabbix api
 #####Now worked with zabbix 
 * 1.8.2 (api version 1.2)
 * 1.8.9 (api version 1.3)
+* 2.0.4 (api version 2.0.4) [unstable]
 
 ## Installation
 ```
