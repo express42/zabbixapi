@@ -41,27 +41,27 @@ class ZabbixApi
       valign = data[:valign] || 2
       halign = data[:halign] || 2
       vsize = data[:vsize] || ((graphids.size/hsize) + 1).to_i
-      screenid = get_id(:name => screen_name)
-      unless screenid
-        # Create screen
-        graphids.each_with_index do |graphid, index|
-          screenitems << {
-            :resourcetype => 0,
-            :resourceid => graphid,
-            :x => (index % hsize).to_i,
-            :y => (index % graphids.size/hsize).to_i,
-            :valign =>valign,
-            :halign =>halign
-          }
-        end
-        screenid = create(
-          :name => screen_name,
-          :hsize => hsize,
-          :vsize => vsize,
-          :screenitems => screenitems
-        )
+      if get_id(:name => screen_name)
+        delete(:name => screen_name)
       end
-      screenid
+      # create screan
+      graphids.each_with_index do |graphid, index|
+        screenitems << {
+          :resourcetype => 0,
+          :resourceid => graphid,
+          :x => (index % hsize).to_i,
+          :y => (index % graphids.size/hsize).to_i,
+          :valign =>valign,
+          :halign =>halign
+        }
+      end
+      
+      create(
+        :name => screen_name,
+        :hsize => hsize,
+        :vsize => vsize,
+        :screenitems => screenitems
+      )
     end
 
   end

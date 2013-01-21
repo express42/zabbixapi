@@ -41,17 +41,19 @@ class ZabbixApi
           :templates => data[:templates_id]
         }
       )
-      case @client.api_version
-        when "1.2"
-          result ? true : false
-        else
-          result.empty? ? false : true
-      end
+      result.empty? ? false : true
     end
 
     def create_or_update(data)
-      hostid = get_id(:host => data[:host])
-      hostid ? update(data.merge(:hostid => hostid)) : create(data)
+      # https://www.zabbix.com/documentation/2.2/manual/api/reference/host/create
+      # interfaces :(
+      data_new = data.clone
+      %w( type main useip ip dns port ).each do |key|
+        data_new[:interfaces][key.to_sym] = data_new[key.to_sym]
+      end
+      puts "#{data_new.inspect}"
+      hostid = get_id(:host => data_new[:host])
+      hostid ? update(data_new.merge(:hostid => hostid)) : create(data_new)
     end
 
   end
