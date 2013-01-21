@@ -29,7 +29,7 @@ class ZabbixApi
       )
     end
 
-    def update__(data)     
+    def safe_update(data)     
       log "[DEBUG] Call update with parametrs: #{data.inspect}"
       
       dump = {}
