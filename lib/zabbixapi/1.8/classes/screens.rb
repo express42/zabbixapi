@@ -42,7 +42,7 @@ class ZabbixApi
       halign = data[:halign] || 2
       vsize = data[:vsize] || ((graphids.size/hsize) + 1).to_i
       if screenid = get_id(:name => screen_name)
-        delete(:screenids => [screenid])
+        delete(:screenids => [screenid.to_s])
       end
       # create screan
       graphids.each_with_index do |graphid, index|
