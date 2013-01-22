@@ -29,7 +29,7 @@ class ZabbixApi
     end
 
     def delete(data)
-      result = @client.api_request(:method => "screen.delete", :params => data )
+      result = @client.api_request(:method => "screen.delete", :params => [data] )
       result.empty? ? nil : result['screenids'][0].to_i
     end
 

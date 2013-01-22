@@ -340,7 +340,7 @@ describe ZabbixApi do
 
   it "SCREEN: Delete" do
     zbx.screens.delete(
-      [zbx.screens.get_id(:name => "#{host}_graphs")]
+      zbx.screens.get_id(:name => "#{host}_graphs")
     ).should eq screenid
   end
 
