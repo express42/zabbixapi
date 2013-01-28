@@ -40,6 +40,8 @@ class ZabbixApi
       hsize = data[:hsize] || 3
       valign = data[:valign] || 2
       halign = data[:halign] || 2
+      rowspan = data[:rowspan] || 0
+      colspan = data[:colspan] || 0
       vsize = data[:vsize] || ((graphids.size/hsize) + 1).to_i
       screenid = get_id(:name => screen_name)
       unless screenid
@@ -58,6 +60,8 @@ class ZabbixApi
           :name => screen_name,
           :hsize => hsize,
           :vsize => vsize,
+          :rowspan => rowspan,
+          :colspan => colspan,
           :screenitems => screenitems
         )
       end
