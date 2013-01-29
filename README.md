@@ -156,6 +156,8 @@ zbx.graphs.create_or_update(
 ### Get ids by host ###
 ```ruby
 zbx.graphs.get_ids_by_host(:host => "hostname")
+#You can filter graph name:
+zbx.graphs.get_ids_by_host(:host => "hostname", filter => "CPU")
 ```
 
 ### Delete graph
@@ -221,7 +223,7 @@ zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
 ### Create screen for host  ###
 ```ruby
 zbx.screens.get_or_create_for_host(
-  :host => "hostname",
+  :screen_name => "screen_name",
   :graphids => zbx.graphs.get_ids_by_host(:host => "hostname")
 )
 ```
