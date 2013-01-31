@@ -29,9 +29,21 @@ class ZabbixApi
 
     def get_ids_by_host(data)
       ids = []
+      graphs = Hash.new
       result = @client.api_request(:method => "graph.get", :params => {:filter => {:host => data[:host]}, :output => "extend"})
       result.each do |graph|
-        ids << graph['graphid']
+        num  = graph['graphid']
+        name = graph['name']
+        graphs[name] = num
+        filter = data[:filter]
+
+        unless filter.nil?
+          if /#{filter}/ =~ name
+            ids.push(graphs[name])
+          end
+        else
+            ids.push(graphs[name])
+        end
       end
       ids
     end
