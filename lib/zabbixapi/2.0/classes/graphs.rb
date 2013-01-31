@@ -37,10 +37,12 @@ class ZabbixApi
         graphs[name] = num
         filter = data[:filter]
 
-        unless #{filter}
+        unless filter.nil?
           if /#{filter}/ =~ name
             ids.push(graphs[name])
           end
+        else
+            ids.push(graphs[name])
         end
       end
       ids
