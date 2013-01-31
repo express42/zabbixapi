@@ -109,7 +109,7 @@ zbx.hosts.update(
 puts zbx.hosts.get_full_data(:host => "hostname")
 ```
 
-### Delete host
+
 ```ruby
 zbx.hosts.delete zbx.hosts.get_id(:host => "hostname")
 ```
@@ -227,6 +227,21 @@ zbx.screens.get_or_create_for_host(
   :graphids => zbx.graphs.get_ids_by_host(:host => "hostname")
 )
 ```
+
+### Delete screen ###
+```ruby
+zbx.screens.delete(
+  :screen_id => 1, # or screen_id => [1, 2]
+)
+```
+
+or
+
+```ruby
+zbx.screens.delete(
+  :screen_name => "foo screen", # or screen_name => ["foo screen", "bar screen"]
+)
+````
 
 ### Create UserGroup, add user and set permission ###
 ```ruby
