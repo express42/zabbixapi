@@ -19,6 +19,7 @@ template  = "template"
 application = "application"
 item = "item"
 host = "hostname"
+screen_name = "screen_name"
 trigger = "trigger"
 user = "user"
 user2 = "user2"
@@ -325,7 +326,7 @@ describe ZabbixApi do
 
   it "SCREEN: Get or create for host" do
     screenid = zbx.screens.get_or_create_for_host(
-      :host => host,
+      :screen_name => screen_name,
       :graphids => zbx.graphs.get_ids_by_host(:host => host)
     )
     screenid.should be_kind_of(Integer)
@@ -339,9 +340,7 @@ describe ZabbixApi do
   end
 
   it "SCREEN: Delete" do
-    zbx.screens.delete(
-      zbx.screens.get_id(:name => "#{host}_graphs")
-    ).should eq screenid
+    zbx.screens.delete(:screen_id => screenid).should eq screenid
   end
 
   it "GRAPH: Delete" do
