@@ -52,13 +52,17 @@ class ZabbixApi
     end
 
     def get_or_create_for_host(data)
-      screen_name = data[:host].to_s + "_graphs"
+      screen_name = data[:screen_name]
       graphids = data[:graphids]
       screenitems = []
       hsize = data[:hsize] || 3
       valign = data[:valign] || 2
       halign = data[:halign] || 2
-      vsize = data[:vsize] || ((graphids.size/hsize) + 1).to_i
+      rowspan = data[:rowspan] || 0
+      colspan = data[:colspan] || 0
+      height = data[:height] || 320 # default 320
+      width = data[:width] || 200 # default 200
+      vsize = data[:vsize] || (graphids.size/hsize).to_i
       screenid = get_id(:name => screen_name)
       unless screenid
         # Create screen
@@ -68,8 +72,12 @@ class ZabbixApi
             :resourceid => graphid,
             :x => (index % hsize).to_i,
             :y => (index % graphids.size/hsize).to_i,
-            :valign =>valign,
-            :halign =>halign
+            :valign => valign,
+            :halign => halign,
+            :rowspan => rowspan,
+            :colspan => colspan,
+            :height => height,
+            :width => width
           }
         end
         screenid = create(
