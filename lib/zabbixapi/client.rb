@@ -49,7 +49,7 @@ class ZabbixApi
     def http_request(body)
       uri = URI.parse(@options[:url])
 
-      if @proxy_uri.nil?
+      unless @proxy_uri.nil?
         http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
         if uri.port == 443
           http.use_ssl = true
