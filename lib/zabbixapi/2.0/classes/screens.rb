@@ -64,6 +64,13 @@ class ZabbixApi
       width = data[:width] || 200 # default 200
       vsize = data[:vsize] || (graphids.size/hsize).to_i
       screenid = get_id(:name => screen_name)
+
+      if ((graphids.size/hsize) / 2) == 0
+        vsize = data[:vsize] || (graphids.size/hsize).to_i
+      else
+        vsize = data[:vsize] || ((graphids.size/hsize)+1).to_i
+      end
+
       unless screenid
         # Create screen
         graphids.each_with_index do |graphid, index|
