@@ -35,7 +35,7 @@ class ZabbixApi
 
     def unlink_templates(data)
       result = @client.api_request(
-        :method => "host.massRemove", 
+        :method => "host.massRemove",
         :params => {
           :hostids => data[:hosts_id],
           :templates => data[:templates_id]
@@ -48,6 +48,9 @@ class ZabbixApi
       # https://www.zabbix.com/documentation/2.2/manual/api/reference/host/create
       # interfaces :(
       data_new = data.clone
+
+      data_new[:interfaces] = {}
+
       %w( type main useip ip dns port ).each do |key|
         data_new[:interfaces][key.to_sym] = data_new[key.to_sym]
       end
