@@ -1,6 +1,6 @@
 class ZabbixApi
   class Triggers < Basic
-    
+
     def array_flag
       true
     end
@@ -29,9 +29,9 @@ class ZabbixApi
       )
     end
 
-    def safe_update(data)     
+    def safe_update(data)
       log "[DEBUG] Call update with parametrs: #{data.inspect}"
-      
+
       dump = {}
       item_id = data[key.to_sym].to_i
       dump_by_id(key.to_sym => data[key.to_sym]).each do |item|
@@ -39,17 +39,17 @@ class ZabbixApi
       end
 
       expression = dump[:items][0][:key_]+"."+dump[:functions][0][:function]+"("+dump[:functions][0][:parameter]+")"
-      dump[:expression] = dump[:expression].gsub(/{(\d*)}/,"{#{expression}}") #TODO ugly regexp
+      dump[:expression] = dump[:expression].gsub(/\{(\d*)\}/,"{#{expression}}") #TODO ugly regexp
       dump.delete(:functions)
       dump.delete(:items)
 
       old_expression = data[:expression]
-      data[:expression] = data[:expression].gsub(/{.*\:/,"{") #TODO ugly regexp
+      data[:expression] = data[:expression].gsub(/\{.*\:/,"{") #TODO ugly regexp
       data.delete(:templateid)
-      
+
       log "[DEBUG] expression: #{dump[:expression]}\n data: #{data[:expression]}"
 
-      if hash_equals?(dump, data) 
+      if hash_equals?(dump, data)
         log "[DEBUG] Equal keys #{dump} and #{data}, skip update"
         item_id
       else
