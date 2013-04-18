@@ -102,35 +102,35 @@ zbx.hosts.create_or_update(
 ### Create host (2.0 and later)
 ```ruby
 zbx.hosts.create(
-    :host => host.fqdn,
-    :interfaces => [
-      {
-        :type => 1,
-        :main => 1,
-        :ip => '10.0.0.1,
-        :dns => 'server.example.org',
-        :port => 10050,
-        :useip => 0
-      }
-    ],
-    :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
-  )
+  :host => host.fqdn,
+  :interfaces => [
+    {
+      :type => 1,
+      :main => 1,
+      :ip => '10.0.0.1,
+      :dns => 'server.example.org',
+      :port => 10050,
+      :useip => 0
+    }
+  ],
+  :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
+)
 
 #or use:
 zbx.hosts.create_or_update(
-    :host => host.fqdn,
-    :interfaces => [
-      {
-        :type => 1,
-        :main => 1,
-        :ip => '10.0.0.1,
-        :dns => 'server.example.org',
-        :port => 10050,
-        :useip => 0
-      }
-    ],
-    :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
-  )
+  :host => host.fqdn,
+  :interfaces => [
+    {
+      :type => 1,
+      :main => 1,
+      :ip => '10.0.0.1,
+      :dns => 'server.example.org',
+      :port => 10050,
+      :useip => 0
+    }
+  ],
+  :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
+)
 ```
 
 ### Update host
