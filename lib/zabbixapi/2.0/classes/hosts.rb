@@ -18,6 +18,7 @@ class ZabbixApi
         :host => nil,
         :interfaces => [],
         :status => 0,
+        :available => 1,
         :groups => [],
       }
     end
