@@ -107,7 +107,7 @@ zbx.hosts.create(
     {
       :type => 1,
       :main => 1,
-      :ip => '10.0.0.1,
+      :ip => '10.0.0.1',
       :dns => 'server.example.org',
       :port => 10050,
       :useip => 0
@@ -123,7 +123,7 @@ zbx.hosts.create_or_update(
     {
       :type => 1,
       :main => 1,
-      :ip => '10.0.0.1,
+      :ip => '10.0.0.1',
       :dns => 'server.example.org',
       :port => 10050,
       :useip => 0
