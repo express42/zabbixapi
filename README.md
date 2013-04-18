@@ -1,10 +1,10 @@
 #Ruby Zabbix Api Module
 
-Simple and lightweight ruby module for work with zabbix api 
+Simple and lightweight ruby module for work with zabbix api
 
 [![Build Status](https://travis-ci.org/vadv/zabbixapi.png)](https://travis-ci.org/vadv/zabbixapi)
 
-#####Now worked with zabbix 
+#####Now worked with zabbix
 * 1.8.2 (api version 1.2)
 * 1.8.9 (api version 1.3)
 * 2.0.4 (api version 2.0.4) [unstable]
@@ -25,7 +25,7 @@ zbx = ZabbixApi.connect(
   :user => 'Admin',
   :password => 'zabbix'
 )
-# use basic_auth 
+# use basic_auth
 zbx = ZabbixApi.connect(
   :url => 'http://localhost/zabbix/api_jsonrpc.php',
   :user => 'Admin',
@@ -83,7 +83,7 @@ zbx.items.update(
 puts zbx.items.get_full_data(:description => "item")
 ```
 
-### Create host
+### Create host (1.8)
 ```ruby
 zbx.hosts.add(
   :host => "hostname",
@@ -96,6 +96,40 @@ zbx.hosts.create_or_update(
   :usedns => 0,
   :ip => "10.20.48.89",
   :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
+)
+```
+
+### Create host (2.0 and later)
+```ruby
+zbx.hosts.create(
+  :host => host.fqdn,
+  :interfaces => [
+    {
+      :type => 1,
+      :main => 1,
+      :ip => '10.0.0.1',
+      :dns => 'server.example.org',
+      :port => 10050,
+      :useip => 0
+    }
+  ],
+  :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
+)
+
+#or use:
+zbx.hosts.create_or_update(
+  :host => host.fqdn,
+  :interfaces => [
+    {
+      :type => 1,
+      :main => 1,
+      :ip => '10.0.0.1',
+      :dns => 'server.example.org',
+      :port => 10050,
+      :useip => 0
+    }
+  ],
+  :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
 )
 ```
 
@@ -117,7 +151,7 @@ zbx.hosts.delete zbx.hosts.get_id(:host => "hostname")
 ### Create graph
 ```ruby
 gitems = {
-  :itemid => zbx.items.get_id(:description => "item"), 
+  :itemid => zbx.items.get_id(:description => "item"),
   :calc_fnc => "2",
   :type => "0",
   :periods_cnt => "5"
@@ -135,12 +169,12 @@ zbx.graphs.create(
 ### Update graph
 ```ruby
 zbx.graphs.update(
-  :graphid => zbx.graphs.get_id( :name => "graph"), 
+  :graphid => zbx.graphs.get_id( :name => "graph"),
   :ymax_type => 1
 )
 #Also you can use:
 gitems = {
-  :itemid => zbx.items.get_id(:description => item), 
+  :itemid => zbx.items.get_id(:description => item),
   :calc_fnc => "3",
   :type => "0",
   :periods_cnt => "5"
@@ -173,7 +207,7 @@ zbx.templates.get_ids_by_host( :hostids => [zbx.hosts.get_id(:host => "hostname"
 #  "Templatename" => "10",
 #  "Templatename" => "1021"
 #}
-``` 
+```
 
 ### Mass (Un)Link host with templates
 ```ruby
@@ -262,7 +296,7 @@ zbx.usergroups.set_perm(
 ```ruby
 zbx.mediatypes.create_or_update(
   :description => "mediatype",
-  :type => 0, # 0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting, 
+  :type => 0, # 0 - Email, 1 - External script, 2 - SMS, 3 - Jabber, 100 - EzTexting,
   :smtp_server => "127.0.0.1",
   :smtp_email => "zabbix@test.com"
 )
@@ -270,9 +304,9 @@ zbx.users.add_medias(
   :userids => [zbx.users.get_id(:name => "user")],
   :media => [
     {
-      :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"), 
-      :sendto => "test@test", 
-      :active => 0, 
+      :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"),
+      :sendto => "test@test",
+      :active => 0,
       :period => "1-7,00:00-24:00", # 1-7 days and 00:00-24:00 hours
       :severity => "56"
     }
@@ -283,7 +317,7 @@ zbx.users.add_medias(
 ### Custom queries
 ```ruby
 zbx.query(
-  :method => "apiinfo.version", 
+  :method => "apiinfo.version",
   :params => {}
 )
 ```
@@ -304,4 +338,4 @@ zbx.query(
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
-* [Zabbix Api docs](http://www.zabbix.com/documentation/1.8/api) 
+* [Zabbix Api docs](http://www.zabbix.com/documentation/1.8/api)
