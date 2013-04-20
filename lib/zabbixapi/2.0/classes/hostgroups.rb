@@ -18,7 +18,8 @@ class ZabbixApi
     end
 
     def delete(data)
-      result = @client.api_request(:method => "hostgroup.delete", :params => [:groupid => data])
+      # result = @client.api_request(:method => "hostgroup.delete", :params => [:groupid => data])
+      result = @client.api_request(:method => "hostgroup.delete", :params => [data])
       result.empty? ? nil : result['groupids'][0].to_i
     end
 
