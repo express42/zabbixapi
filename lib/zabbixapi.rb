@@ -23,7 +23,7 @@ class ZabbixApi
     case @client.api_version
       when "1.3", "1.2"
         apidir = "1.8"
-      when "1.4", "2.0.4", "2.0.5"
+      when "1.4", "2.0.4", "2.0.5", "2.0.6"
         apidir = "2.0"
       else
         raise "unknown Api version!"
