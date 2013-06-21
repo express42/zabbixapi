@@ -1,4 +1,5 @@
 require 'json'
+require 'net/https'
 require 'net/http'
 
 class ZabbixApi
@@ -16,7 +17,7 @@ class ZabbixApi
 
     def auth
       api_request(
-        :method => 'user.authenticate', 
+        :method => 'user.authenticate',
         :params => {
           :user      => @options[:user],
           :password  => @options[:password],
