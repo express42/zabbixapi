@@ -1,5 +1,5 @@
-require "zabbixapi/version"
-require "zabbixapi/client"
+require "version"
+require "client"
 
 
 class ZabbixApi

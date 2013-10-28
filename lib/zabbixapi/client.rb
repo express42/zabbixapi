@@ -49,9 +49,13 @@ class ZabbixApi
 
     def http_request(body)
       uri = URI.parse(@options[:url])
+      # set the time out the default (60) or to what the user passed
+      @options[:timeout] == nil ? timeout = 60 : timeout = @options[:timeout] 
+      puts "[DEBUG] Timeout for request set to #{timeout} seconds" if @options[:debug]
 
       unless @proxy_uri.nil?
         http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
+
         if uri.port == 443
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -63,6 +67,8 @@ class ZabbixApi
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
       end
+      http.read_timeout = timeout
+
       request = Net::HTTP::Post.new(uri.request_uri)
       request.basic_auth @options[:http_user], @options[:http_password] if @options[:http_user]
       request.add_field('Content-Type', 'application/json-rpc')
