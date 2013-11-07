@@ -1,5 +1,3 @@
-### I think to give this gem to someone who is interested in its development.
-
 #Ruby Zabbix Api Module
 
 Simple and lightweight ruby module for work with zabbix api
