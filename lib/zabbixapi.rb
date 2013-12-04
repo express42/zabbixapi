@@ -68,12 +68,20 @@ class ZabbixApi
     @graphs ||= Graphs.new(@client)
   end
 
+  def proxies
+    @proxies ||= Proxies.new(@client)
+  end
+
   def screens
     @screens ||= Screens.new(@client)
   end  
 
   def usergroups
     @usergroups ||= Usergroups.new(@client)
+  end
+
+  def usermacros
+    @usermacros ||= Usermacros.new(@client)
   end
 
   def mediatypes

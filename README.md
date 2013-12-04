@@ -314,6 +314,27 @@ zbx.users.add_medias(
 )
 ```
 
+### Create proxy (2.0 and later)
+#### Active proxy
+```ruby
+zbx.proxies.create(
+  :host => "Proxy 1",
+  :status => 5
+)
+
+#### Passive Proxy
+```ruby
+zbx.proxies.create(
+  :host => "Passive proxy",
+  :status => 6,
+  :interfaces => [
+    :ip => "127.0.0.1",
+    :dns => "",
+    :useip => 1,
+    :port => 10051
+  ]
+)
+
 ### Custom queries
 ```ruby
 zbx.query(
