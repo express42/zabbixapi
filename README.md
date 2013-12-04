@@ -321,6 +321,7 @@ zbx.proxies.create(
   :host => "Proxy 1",
   :status => 5
 )
+```
 
 #### Passive Proxy
 ```ruby
@@ -334,6 +335,16 @@ zbx.proxies.create(
     :port => 10051
   ]
 )
+```
+
+### User and global macros
+```ruby
+zbx.usermacros.create(
+    :hostid => zbx.hosts.get_id( :host => "Zabbix server" ),
+    :macro => "{$ZZZZ}",
+    :value => 1.1.1.1
+)
+```
 
 ### Custom queries
 ```ruby
