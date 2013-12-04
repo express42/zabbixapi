@@ -26,7 +26,8 @@ class ZabbixApi
       when "1.4", "2.0.4", "2.0.5", "2.0.6", "2.0.7", "2.0.8", "2.0.9"
         apidir = "2.0"
       else
-        raise "unknown Api version!"
+        apidir = "2.0"
+        puts "[DEBUG] Unknown API version: #{@client.api_version}. Continuing with #{apidir} apidir" if @client.options[:debug]
     end
     Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/basic/*.rb"].each { |f| load(f) }
     Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/classes/*.rb"].each { |f| load(f) }
