@@ -20,6 +20,7 @@ class ZabbixApi
         :status => 0,
         :available => 1,
         :groups => [],
+        :proxy_hostid => nil
       }
     end
 
