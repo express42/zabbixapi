@@ -5,9 +5,9 @@ require 'zabbixapi/version'
 Gem::Specification.new do |s|
   s.name        = "zabbixapi"
   s.version     = ZabbixApi::VERSION
-  s.authors     = ["Vasiliev D.V."]
-  s.email       = %w(vadv.mkn@gmail.com)
-  s.homepage    = "https://github.com/vadv/zabbixapi"
+  s.authors     = ["Vasiliev D.V.", "Ivan Evtuhovich"]
+	s.email       = %w(vadv.mkn@gmail.com evtuhovich@gmail.com)
+  s.homepage    = "https://github.com/express42/zabbixapi"
   s.summary     = %q{Realization for Zabbix API.}
   s.description = %q{Allows you to work with zabbix api from ruby.}
   s.licenses    = %w(MIT)
