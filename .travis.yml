@@ -2,6 +2,7 @@ language:
   - ruby
 rvm: 
   - 1.9.3
+  - 2.0.0
 before_script:
   - sudo apt-get update; sudo apt-get install mysql-server zabbix-server-mysql zabbix-frontend-php
   - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
