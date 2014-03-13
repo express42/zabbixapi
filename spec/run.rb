@@ -1,238 +1,6 @@
 #encoding: utf-8
 
-require 'zabbixapi'
-
-# settings
-@api_url = 'http://localhost/zabbix/api_jsonrpc.php'
-@api_login = 'Admin'
-@api_password = 'zabbix'
-
-zbx = ZabbixApi.connect(
-  :url => @api_url,
-  :user => @api_login,
-  :password => @api_password,
-  :debug => false
-)
-
-hostgroup = "hostgroup"
-template  = "template"
-application = "application"
-item = "item"
-host = "hostname"
-screen_name = "screen_name"
-trigger = "trigger"
-user = "user"
-user2 = "user2"
-usergroup = "SomeUserGroup"
-graph = "graph"
-mediatype = "somemediatype"
-
-hostgroupid = 0
-templateid = 0
-applicationid = 0
-itemid = 0
-hostid = 0
-triggerid = 0
-userid = 0
-usergroupid = 0
-graphid = 0
-screenid = 0
-mediatypeid = 0
-
-
-puts "### Zabbix API server version #{zbx.server.version} ###"
-
 describe ZabbixApi do
-
-  it "SERVER: Get version api" do
-    zbx.server.version.should be_kind_of(String)
-  end
-
-  it "HOSTGROUP: Create" do
-    hostgroupid = zbx.hostgroups.create(:name => hostgroup)
-    hostgroupid.should be_kind_of(Integer)
-  end
-
-  it "HOSTGROUP: Find" do
-    zbx.hostgroups.get_id(:name => hostgroup).should eq hostgroupid
-  end
-
-  it "HOSTGROUP: Find unknown" do
-    zbx.hostgroups.get_id(:name => "#{hostgroup}______").should be_kind_of(NilClass)
-  end
-
-  it "HOSTGROUP: Create or get" do
-    zbx.hostgroups.get_or_create(:name => hostgroup).should eq hostgroupid
-  end
-
-  it "HOSTGROUP: Create or update" do
-    zbx.hostgroups.create_or_update(:name => hostgroup).should eq hostgroupid
-  end
-
-  it "HOSTGROUP: Get all" do
-    zbx.hostgroups.all.should include(hostgroup=>hostgroupid.to_s)
-  end
-
-  it "TEMPLATE: Create" do
-    templateid = zbx.templates.create(
-      :host => template,
-      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    )
-    templateid.should be_kind_of(Integer)
-  end
-
-  it "TEMPLATE: Get get or create" do
-    zbx.templates.get_or_create(
-      :host => template,
-      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should eq templateid
-  end
-
-  it "TEMPLATE: Check full data" do
-    zbx.templates.get_full_data(:host => template)[0].should include("host"=>template)
-  end
-
-  it "TEMPLATE: Find" do
-    zbx.templates.get_id(:host => template).should eq templateid
-  end
-
-  it "TEMPLATE: Find unknown" do
-    zbx.templates.get_id(:host => "#{template}_____").should be_kind_of(NilClass)
-  end
-
-  it "APPLICATION: Create" do
-    applicationid = zbx.applications.create(
-      :name => application,
-      :hostid => zbx.templates.get_id(:host => template)
-    )
-    applicationid.should be_kind_of(Integer)
-  end
-
-  it "APPLICATION: Get or create" do
-    zbx.applications.get_or_create(
-      :name => application,
-      :hostid => zbx.templates.get_id(:host => template)
-    ).should eq applicationid
-  end
-
-  it "APPLICATION: Full info check" do
-    zbx.applications.get_full_data(:name => application)[0].should include("name"=>application)
-  end
-
-  it "APPLICATION: Find" do
-    zbx.applications.get_id(:name => application).should eq applicationid
-  end
-
-  it "APPLICATION: Find unknown" do
-    zbx.applications.get_id(:name => "#{application}___").should be_kind_of(NilClass)
-  end
-
-  it "ITEM: Create" do
-    itemid = zbx.items.create(
-      :description => item,
-      :key_ => "proc.num[aaa]",
-      :hostid => zbx.templates.get_id(:host => template),
-      :applications => [zbx.applications.get_id(:name => application)]
-    )
-    itemid.should be_kind_of(Integer)
-  end
-
-  it "ITEM: Full info check" do
-    zbx.items.get_full_data(:description => item)[0].should include("description"=>item)
-  end
-
-  it "ITEM: Find" do
-    zbx.items.get_id(:description => item).should eq itemid
-  end
-
-  it "ITEM: Update" do
-    zbx.items.update(
-      :itemid => zbx.items.get_id(:description => item),
-      :status => 1
-    ).should eq itemid
-  end
-
-  it "ITEM: Create or update (update)" do
-    zbx.items.create_or_update(
-      :description => item,
-      :key_ => "proc.num[aaa]",
-      :status => 0,
-      :hostid => zbx.templates.get_id(:host => template),
-      :applications => [zbx.applications.get_id(:name => application)]
-    ).should eq itemid
-  end
-
-  it "ITEM: Create or update (create)" do
-    zbx.items.create_or_update(
-      :description => item + "____1",
-      :key_ => "proc.num[aaabb]",
-      :status => 0,
-      :hostid => zbx.templates.get_id(:host => template),
-      :applications => [zbx.applications.get_id(:name => application)]
-    ).should eq itemid + 1
-  end
-
-  it "ITEM: Get unknown" do
-    zbx.items.get_id(:description => "#{item}_____").should be_kind_of(NilClass)
-  end
-
-  it "HOST: Create" do
-    hostid = zbx.hosts.create(
-      :host => host,
-      :ip => "10.20.48.88",
-      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    )
-    hostid.should be_kind_of(Integer)
-  end
-
-  it "HOST: Update or create (update)" do
-    zbx.hosts.create_or_update(
-      :host => host,
-      :ip => "10.20.48.89",
-      :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-    ).should eq hostid
-  end
-
-  it "HOST: Find unknown" do
-    zbx.hosts.get_id(:host => "#{host}___").should be_kind_of(NilClass)
-  end
-
-  it "HOST: Find" do
-    zbx.hosts.get_id(:host => host).should eq hostid
-  end
-
-  it "HOST: Update" do
-    zbx.hosts.update(
-      :hostid => zbx.hosts.get_id(:host => host),
-      :status => 0
-    ).should eq hostid
-  end
-
-  it "TEMPLATE: Update hosts with templates" do
-    zbx.templates.mass_update(
-      :hosts_id => [zbx.hosts.get_id(:host => host)],
-      :templates_id => [zbx.templates.get_id(:host => template)]
-    ).should be_kind_of(TrueClass)
-  end
-
-  it "TEMPLATE: Get all templates linked with host" do
-    tmpl_array = zbx.templates.get_ids_by_host(
-      :hostids => [zbx.hosts.get_id(:host => host)]
-    )
-    tmpl_array.should be_kind_of(Array)
-    tmpl_array.should include templateid.to_s
-  end
-
-  it "TEMPLATE: Linked hosts with templates" do
-    zbx.templates.mass_add(
-      :hosts_id => [zbx.hosts.get_id(:host => host)],
-      :templates_id => [zbx.templates.get_id(:host => template)]
-    ).should be_kind_of(TrueClass)
-  end
-
-  it "TEMPLATE: Get all" do 
-    zbx.templates.all.should include(template=>templateid.to_s)
-  end
 
   it "TRIGGER: Create" do
     triggerid = zbx.triggers.create(
@@ -375,12 +143,38 @@ describe ZabbixApi do
     ).should eq hostgroupid
   end
 
+  it "USERGROUPS: Create" do
+    usergroupid = zbx.usergroups.create(:name => usergroup)
+    usergroupid.should be_kind_of(Integer)
+  end
+
+  it "USERGROUPS: Create or update" do
+    zbx.usergroups.get_or_create(:name => usergroup).should eq usergroupid
+  end
+
+  it "USERGROUPS: Add user" do
+    zbx.usergroups.add_user(
+        :usrgrpids => [zbx.usergroups.get_id(:name => usergroup)],
+        :userids => [zbx.users.get_id(:name => user2)]
+    ).should eq usergroupid
+  end
+
+  it "USERGROUPS: Set UserGroup read & write perm" do
+    zbx.usergroups.set_perms(
+      :usrgrpid => zbx.usergroups.get_or_create(:name => usergroup).to_s,
+      :hostgroupids => zbx.hostgroups.all.values,
+      :permission => 3
+    ).should eq usergroupid
+  end
+
+
   it "USER: Create" do
     userid = zbx.users.create(
       :alias => "Test #{user}",
       :name => user,
       :surname => user,
-      :passwd => user
+      :passwd => user,
+      :usrgrps => [usergroupid]
     )
     userid.should be_kind_of(Integer)
   end
@@ -404,30 +198,6 @@ describe ZabbixApi do
 
   it "USER: Find unknown" do
     zbx.users.get_id(:name => "#{user}_____").should be_kind_of(NilClass)
-  end
-
-  it "USERGROUPS: Create" do
-    usergroupid = zbx.usergroups.create(:name => usergroup)
-    usergroupid.should be_kind_of(Integer)
-  end
-
-  it "USERGROUPS: Create or update" do
-    zbx.usergroups.get_or_create(:name => usergroup).should eq usergroupid
-  end
-
-  it "USERGROUPS: Add user" do
-    zbx.usergroups.add_user(
-        :usrgrpids => [zbx.usergroups.get_id(:name => usergroup)],
-        :userids => [zbx.users.get_id(:name => user2)]
-    ).should eq usergroupid
-  end
-
-  it "USERGROUPS: Set UserGroup read & write perm" do
-    zbx.usergroups.set_perms(
-      :usrgrpid => zbx.usergroups.get_or_create(:name => usergroup).to_s,
-      :hostgroupids => zbx.hostgroups.all.values,
-      :permission => 3
-    ).should eq usergroupid
   end
 
   it "MEDIATYPE: Create" do
