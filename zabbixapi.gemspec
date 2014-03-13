@@ -6,13 +6,13 @@ Gem::Specification.new do |s|
   s.name        = "zabbixapi"
   s.version     = ZabbixApi::VERSION
   s.authors     = ["Vasiliev D.V.", "Ivan Evtuhovich"]
-	s.email       = %w(vadv.mkn@gmail.com evtuhovich@gmail.com)
+  s.email       = %w(vadv.mkn@gmail.com evtuhovich@gmail.com)
   s.homepage    = "https://github.com/express42/zabbixapi"
   s.summary     = %q{Realization for Zabbix API.}
   s.description = %q{Allows you to work with zabbix api from ruby.}
   s.licenses    = %w(MIT)
-  
-	s.add_dependency('json', '~> 1.6', '>= 1.6.0')
+
+  s.add_dependency('json', '~> 1.6', '>= 1.6.0')
 
   s.rubyforge_project = "zabbixapi"
 
