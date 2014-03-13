@@ -7,14 +7,26 @@ Simple and lightweight ruby module for work with zabbix api
 #####Now worked with zabbix
 * 1.8.2 (api version 1.2)
 * 1.8.9 (api version 1.3)
-* 2.0.x (api version 1.4 -> 2.0.6) [unstable]
+* 2.0.x (api version 1.4 -> 2.0.10)
+
+## Version policy
+
+Zabbixapi has next version policy:
+* for zabbix 1.8.9 and below you should use zabbixapi 0.6.x
+* for zabbix 2.0.x you should use zabbixapi 2.0.y
+* for zabbix 2.2.x you should use zabbixapi 2.2.y (coming soon)
+
+The PATCH (third digit) version of zabbixapi should not correspond to PATCH version of zabbix, for example
+zabbixapi-2.0.x should works with all version of zabbix 2.0.y
+
+We support only two last versions of zabbix (2.0 and 2.2), so you should consider zabbixapi 0.6.x depricated.
 
 ## Installation
 ```
 gem install zabbixapi
 ```
 
-## Get Start
+## Getting Started
 
 ### Connect
 ```ruby
@@ -30,8 +42,8 @@ zbx = ZabbixApi.connect(
   :url => 'http://localhost/zabbix/api_jsonrpc.php',
   :user => 'Admin',
   :password => 'zabbix',
-  :http_password => 'bla-bla',
-  :http_user => 'bla-bla'
+  :http_password => 'foo',
+  :http_user => 'bar'
 )
 ```
 ### Create Hostgroup
@@ -370,4 +382,4 @@ zbx.query(
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
-* [Zabbix Api docs](http://www.zabbix.com/documentation/1.8/api)
+* [Zabbix Api docs](https://www.zabbix.com/documentation/2.0/manual/appendix/api/api)

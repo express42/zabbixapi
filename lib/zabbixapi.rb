@@ -20,14 +20,10 @@ class ZabbixApi
 
   def initialize(options = {})
     @client = Client.new(options)
-    case @client.api_version
-      when "1.3", "1.2"
-        apidir = "1.8"
-      when "1.4", "2.0.4", "2.0.5", "2.0.6", "2.0.7", "2.0.8", "2.0.9"
-        apidir = "2.0"
-      else
-        apidir = "2.0"
-        puts "[DEBUG] Unknown API version: #{@client.api_version}. Continuing with #{apidir} apidir" if @client.options[:debug]
+    if @client.api_version == "1.4" || @client.api_version =~ /2\.0\.\d+/
+      apidir = "2.0"
+    else
+      raise "Zabbix API version: #{@client.api_version} is not support by this version of zabbixapi"
     end
     Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/basic/*.rb"].each { |f| load(f) }
     Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/classes/*.rb"].each { |f| load(f) }
