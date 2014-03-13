@@ -2,95 +2,6 @@
 
 describe ZabbixApi do
 
-  it "TRIGGER: Create" do
-    triggerid = zbx.triggers.create(
-      :description => trigger,
-      :expression => "{#{template}:proc.num[aaa].last(0)}<1",
-      :comments => "Bla-bla is faulty (disaster)",
-      :priority => 5,
-      :status     => 0,
-      :templateid => 0,
-      :type => 0
-    )
-    triggerid.should be_kind_of(Integer)
-  end
-
-  it "TRIGGER: Find" do
-    zbx.triggers.get_id(:description => trigger).should eq triggerid + 1 # вау блять
-  end
-
-  it "GRAPH: Create" do 
-    gitems = {
-        :itemid => zbx.items.get_id(:description => item), 
-        :calc_fnc => "2",
-        :type => "0",
-        :periods_cnt => "5"
-    }
-    graphid = zbx.graphs.create(
-      :gitems => [gitems],
-      :show_triggers => "0",
-      :name => graph,
-      :width => "900",
-      :height => "200"
-    )
-    graphid.should be_kind_of(Integer)
-  end
-
-  it "GRAPH: Create or get" do 
-    gitems = {
-        :itemid => zbx.items.get_id(:description => item), 
-        :calc_fnc => "2",
-        :type => "0",
-        :periods_cnt => "5"
-    }
-    zbx.graphs.get_or_create(
-      :gitems => [gitems],
-      :show_triggers => "0",
-      :name => graph,
-      :width => "900",
-      :height => "200"
-    ).should eq graphid
-  end
-
-  it "GRAPH: Find gititems" do
-    zbx.graphs.get_items( zbx.graphs.get_id(:name => graph) )
-  end
-
-  it "GRAPH: Find" do
-    zbx.graphs.get_id( :name => graph ).should eq graphid
-  end
-
-  it "GRAPH: get_ids_by_host" do
-    graph_array = zbx.graphs.get_ids_by_host( :host => host )
-    graph_array.should be_kind_of(Array)
-    graph_array.should include(graphid.to_s)
-  end
-
-  it "GRAPH: Update" do
-    zbx.graphs.update(
-      :graphid => zbx.graphs.get_id(
-        :name => graph,
-        :hostid => zbx.hosts.get_id(:host => host)
-      ), 
-      :ymax_type => 1
-    ).should eq graphid
-  end
-
-  it "GRAPH: Create or Update" do
-    gitems = {
-      :itemid => zbx.items.get_id(:description => item), 
-      :calc_fnc => "3",
-      :type => "0",
-      :periods_cnt => "5"
-    }
-  zbx.graphs.create_or_update(
-    :gitems => [gitems],
-    :show_triggers => "1",
-    :name => graph,
-    :width => "900",
-    :height => "200"
-  ).should eq graphid
-  end
 
   it "SCREEN: Get or create for host" do
     screenid = zbx.screens.get_or_create_for_host(
@@ -111,36 +22,8 @@ describe ZabbixApi do
     zbx.screens.delete(:screen_id => screenid).should eq screenid
   end
 
-  it "GRAPH: Delete" do
-    zbx.graphs.delete(zbx.graphs.get_id(:name => graph)).should be_kind_of(TrueClass)
-  end
-
-  it "TRIGGER: Delete" do
-    zbx.triggers.delete( zbx.triggers.get_id(:description => trigger) ).should eq triggerid + 1 
-  end
-
-  it "HOST: Delete" do
-    zbx.hosts.delete( zbx.hosts.get_id(:host => host) ).should eq hostid
-  end
-
-  it "ITEM: Delete" do
-    zbx.items.delete(
-      zbx.items.get_id(:description => item)
-    ).should eq itemid
-  end
-
-  it "APPLICATION: Delete" do
-    zbx.applications.delete( zbx.applications.get_id(:name => application) ).should eq applicationid
-  end
-
   it "TEMPLATE: Delete" do
     zbx.templates.delete(zbx.templates.get_id(:host => template)).should eq templateid
-  end
-
-  it "HOSTGROUP: Delete" do
-    zbx.hostgroups.delete(
-      zbx.hostgroups.get_id(:name => hostgroup)
-    ).should eq hostgroupid
   end
 
   it "USERGROUPS: Create" do
@@ -244,13 +127,6 @@ describe ZabbixApi do
 
   it "USERGROUPS: Delete" do
     zbx.usergroups.delete([zbx.usergroups.get_id(:name => usergroup)]).should eq usergroupid
-  end
-
-  it "QUERY" do
-    zbx.query(
-      :method => "apiinfo.version", 
-      :params => {}
-    ).should be_kind_of(String)
   end
 
 end

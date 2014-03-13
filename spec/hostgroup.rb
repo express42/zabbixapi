@@ -46,5 +46,11 @@ describe 'hostgroup' do
         zbx.hostgroups.all.should include(@hostgroup => @hostgroupid.to_s)
       end
     end
+
+    describe "delete" do
+      it "shold return id" do
+        zbx.hostgroups.delete(@hostgroupid).should eq @hostgroupid
+      end
+    end
   end
 end

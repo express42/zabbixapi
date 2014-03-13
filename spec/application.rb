@@ -64,6 +64,11 @@ describe 'application' do
         expect(zbx.applications.get_id(:name => @application)).to eq @applicationid
       end
     end
+
+    describe "delete" do
+      it "should return id" do
+        zbx.applications.delete(@applicationid).should eq @applicationid
+      end
+    end
   end
 end
-

@@ -107,6 +107,12 @@ describe 'host' do
         ).should eq @hostid
       end
     end
+
+    describe 'delete' do
+      it "HOST: Delete" do
+        zbx.hosts.delete( @hostid ).should eq @hostid
+      end
+    end
   end
 end
 

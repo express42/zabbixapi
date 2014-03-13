@@ -112,6 +112,20 @@ describe 'application' do
         expect(new_item_id).to be > @itemid
       end
     end
+
+    describe 'delete' do
+      before :all do
+        @result = zbx.items.delete(@itemid)
+      end
+
+      it "should return deleted id" do
+        expect(@result).to eq @itemid
+      end
+
+      it "should delete item from zabbix" do
+        expect(zbx.items.get_id(:id => @itemid)).to be_nil
+      end
+    end
   end
 end
 

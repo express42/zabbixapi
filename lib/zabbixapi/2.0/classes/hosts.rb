@@ -40,5 +40,9 @@ class ZabbixApi
       hostid ? update(data.merge(:hostid => hostid)) : create(data)
     end
 
+    # to make delete call idempotent for all resources
+    def delete(hostid)
+      super(:hostid => hostid)
+    end
   end
 end
