@@ -17,18 +17,6 @@ class ZabbixApi
       "name"
     end
 
-    # Delete UserGroup
-    #
-    # * *Args*    :
-    #   - +data+ -> Array with usrgrpids
-    # * *Returns* :
-    #   - Nil or Integer
-    def delete(data)
-      result = @client.api_request(:method => "usergroup.delete", :params => data)
-      result ? result['usrgrpids'][0].to_i : nil
-    end
-
-
     # Return usrgrpid
     # 
     # * *Args*    :

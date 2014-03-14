@@ -1,11 +1,11 @@
-language: 
+language:
   - ruby
-rvm: 
+rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.1
 before_script:
-  - sudo apt-get update; sudo apt-get install mysql-server zabbix-server-mysql zabbix-frontend-php
-  - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
-  - echo "$(curl -fsSL https://gist.github.com/vadv/8f0df0d1824ea25a3827/raw/29b9fdd258d5cfcc89a505c166231359ad70d326/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
-script: "bundle exec rspec spec/run.rb" 
+  - echo "deb http://obs.express42.com/project_root:/zabbix2.0/precise/ ./" | sudo tee /etc/apt/source.list.d/zabbix.list
+  - sudo apt-get update; sudo apt-get install postgresql-server zabbix-server-pgsql zabbix-frontend-php
+  - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/429b3ee9b84cf0f459ef5c4c6fe8e62898b1160a/gistfile1.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
+script: "bundle exec rspec spec/*"

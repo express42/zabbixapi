@@ -3,7 +3,7 @@ require 'zabbixapi'
 
 def zbx
   # settings
-  @api_url = 'http://localhost:7070/api_jsonrpc.php'
+  @api_url = ENV['ZABBIX_HOST_URL'] || 'http://localhost:7070/api_jsonrpc.php'
   @api_login = 'Admin'
   @api_password = 'zabbix'
 

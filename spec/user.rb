@@ -3,54 +3,97 @@
 require 'spec_helper'
 
 describe 'user' do
-  it "USER: Create" do
-    userid = zbx.users.create(
-      :alias => "Test #{user}",
-      :name => user,
-      :surname => user,
-      :passwd => user,
-      :usrgrps => [usergroupid]
+  before :all do
+    @usergroup = gen_name 'usergroup'
+    @usergroupid = zbx.usergroups.create(:name => @usergroup)
+
+    @mediatype = gen_name 'mediatype'
+    @mediatypeid = zbx.mediatypes.create(
+      :description => @mediatype,
+      :type => 0,
+      :smtp_server => "127.0.0.1",
+      :smtp_email => "zabbix@test.com"
     )
-    userid.should be_kind_of(Integer)
   end
 
-  it "USER: Create or update" do
-    zbx.users.create_or_update(
-      :alias => "Test #{user}",
-      :name => user,
-      :surname => user,
-      :passwd => user
-    ).should eq userid
+  context 'when not exists' do
+    describe 'create' do
+      it "should return integer id" do
+        user = gen_name 'user'
+        userid = zbx.users.create(
+          :alias => "Test #{user}",
+          :name => user,
+          :surname => user,
+          :passwd => user,
+          :usrgrps => [@usergroupid]
+        )
+        userid.should be_kind_of(Integer)
+      end
+    end
+
+    describe 'get_id' do
+      it "should return nil" do
+        zbx.users.get_id(:name => "name_____").should be_nil
+      end
+    end
   end
 
-  it "USER: Find" do
-    zbx.users.get_full_data(:name => user)[0]['name'].should be_kind_of(String)
-  end
+  context 'when exists' do
+    before :all do
+      @user = gen_name 'user'
+      @userid = zbx.users.create(
+        :alias => @user,
+        :name => @user,
+        :surname => @user,
+        :passwd => @user,
+        :usrgrps => [@usergroupid]
+      )
+    end
 
-  it "USER: Update" do
-    zbx.users.update(:userid => zbx.users.get_id(:name => user), :name => user2).should be_kind_of(Integer)
-  end
+    describe 'create_or_update' do
+      it "should return id" do
+        zbx.users.create_or_update(
+          :alias => @user,
+          :name => @user,
+          :surname => @user,
+          :passwd => @user
+        ).should eq @userid
+      end
+    end
 
-  it "USER: Find unknown" do
-    zbx.users.get_id(:name => "#{user}_____").should be_kind_of(NilClass)
-  end
+    describe 'get_full_data' do
+      it "should return string name" do
+        zbx.users.get_full_data(:name => @user)[0]['name'].should be_kind_of(String)
+      end
+    end
 
-  it "USER: Add mediatype" do
-    zbx.users.add_medias(
-      :userids => [zbx.users.get_id(:name => user2)],
-      :media => [
-        {
-          :mediatypeid => zbx.mediatypes.get_id(:description => mediatype), 
-          :sendto => "test@test", 
-          :active => 0, 
-          :period => "1-7,00:00-24:00",
-          :severity => "56"
-        }
-      ]
-    ).should eq userid
-  end
+    describe 'update' do
+      it "should return id" do
+        zbx.users.update(:userid => @userid, :name => gen_name('user')).should eq @userid
+      end
+    end
 
-  it "USER: Delete" do
-    zbx.users.delete(zbx.users.get_id(:name => user2)).should eq userid
+    describe 'add_medias' do
+      it "should return integer media id" do
+        zbx.users.add_medias(
+          :userids => [@userid],
+          :media => [
+            {
+              :mediatypeid => @mediatypeid,
+              :sendto => "test@test",
+              :active => 0,
+              :period => "1-7,00:00-24:00",
+              :severity => "56"
+            }
+          ]
+        ).should be_kind_of(Integer)
+      end
+    end
+
+    describe 'delete' do
+      it "should return id" do
+        zbx.users.delete(@userid).should eq @userid
+      end
+    end
   end
 end
