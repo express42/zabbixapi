@@ -5,7 +5,7 @@ rvm:
   - 2.0.0
   - 2.1.1
 before_script:
-  - echo "deb http://obs.express42.com/project_root:/zabbix2.0/precise/ ./" | sudo tee /etc/apt/source.list.d/zabbix.list
+  - echo "deb http://obs.express42.com/project_root:/zabbix2.0/precise/ ./" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update; sudo apt-get install postgresql-server zabbix-server-pgsql zabbix-frontend-php
   - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/429b3ee9b84cf0f459ef5c4c6fe8e62898b1160a/gistfile1.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script: "bundle exec rspec spec/*"
