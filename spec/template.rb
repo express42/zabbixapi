@@ -66,6 +66,17 @@ describe "template" do
       end
     end
 
+    describe "delete" do
+      it "should return id" do
+        template = gen_name "template"
+        templateid = zbx.templates.create(
+          :host => template,
+          :groups => [:groupid => @hostgroupid]
+        )
+        zbx.templates.delete(templateid).should eq templateid
+      end
+    end
+
     context "host related operations" do
       before :all do
         @host = gen_name 'host'
@@ -120,6 +131,15 @@ describe "template" do
               :hosts_id => [@hostid],
               :templates_id => [@templateid]
             ).should be_kind_of(TrueClass)
+          end
+        end
+
+        describe "mass_remove" do
+          it "should return true" do
+            zbx.templates.mass_remove(
+              :hosts_id => [@hostid],
+              :templates_id => [@templateid]
+            ).should be_true
           end
         end
       end

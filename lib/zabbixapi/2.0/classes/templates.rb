@@ -21,7 +21,7 @@ class ZabbixApi
     # * *Returns* :
     #   - Nil or Integer
     def delete(data)
-      result = @client.api_request(:method => "template.delete", :params => [:templateid => data])
+      result = @client.api_request(:method => "template.delete", :params => [data])
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
@@ -87,14 +87,14 @@ class ZabbixApi
     end
 
     # Analog Zabbix api call massRemove
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
     # * *Returns* :
     #   - True or False
     def mass_remove(data)
       result = @client.api_request(
-        :method => "template.massRemove", 
+        :method => "template.massRemove",
         :params => {
           :hostids => data[:hosts_id],
           :templateids => data[:templates_id],
@@ -102,7 +102,7 @@ class ZabbixApi
           :force => 1
         }
       )
-      result.empty? ? false : true      
+      result.empty? ? false : true
     end
 
   end

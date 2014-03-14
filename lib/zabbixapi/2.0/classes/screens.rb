@@ -29,25 +29,7 @@ class ZabbixApi
     end
 
     def delete(data)
-      screen_name = data[:screen_name]
-      screen_id   = data[:screen_id]
-
-      unless screen_name.nil?
-        unless screen_name.instance_of?(Array)
-          screen_id = get_id(:name => screen_name)
-        else
-          screen_id = []
-          screen_name.each do |name|
-            screen_id << get_id(:name => name)
-          end
-        end
-      end
-
-      unless screen_id.instance_of?(Array)
-        screen_id = [screen_id, screen_id]
-      end
-
-      result = @client.api_request(:method => "screen.delete", :params => screen_id)
+      result = @client.api_request(:method => "screen.delete", :params => [data])
       result.empty? ? nil : result['screenids'][0].to_i
     end
 
