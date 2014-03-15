@@ -8,7 +8,7 @@ before_script:
   - wget -qO - http://obs.express42.com/project_root:/zabbix2.0/precise/Release.key | sudo apt-key add -
   - echo "deb http://obs.express42.com/project_root:/zabbix2.0/precise/ ./" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
-  - sudo apt-cache policy libiodbc2
-  - sudo apt-get install postgresql zabbix-server-pgsql zabbix-frontend-php
-  - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/429b3ee9b84cf0f459ef5c4c6fe8e62898b1160a/gistfile1.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
-script: "bundle exec rspec spec/*"
+  - sudo apt-get install libiodbc2
+  - sudo apt-get install zabbix-server-pgsql zabbix-frontend-php
+  - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/d661863063b76cc8e2599bc44d8595b1f86ece38/zabbix)" | sudo tee /etc/zabbix/web/zabbix.conf.php
+script: "ZABBIX_HOST_URL=http://localhost/zabbix/api_jsonrpc.php bundle exec rspec spec/*"
