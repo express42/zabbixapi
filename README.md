@@ -95,23 +95,7 @@ zbx.items.update(
 puts zbx.items.get_full_data(:description => "item")
 ```
 
-### Create host (1.8)
-```ruby
-zbx.hosts.add(
-  :host => "hostname",
-  :usedns => 1,
-  :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
-)
-#or use:
-zbx.hosts.create_or_update(
-  :host => host,
-  :usedns => 0,
-  :ip => "10.20.48.89",
-  :groups => [:groupid => zbx.hostgroups.get_id(:name => hostgroup)]
-)
-```
-
-### Create host (2.0 and later)
+### Create host
 ```ruby
 zbx.hosts.create(
   :host => host.fqdn,

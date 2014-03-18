@@ -1,6 +1,27 @@
 require "zabbixapi/version"
 require "zabbixapi/client"
 
+require "zabbixapi/basic/basic_alias"
+require "zabbixapi/basic/basic_func"
+require "zabbixapi/basic/basic_init"
+require "zabbixapi/basic/basic_logic"
+
+require "zabbixapi/classes/applications"
+require "zabbixapi/classes/errors"
+require "zabbixapi/classes/graphs"
+require "zabbixapi/classes/hostgroups"
+require "zabbixapi/classes/hosts"
+require "zabbixapi/classes/items"
+require "zabbixapi/classes/mediatypes"
+require "zabbixapi/classes/proxies"
+require "zabbixapi/classes/screens"
+require "zabbixapi/classes/server"
+require "zabbixapi/classes/templates"
+require "zabbixapi/classes/triggers"
+require "zabbixapi/classes/unusable"
+require "zabbixapi/classes/usergroups"
+require "zabbixapi/classes/usermacros"
+require "zabbixapi/classes/users"
 
 class ZabbixApi
 
@@ -20,13 +41,9 @@ class ZabbixApi
 
   def initialize(options = {})
     @client = Client.new(options)
-    if @client.api_version == "1.4" || @client.api_version =~ /2\.0\.\d+/
-      apidir = "2.0"
-    else
+    unless @client.api_version == "1.4" || @client.api_version =~ /2\.0\.\d+/
       raise "Zabbix API version: #{@client.api_version} is not support by this version of zabbixapi"
     end
-    Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/basic/*.rb"].each { |f| load(f) }
-    Dir["#{File.dirname(__FILE__)}/zabbixapi/#{apidir}/classes/*.rb"].each { |f| load(f) }
   end
 
   def server
