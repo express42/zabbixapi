@@ -14,8 +14,7 @@ describe 'hostgroup' do
 
   context 'when exists' do
     before :all do
-      suffix = rand(1_000_000_000)
-      @hostgroup = "hostgroup_#{suffix}"
+      @hostgroup = gen_name('hostgroup')
       @hostgroupid = zbx.hostgroups.create(:name => @hostgroup)
     end
 

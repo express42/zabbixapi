@@ -4,7 +4,7 @@ class ZabbixApi
     def create(data)
       log "[DEBUG] Call create with parametrs: #{data.inspect}"
 
-      data_with_default = default_options.empty? ? data : merge_params(data)
+      data_with_default = default_options.empty? ? data : merge_params(default_options, data)
       data_create = array_flag ? [data_with_default] : data_with_default
       result = @client.api_request(:method => "#{method_name}.create", :params => data_create)
       parse_keys result
@@ -25,9 +25,9 @@ class ZabbixApi
       id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
 
-    def update(data)     
+    def update(data)
       log "[DEBUG] Call update with parametrs: #{data.inspect}"
-      
+
       dump = {}
       item_id = data[key.to_sym].to_i
       dump_by_id(key.to_sym => data[key.to_sym]).each do |item|

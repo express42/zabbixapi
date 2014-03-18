@@ -46,9 +46,9 @@ class ZabbixApi
       end
     end
 
-    def merge_params(params)
-      result = JSON.generate(default_options).to_s + "," + JSON.generate(params).to_s
-      JSON.parse(result.gsub('},{', ','))
+    def merge_params(a, b)
+      new = a.dup
+      new.merge(b)
     end
 
   end

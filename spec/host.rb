@@ -31,6 +31,24 @@ describe 'host' do
         )
         hostid.should be_kind_of(Integer)
       end
+
+      it "should create host in multiple groups" do
+        @hostgroupid2 = zbx.hostgroups.create(:name => gen_name('hostgroup'))
+        host = gen_name('host')
+        hostid = zbx.hosts.create(
+          host: host,
+          interfaces: [{ type: 1, main: 1, ip: '192.168.0.1', dns: 'server.example.org', port: 10050, useip: 0 }],
+          groups: [
+            {groupid: @hostgroupid},
+            {groupid: @hostgroupid2}
+          ])
+
+        expect(hostid).to be_kind_of Integer
+        host = zbx.query(method: 'host.get', params: { hostids: [hostid], selectGroups: 'extend' }).first
+
+        expect(host['hostid'].to_i).to eq hostid
+        expect(host['groups'].size).to eq 2
+      end
     end
 
     describe 'get_id' do
