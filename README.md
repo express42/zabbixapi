@@ -4,10 +4,11 @@ Simple and lightweight ruby module for work with zabbix api
 
 [![Build Status](https://travis-ci.org/express42/zabbixapi.png)](https://travis-ci.org/express42/zabbixapi)
 
-#####Now worked with zabbix
-* 1.8.2 (api version 1.2) /zabbixapi 0.6.x
+#####Now works with all version of zabbix
+* 1.8.2 (api version 1.2) /zabbixapi 0.6.x express42@zabbix1.8
 * 1.8.9 (api version 1.3) /zabbixapi 0.6.x
 * 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x
+* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x
 
 ## Version policy
 

@@ -44,14 +44,8 @@ class ZabbixApi
       colspan = data[:colspan] || 0
       height = data[:height] || 320 # default 320
       width = data[:width] || 200 # default 200
-      vsize = data[:vsize] || (graphids.size/hsize).to_i
+      vsize = data[:vsize] || [1, (graphids.size/hsize).to_i].max
       screenid = get_id(:name => screen_name)
-
-      if ((graphids.size/hsize) / 2) == 0
-        vsize = data[:vsize] || (graphids.size/hsize).to_i
-      else
-        vsize = data[:vsize] || ((graphids.size/hsize)+1).to_i
-      end
 
       unless screenid
         # Create screen
