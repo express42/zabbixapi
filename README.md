@@ -24,7 +24,7 @@ We support only two last versions of zabbix (2.0 and 2.2), so you should conside
 
 ## Installation
 ```
-gem install zabbixapi
+gem install zabbixapi -v 2.2.0
 ```
 
 ## Getting Started
@@ -311,7 +311,7 @@ zbx.users.add_medias(
 )
 ```
 
-### Create proxy (2.0 and later)
+### Create proxy
 #### Active proxy
 ```ruby
 zbx.proxies.create(
@@ -367,4 +367,4 @@ zbx.query(
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
-* [Zabbix Api docs](https://www.zabbix.com/documentation/2.0/manual/appendix/api/api)
+* [Zabbix Api docs](https://www.zabbix.com/documentation/2.2/manual/api/reference)
