@@ -70,16 +70,21 @@ zbx.applications.create(
 ### Create Item
 ```ruby
 zbx.items.create(
+  :name => "item",
   :description => "item",
   :key_ => "proc.num[aaa]",
+  :type => 6,
+  :value_type => 6,
   :hostid => zbx.templates.get_id(:host => "template"),
   :applications => [zbx.applications.get_id(:name => "application")]
 )
 # or use (lib merge json):
 zbx.items.create_or_update(
+  :name => "item",
   :description => "item",
   :key_ => "proc.num[aaa]",
   :type => 6,
+  :value_type => 4,
   :hostid => zbx.templates.get_id(:host => "template"),
   :applications => [zbx.applications.get_id(:name => "application")]
 )
