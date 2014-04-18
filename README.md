@@ -1,21 +1,23 @@
-#Ruby Zabbix Api Module
+# Ruby Zabbix Api Module
 
 Simple and lightweight ruby module for work with zabbix api
 
 [![Build Status](https://travis-ci.org/express42/zabbixapi.png)](https://travis-ci.org/express42/zabbixapi)
 
-#####Now works with all version of zabbix
+##### Now works with all version of zabbix
 * 1.8.2 (api version 1.2) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * 1.8.9 (api version 1.3) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
-* 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x [branch master](https://github.com/express42/zabbixapi/tree/master)
-* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [current branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
+* 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x [branch zabbix2.0](https://github.com/express42/zabbixapi/tree/zabbix2.0)
+* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [master or branch zabbix2.2](https://github.com/express42/zabbixapi/tree/master)
+
+Because Zabbix 2.2 is a main branch of Zabbix, so master of zabbixapi supports this version of zabbix.
 
 ## Version policy
 
 Zabbixapi has next version policy:
 * for zabbix 1.8.9 and below you should use zabbixapi 0.6.x
 * for zabbix 2.0.x you should use zabbixapi 2.0.y
-* for zabbix 2.2.x you should use zabbixapi 2.2.y (coming soon)
+* for zabbix 2.2.x you should use zabbixapi 2.2.y
 
 The PATCH (third digit) version of zabbixapi should not correspond to PATCH version of zabbix, for example
 zabbixapi-2.0.x should works with all version of zabbix 2.0.y
