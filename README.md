@@ -4,10 +4,11 @@ Simple and lightweight ruby module for work with zabbix api
 
 [![Build Status](https://travis-ci.org/express42/zabbixapi.png)](https://travis-ci.org/express42/zabbixapi)
 
-#####Now worked with zabbix
-* 1.8.2 (api version 1.2) /zabbixapi 0.6.x
-* 1.8.9 (api version 1.3) /zabbixapi 0.6.x
-* 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x
+#####Now works with all version of zabbix
+* 1.8.2 (api version 1.2) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
+* 1.8.9 (api version 1.3) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
+* 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x [branch master](https://github.com/express42/zabbixapi/tree/master)
+* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [current branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
 
 ## Version policy
 
@@ -23,7 +24,7 @@ We support only two last versions of zabbix (2.0 and 2.2), so you should conside
 
 ## Installation
 ```
-gem install zabbixapi
+gem install zabbixapi -v 2.2.0
 ```
 
 ## Getting Started
@@ -315,7 +316,7 @@ zbx.users.add_medias(
 )
 ```
 
-### Create proxy (2.0 and later)
+### Create proxy
 #### Active proxy
 ```ruby
 zbx.proxies.create(
@@ -371,4 +372,4 @@ zbx.query(
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
-* [Zabbix Api docs](https://www.zabbix.com/documentation/2.0/manual/appendix/api/api)
+* [Zabbix Api docs](https://www.zabbix.com/documentation/2.2/manual/api/reference)

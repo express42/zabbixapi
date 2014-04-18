@@ -61,8 +61,14 @@ describe 'usergroup' do
     end
 
     describe 'delete' do
-      it "should return id" do
-        zbx.usergroups.delete(@usergroupid).should eq @usergroupid
+      it "should raise error when has users with only one group" do
+        expect { zbx.usergroups.delete(@usergroupid) }.to raise_error
+      end
+
+      it "should return id of deleted group" do
+        usergroupid = zbx.usergroups.create(:name => gen_name('usergroup'))
+
+        expect(zbx.usergroups.delete(usergroupid)).to eq usergroupid
       end
     end
   end

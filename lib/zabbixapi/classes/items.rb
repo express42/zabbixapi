@@ -13,7 +13,7 @@ class ZabbixApi
       "name"
     end
 
-    def default_options 
+    def default_options
       {
         :name => nil,
         :key_ => nil,
@@ -49,14 +49,5 @@ class ZabbixApi
         :ipmi_sensor => ''
       }
     end
-
-    def delete(data)
-      log "[DEBUG] Call delete with parametrs: #{data.inspect}"
-
-      data_delete = array_flag ? [data] : [key.to_sym => data]
-      result = @client.api_request(:method => "#{method_name}.delete", :params => data_delete)
-      result['itemids'].keys[0].to_i
-    end
-
   end
 end
