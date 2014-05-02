@@ -14,7 +14,7 @@ class ZabbixApi
     end
 
     def indentify
-      "name"
+      "alias"
     end
 
     def add_medias(data)

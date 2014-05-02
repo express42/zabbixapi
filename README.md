@@ -250,7 +250,7 @@ zbx.users.create(
 
 ### Update user
 ```ruby
-zbx.users.update(:userid => zbx.users.get_id(:name => "user"), :name => "user2")
+zbx.users.update(:userid => zbx.users.get_id(:alias => "user"), :name => "user2")
 ```
 
 ### Delete graph
@@ -286,7 +286,7 @@ zbx.screens.delete(
 zbx.usergroups.get_or_create(:name => "Some user group")
 zbx.usergroups.add_user(
   :usrgrpids => [zbx.usergroups.get_id(:name => "Some user group")],
-  :userids => [zbx.users.get_id(:name => "Some user")]
+  :userids => [zbx.users.get_id(:alias => "user")]
 )
 # set write and read permissions for UserGroup on all hostgroups
 zbx.usergroups.set_perm(
@@ -305,7 +305,7 @@ zbx.mediatypes.create_or_update(
   :smtp_email => "zabbix@test.com"
 )
 zbx.users.add_medias(
-  :userids => [zbx.users.get_id(:name => "user")],
+  :userids => [zbx.users.get_id(:alias => "user")],
   :media => [
     {
       :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"),

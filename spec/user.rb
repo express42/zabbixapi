@@ -21,7 +21,7 @@ describe 'user' do
       it "should return integer id" do
         user = gen_name 'user'
         userid = zbx.users.create(
-          :alias => "Test #{user}",
+          :alias => user,
           :name => user,
           :surname => user,
           :passwd => user,
@@ -33,7 +33,7 @@ describe 'user' do
 
     describe 'get_id' do
       it "should return nil" do
-        zbx.users.get_id(:name => "name_____").should be_nil
+        zbx.users.get_id(:alias => "name_____").should be_nil
       end
     end
   end
@@ -63,7 +63,7 @@ describe 'user' do
 
     describe 'get_full_data' do
       it "should return string name" do
-        zbx.users.get_full_data(:name => @user)[0]['name'].should be_kind_of(String)
+        zbx.users.get_full_data(:alias => @user)[0]['name'].should be_kind_of(String)
       end
     end
 
