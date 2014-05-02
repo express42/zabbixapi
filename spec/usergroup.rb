@@ -50,6 +50,15 @@ describe 'usergroup' do
       end
     end
 
+    describe 'update_users' do
+      it "should return id" do
+        zbx.usergroups.update_users(
+            :usrgrpids => [@usergroupid],
+            :userids => [@userid2]
+        ).should eq @usergroupid
+      end
+    end
+
     describe 'set_perms' do
       it "should return id" do
         zbx.usergroups.set_perms(
