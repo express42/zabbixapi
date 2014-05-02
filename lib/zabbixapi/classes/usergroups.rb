@@ -66,5 +66,22 @@ class ZabbixApi
       result ? result['usrgrpids'][0].to_i : nil
     end
 
+    # Update usergroup, modify users
+    # 
+    # * *Args*    :
+    #   - +data+ -> Hash with :usrgrpids => id, :userids => []
+    # * *Returns* :
+    #   - Integer
+    def update_users(data)
+      result = @client.api_request(
+        :method => "usergroup.massUpdate", 
+        :params => {
+          :usrgrpids => data[:usrgrpids],
+          :userids => data[:userids]
+        }
+      )
+      result ? result['usrgrpids'][0].to_i : nil
+    end
+
   end
 end
