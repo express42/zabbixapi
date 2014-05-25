@@ -56,7 +56,7 @@ class ZabbixApi
       unless @proxy_uri.nil?
         http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
 
-        if uri.port == 443
+        if uri.scheme == 'https'
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
