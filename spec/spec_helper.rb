@@ -11,7 +11,7 @@ def zbx
     :url => @api_url,
     :user => @api_login,
     :password => @api_password,
-    :debug => false
+    :debug => ENV['ZABBIX_DEBUG']? true : false
   )
 end
 
