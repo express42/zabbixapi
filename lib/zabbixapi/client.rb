@@ -17,7 +17,7 @@ class ZabbixApi
 
     def auth
       api_request(
-        :method => 'user.authenticate',
+        :method => 'user.login',
         :params => {
           :user      => @options[:user],
           :password  => @options[:password],
@@ -32,6 +32,9 @@ class ZabbixApi
         @proxy_host = @proxy_uri.host
         @proxy_port = @proxy_uri.port
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
+      end
+      unless api_version =~ /2\.4\.\d+/
+        raise "Zabbix API version: #{api_version} is not support by this version of zabbixapi"
       end
       @auth_hash = auth
     end
@@ -92,3 +95,4 @@ class ZabbixApi
 
   end
 end
+
