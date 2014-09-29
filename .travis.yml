@@ -5,8 +5,8 @@ rvm:
   - 2.0.0
   - 2.1.1
 before_script:
-  - wget -qO - http://obs.express42.com/project_root:/zabbix2.2/precise/Release.key | sudo apt-key add -
-  - echo "deb http://obs.express42.com/project_root:/zabbix2.2/precise/ ./" | sudo tee /etc/apt/sources.list.d/zabbix.list
+  - wget -qO - http://obs.express42.com/project_root:/zabbix2.4/precise/Release.key | sudo apt-key add -
+  - echo "deb http://obs.express42.com/project_root:/zabbix2.4/precise/ ./" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
   - sudo apt-get install libiodbc2
   - sudo apt-get install zabbix-server-pgsql zabbix-frontend-php
