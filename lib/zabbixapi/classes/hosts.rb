@@ -1,10 +1,6 @@
 class ZabbixApi
   class Hosts < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "host"
     end

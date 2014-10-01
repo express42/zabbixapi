@@ -1,10 +1,6 @@
 class ZabbixApi
   class Templates < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "template"
     end

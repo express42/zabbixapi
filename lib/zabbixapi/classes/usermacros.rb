@@ -1,9 +1,5 @@
 class ZabbixApi
   class Usermacros < Basic
-    def array_flag
-      true
-    end
-
     def indentify
       "macro"
     end

@@ -1,10 +1,6 @@
 class ZabbixApi
   class Usergroups < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "usergroup"
     end
