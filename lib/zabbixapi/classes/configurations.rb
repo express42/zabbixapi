@@ -26,10 +26,9 @@ class ZabbixApi
     # * *Args*    :
     # see available parameters: https://www.zabbix.com/documentation/2.2/manual/api/reference/configuration/import
     # * *Returns* :
-    #   - True or False
+    #   - Boolean
     def import(data)
-      result = @client.api_request(:method => "configuration.import", :params => data)
-      result
+      @client.api_request(:method => "configuration.import", :params => data)
     end
 
   end
