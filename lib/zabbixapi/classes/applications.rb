@@ -34,8 +34,10 @@ class ZabbixApi
 
     def get_full_data(data)
       filter_params = {}
-      data.each { |key| filter_params[key] = data.delete(key) unless API_PARAMETERS.include?(key) }
-      @client.api_request(:method => "application.get", :params => data.merge({:filter => filter_params, :output => "extend"}))
+      request_data = data.dup # Duplicate data, as we modify it. Otherwise methods that use data after calling get_full_data (such as get_id) will fail.
+
+      request_data.each { |key, value| filter_params[key] = request_data.delete(key) unless API_PARAMETERS.include?(key) }
+      @client.api_request(:method => "application.get", :params => request_data.merge({:filter => filter_params, :output => "extend"}))
     end
 
     def get_id(data)
