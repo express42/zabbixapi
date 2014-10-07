@@ -1,6 +1,8 @@
 class ZabbixApi
   class Applications
 
+    API_PARAMETERS = %w(applicationids groupids hostids inherited itemids templated templateids expandData selectHosts selectItems)
+
     def initialize(client)
       @client = client
     end
@@ -31,7 +33,11 @@ class ZabbixApi
     end
 
     def get_full_data(data)
-      @client.api_request(:method => "application.get", :params => {:filter => data, :output => "extend"})
+      filter_params = {}
+      request_data = data.dup # Duplicate data, as we modify it. Otherwise methods that use data after calling get_full_data (such as get_id) will fail.
+
+      request_data.each { |key, value| filter_params[key] = request_data.delete(key) unless API_PARAMETERS.include?(key) }
+      @client.api_request(:method => "application.get", :params => request_data.merge({:filter => filter_params, :output => "extend"}))
     end
 
     def get_id(data)
