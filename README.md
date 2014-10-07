@@ -28,7 +28,7 @@ We support only three last versions of zabbix (2.0, 2.2 and 2.4), so you should 
 
 ## Installation
 ```
-gem install zabbixapi -v 2.4.1
+gem install zabbixapi -v 2.4.2
 ```
 
 ## Getting Started
