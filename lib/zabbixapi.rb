@@ -22,6 +22,7 @@ require "zabbixapi/classes/unusable"
 require "zabbixapi/classes/usergroups"
 require "zabbixapi/classes/usermacros"
 require "zabbixapi/classes/users"
+require "zabbixapi/classes/configurations"
 
 class ZabbixApi
 
@@ -85,7 +86,7 @@ class ZabbixApi
 
   def screens
     @screens ||= Screens.new(@client)
-  end  
+  end
 
   def usergroups
     @usergroups ||= Usergroups.new(@client)
@@ -97,6 +98,10 @@ class ZabbixApi
 
   def mediatypes
     @mediatypes ||= Mediatypes.new(@client)
+  end
+
+  def configurations
+    @configurations ||= Configurations.new(@client)
   end
 
 end
