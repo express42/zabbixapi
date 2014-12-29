@@ -25,9 +25,5 @@ class ZabbixApi
       raise "Can't call indentify here"
     end
 
-    def array_flag
-      false
-    end
-
   end
 end

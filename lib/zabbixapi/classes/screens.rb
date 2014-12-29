@@ -40,8 +40,8 @@ class ZabbixApi
       hsize = data[:hsize] || 3
       valign = data[:valign] || 2
       halign = data[:halign] || 2
-      rowspan = data[:rowspan] || 0
-      colspan = data[:colspan] || 0
+      rowspan = data[:rowspan] || 1
+      colspan = data[:colspan] || 1
       height = data[:height] || 320 # default 320
       width = data[:width] || 200 # default 200
       vsize = data[:vsize] || [1, (graphids.size/hsize).to_i].max

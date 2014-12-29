@@ -5,9 +5,14 @@ require 'spec_helper'
 describe "query" do
   it "should works" do
     zbx.query(
-      :method => "apiinfo.version",
-      :params => {}
-    ).should be_kind_of(String)
+      method: 'host.get',
+      params: {
+        filter: {
+            host: 'asdf'
+        },
+        selectInterfaces: 'refer'
+      }
+    ).should be_kind_of(Array)
   end
 end
 

@@ -5,7 +5,7 @@ class ZabbixApi
       log "[DEBUG] Call create with parametrs: #{data.inspect}"
 
       data_with_default = default_options.empty? ? data : merge_params(default_options, data)
-      data_create = array_flag ? [data_with_default] : data_with_default
+      data_create = [data_with_default]
       result = @client.api_request(:method => "#{method_name}.create", :params => data_create)
       parse_keys result
     end
@@ -13,7 +13,7 @@ class ZabbixApi
     def delete(data)
       log "[DEBUG] Call delete with parametrs: #{data.inspect}"
 
-      data_delete = array_flag ? [data] : [key.to_sym => data]
+      data_delete = [data]
       result = @client.api_request(:method => "#{method_name}.delete", :params => data_delete)
       parse_keys result
     end
@@ -38,7 +38,7 @@ class ZabbixApi
         log "[DEBUG] Equal keys #{dump} and #{data}, skip update"
         item_id
       else
-        data_update = array_flag ? [data] : data
+        data_update = [data]
         result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
         parse_keys result
       end

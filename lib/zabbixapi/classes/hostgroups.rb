@@ -1,10 +1,6 @@
 class ZabbixApi
   class HostGroups < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "hostgroup"
     end

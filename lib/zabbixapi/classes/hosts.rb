@@ -1,10 +1,6 @@
 class ZabbixApi
   class Hosts < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "host"
     end
@@ -38,11 +34,6 @@ class ZabbixApi
     def create_or_update(data)
       hostid = get_id(:host => data[:host])
       hostid ? update(data.merge(:hostid => hostid)) : create(data)
-    end
-
-    # to make delete call idempotent for all resources
-    def delete(hostid)
-      super(:hostid => hostid)
     end
   end
 end

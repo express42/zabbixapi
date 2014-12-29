@@ -1,10 +1,6 @@
 class ZabbixApi
   class Mediatypes < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "mediatype"
     end

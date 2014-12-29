@@ -1,10 +1,6 @@
 class ZabbixApi
   class Graphs < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "graph"
     end

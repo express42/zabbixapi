@@ -1,10 +1,6 @@
 class ZabbixApi
   class Proxies < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "proxy"
     end

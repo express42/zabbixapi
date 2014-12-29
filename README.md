@@ -8,9 +8,10 @@ Simple and lightweight ruby module for work with zabbix api
 * 1.8.2 (api version 1.2) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * 1.8.9 (api version 1.3) /zabbixapi 0.6.x [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * 2.0.x (api version 1.4 -> 2.0.10) /zabbixapi 2.0.x [branch zabbix2.0](https://github.com/express42/zabbixapi/tree/zabbix2.0)
-* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [master or branch zabbix2.2](https://github.com/express42/zabbixapi/tree/master)
+* 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
+* 2.4.x (api version 2.2.x) /zabbixapi 2.4.x [master or branch zabbix2.4](https://github.com/express42/zabbixapi/)
 
-Because Zabbix 2.2 is a main branch of Zabbix, so master of zabbixapi supports this version of zabbix.
+Because Zabbix 2.4 is a main branch of Zabbix, so master of zabbixapi supports this version of zabbix.
 
 ## Version policy
 
@@ -18,15 +19,16 @@ Zabbixapi has next version policy:
 * for zabbix 1.8.9 and below you should use zabbixapi 0.6.x
 * for zabbix 2.0.x you should use zabbixapi 2.0.y
 * for zabbix 2.2.x you should use zabbixapi 2.2.y
+* for zabbix 2.4.x you should use zabbixapi 2.4.y
 
 The PATCH (third digit) version of zabbixapi should not correspond to PATCH version of zabbix, for example
 zabbixapi-2.0.x should works with all version of zabbix 2.0.y
 
-We support only two last versions of zabbix (2.0 and 2.2), so you should consider zabbixapi 0.6.x depricated.
+We support only two last versions of zabbix (2.2 and 2.4), so you should consider zabbixapi 0.6.x and 2.0.x depricated.
 
 ## Installation
 ```
-gem install zabbixapi -v 2.2.0
+gem install zabbixapi -v 2.4.2
 ```
 
 ## Getting Started
@@ -404,4 +406,4 @@ zbx.query(
 ## Zabbix documentation
 
 * [Zabbix Project Homepage](http://zabbix.com/)
-* [Zabbix Api docs](https://www.zabbix.com/documentation/2.2/manual/api/reference)
+* [Zabbix Api docs](https://www.zabbix.com/documentation/2.4/manual/api/reference)

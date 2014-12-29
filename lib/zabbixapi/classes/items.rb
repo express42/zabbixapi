@@ -1,10 +1,6 @@
 class ZabbixApi
   class Items < Basic
 
-    def array_flag
-      true
-    end
-
     def method_name
       "item"
     end
