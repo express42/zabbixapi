@@ -8,6 +8,7 @@ rvm:
 before_script:
   - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
   - echo "deb http://repo.zabbix.com/zabbix/2.4/ubuntu/ precise main" | sudo tee /etc/apt/sources.list.d/zabbix.list
+  - sudo apt-get remove postgresql
   - sudo apt-get update
   - sudo apt-get install libiodbc2
   - sudo apt-get install zabbix-server-pgsql zabbix-frontend-php
