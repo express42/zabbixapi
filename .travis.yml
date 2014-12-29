@@ -6,7 +6,7 @@ rvm:
   - 2.1
   - 2.2
 before_script:
-  - wget -qO - http://repo.zabbix.com/zabbix/2.4/ubuntu/dists/trusty/Release.gpg | sudo apt-key add -
+  - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
   - echo "deb http://repo.zabbix.com/zabbix/2.4/ubuntu/ precise main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
   - sudo apt-get install libiodbc2
