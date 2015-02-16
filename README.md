@@ -320,6 +320,22 @@ zbx.users.add_medias(
 )
 ```
 
+### Update media ###
+```ruby
+zbx.users.update_medias(
+  :userids => [zbx.users.get_id(:alias => "user")],
+  :media => [
+    {
+      :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"),
+      :sendto => "test@test",
+      :active => 0,
+      :period => "1-7,00:00-24:00", # 1-7 days and 00:00-24:00 hours
+      :severity => "56"
+    }
+  ]
+)
+```
+
 ### Create proxy
 #### Active proxy
 ```ruby

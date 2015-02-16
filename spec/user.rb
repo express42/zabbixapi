@@ -16,6 +16,16 @@ describe 'user' do
     )
   end
 
+  def media
+    {
+      :mediatypeid => @mediatypeid,
+      :sendto => "test@test",
+      :active => 0,
+      :period => "1-7,00:00-24:00",
+      :severity => "56"
+    }
+  end
+
   context 'when not exists' do
     describe 'create' do
       it "should return integer id" do
@@ -77,16 +87,22 @@ describe 'user' do
       it "should return integer media id" do
         zbx.users.add_medias(
           :userids => [@userid],
-          :media => [
-            {
-              :mediatypeid => @mediatypeid,
-              :sendto => "test@test",
-              :active => 0,
-              :period => "1-7,00:00-24:00",
-              :severity => "56"
-            }
-          ]
+          :media => [media]
         ).should be_kind_of(Integer)
+      end
+    end
+
+    describe 'update_medias' do
+      it "should return the user id" do
+        # Call twice to ensure update_medias first successfully creates the media, then updates it
+        2.times do
+          returned_userid = zbx.users.update_medias(
+            :userids => [@userid],
+            :media => [media]
+          )
+
+          returned_userid.should eq @userid
+        end
       end
     end
 
