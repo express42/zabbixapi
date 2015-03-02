@@ -238,7 +238,21 @@ zbx.triggers.create(
   :templateid => 0,
   :type => 0
  )
-````
+```
+
+### Get trigger with certain filter
+```ruby
+triggers = zbx.query(
+  :method => "trigger.get",
+  :params => {
+    :filter => {
+      :url => ""
+    },
+    :templated => true,
+    :output => "extend"
+  }
+)
+```
 
 ### Create user
 ```ruby
