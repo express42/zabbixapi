@@ -56,7 +56,7 @@ class ZabbixApi
     #   - True or False
     def mass_update(data)
       result = @client.api_request(
-        :method => "template.massAdd", 
+        :method => "template.massUpdate", 
         :params => {
           :hosts => data[:hosts_id].map { |t| {:hostid => t} },
           :templates => data[:templates_id].map { |t| {:templateid => t} }
