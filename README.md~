@@ -238,20 +238,6 @@ zbx.triggers.create(
   :templateid => 0,
   :type => 0
  )
-
-### Get trigger with certain filter
-triggers = zbx.query(
-    :method => "trigger.get",
-        :params => {
-          :filter => {
-             :url => ""
-          },
-          :templated => true,
-          :output => "extend"
-        }
-
-)
-
 ````
 
 ### Create user
@@ -321,22 +307,6 @@ zbx.mediatypes.create_or_update(
   :smtp_email => "zabbix@test.com"
 )
 zbx.users.add_medias(
-  :userids => [zbx.users.get_id(:alias => "user")],
-  :media => [
-    {
-      :mediatypeid => zbx.mediatypes.get_id(:description => "mediatype"),
-      :sendto => "test@test",
-      :active => 0,
-      :period => "1-7,00:00-24:00", # 1-7 days and 00:00-24:00 hours
-      :severity => "56"
-    }
-  ]
-)
-```
-
-### Update media ###
-```ruby
-zbx.users.update_medias(
   :userids => [zbx.users.get_id(:alias => "user")],
   :media => [
     {
