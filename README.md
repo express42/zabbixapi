@@ -98,11 +98,11 @@ zbx.items.create_or_update(
 ### Update Item
 ```ruby
 zbx.items.update(
-  :itemid => zbx.items.get_id(:description => "item"),
+  :itemid => zbx.items.get_id(:name => "item"),
   :status => 0
 )
 #You can check item:
-puts zbx.items.get_full_data(:description => "item")
+puts zbx.items.get_full_data(:name => "item")
 ```
 
 ### Create host
@@ -157,7 +157,7 @@ zbx.hosts.delete zbx.hosts.get_id(:host => "hostname")
 ### Create graph
 ```ruby
 gitems = {
-  :itemid => zbx.items.get_id(:description => "item"),
+  :itemid => zbx.items.get_id(:name => "item"),
   :calc_fnc => "2",
   :type => "0",
   :periods_cnt => "5"
@@ -175,12 +175,12 @@ zbx.graphs.create(
 ### Update graph
 ```ruby
 zbx.graphs.update(
-  :graphid => zbx.graphs.get_id( :name => "graph"),
+  :graphid => zbx.graphs.get_id(:name => "graph"),
   :ymax_type => 1
 )
 #Also you can use:
 gitems = {
-  :itemid => zbx.items.get_id(:description => item),
+  :itemid => zbx.items.get_id(:name => "item"),
   :calc_fnc => "3",
   :type => "0",
   :periods_cnt => "5"
