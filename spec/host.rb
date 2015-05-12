@@ -124,6 +124,18 @@ describe 'host' do
           :status => 0
         ).should eq @hostid
       end
+
+      it "should update groups" do
+        @hostgroupid2 = zbx.hostgroups.create(:name => gen_name('hostgroup'))
+
+        zbx.hosts.update(
+            :hostid  =>  @hostid,
+            :groups => [ :groupid => @hostgroupid2]
+        ).should eq @hostid
+
+        expect(zbx.hosts.dump_by_id(:hostid => @hostid).first['groups'].first["groupid"]).to eq @hostgroupid2.to_s
+
+      end
     end
 
     describe 'delete' do

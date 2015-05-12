@@ -9,6 +9,21 @@ class ZabbixApi
       "host"
     end
 
+    def dump_by_id(data)
+      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
+
+      @client.api_request(
+        :method => "host.get",
+        :params => {
+          :filter => {
+            key.to_sym => data[key.to_sym]
+          },
+          :output => "extend",
+          :selectGroups => "shorten"
+        }
+      )
+    end
+
     def default_options
       {
         :host => nil,

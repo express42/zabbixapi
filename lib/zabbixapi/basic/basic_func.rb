@@ -25,12 +25,26 @@ class ZabbixApi
       result.each do |key, value|
         case value
           when Array
-            result.delete(key)
+            result[key] = normalize_array(value)
           else
             result[key] = value.to_s
         end
       end
       result
+    end
+
+    def normalize_array(array)
+      result = []
+      array.each do |e|
+        case e
+          when Array
+            result << normalize_array(e)
+          when Hash
+            result << normalize_hash(e)
+          else
+            result << e.to_s
+        end
+      end
     end
 
     def parse_keys(data)
