@@ -34,7 +34,7 @@ class ZabbixApi
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
       unless api_version =~ /2\.4\.\d+/
-        raise "Zabbix API version: #{api_version} is not support by this version of zabbixapi"
+        raise ApiError.new("Zabbix API version: #{api_version} is not support by this version of zabbixapi")
       end
       @auth_hash = auth
     end
@@ -55,7 +55,7 @@ class ZabbixApi
     def http_request(body)
       uri = URI.parse(@options[:url])
       # set the time out the default (60) or to what the user passed
-      @options[:timeout] == nil ? timeout = 60 : timeout = @options[:timeout] 
+      @options[:timeout] == nil ? timeout = 60 : timeout = @options[:timeout]
       puts "[DEBUG] Timeout for request set to #{timeout} seconds" if @options[:debug]
 
       unless @proxy_uri.nil?
@@ -79,7 +79,7 @@ class ZabbixApi
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body
       response = http.request(request)
-      raise "HTTP Error: #{response.code} on #{@options[:url]}" unless response.code == "200"
+      raise HttpError.new("HTTP Error: #{response.code} on #{@options[:url]}") unless response.code == "200"
       puts "[DEBUG] Get answer: #{response.body}" if @options[:debug]
       response.body
     end
@@ -87,7 +87,7 @@ class ZabbixApi
     def _request(body)
       puts "[DEBUG] Send request: #{body}" if @options[:debug]
       result = JSON.parse(http_request(body))
-      raise "Server answer API error:\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}" if result['error']
+      raise ApiError.new("Server answer API error:\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}") if result['error']
       result['result']
     end
 
