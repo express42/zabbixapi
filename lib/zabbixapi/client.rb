@@ -19,8 +19,8 @@ class ZabbixApi
       api_request(
         :method => 'user.login',
         :params => {
-          :user      => @options[:user],
-          :password  => @options[:password],
+          :user => @options[:user],
+          :password => @options[:password],
         }
       )
     end
@@ -41,9 +41,9 @@ class ZabbixApi
 
     def message_json(body)
       message = {
-        :method  => body[:method],
-        :params  => body[:params],
-        :id      => id,
+        :method => body[:method],
+        :params => body[:params],
+        :id => id,
         :jsonrpc => '2.0'
       }
 
@@ -79,7 +79,7 @@ class ZabbixApi
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body
       response = http.request(request)
-      raise HttpError.new("HTTP Error: #{response.code} on #{@options[:url]}") unless response.code == "200"
+      raise HttpError.new("HTTP Error: #{response.code} on #{@options[:url]}", response) unless response.code == '200'
       puts "[DEBUG] Get answer: #{response.body}" if @options[:debug]
       response.body
     end
@@ -87,7 +87,7 @@ class ZabbixApi
     def _request(body)
       puts "[DEBUG] Send request: #{body}" if @options[:debug]
       result = JSON.parse(http_request(body))
-      raise ApiError.new("Server answer API error:\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}") if result['error']
+      raise ApiError.new("Server answer API error\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}", result) if result['error']
       result['result']
     end
 
