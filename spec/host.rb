@@ -136,6 +136,33 @@ describe 'host' do
         expect(zbx.hosts.dump_by_id(:hostid => @hostid).first['groups'].first["groupid"]).to eq @hostgroupid2.to_s
 
       end
+
+      it "should update interfaces when use with force: true" do
+        new_ip = '1.2.3.4'
+        zbx.hosts.update(
+          {:hostid => @hostid,
+          :interfaces => [
+            {
+              :type => 1,
+              :main => 1,
+              :ip => new_ip,
+              :port => 10050,
+              :useip => 1,
+              :dns => ''
+            }
+          ]}, true)
+
+        h = zbx.query(
+          method: 'host.get',
+          params: {
+            hostids: @hostid,
+            selectInterfaces: 'extend'
+          }
+        ).first
+
+        expect(h['interfaces'].first['ip']).to eq new_ip
+      end
+
     end
 
     describe 'delete' do
