@@ -5,7 +5,7 @@ class ZabbixApi
 
     def initialize(message, response = nil)
       super(message)
-      self.response = response
+      @response = response
     end
   end
 
@@ -13,10 +13,6 @@ class ZabbixApi
   end
 
   class HttpError < BaseError
-
-  end
-
-  class SocketError < BaseError
   end
 
 end

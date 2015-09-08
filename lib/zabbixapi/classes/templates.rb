@@ -21,8 +21,8 @@ class ZabbixApi
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
-    # Return templateids linked with host 
-    # 
+    # Return templateids linked with host
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :hostids => [hostid]
     # * *Returns* :
@@ -36,7 +36,7 @@ class ZabbixApi
     end
 
     # Return templateid
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
     # * *Returns* :
@@ -46,17 +46,17 @@ class ZabbixApi
         templateid = create(data)
       end
       templateid
-    end   
+    end
 
     # Analog Zabbix api call massUpdate
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
     # * *Returns* :
     #   - True or False
     def mass_update(data)
       result = @client.api_request(
-        :method => "template.massUpdate", 
+        :method => "template.massUpdate",
         :params => {
           :hosts => data[:hosts_id].map { |t| {:hostid => t} },
           :templates => data[:templates_id].map { |t| {:templateid => t} }
@@ -65,15 +65,15 @@ class ZabbixApi
       result.empty? ? false : true
     end
 
-    # Analog Zabbix api call massAdd 
-    # 
+    # Analog Zabbix api call massAdd
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
     # * *Returns* :
     #   - True or False
     def mass_add(data)
       result = @client.api_request(
-        :method => "template.massAdd", 
+        :method => "template.massAdd",
         :params => {
           :hosts => data[:hosts_id].map { |t| {:hostid => t} },
           :templates => data[:templates_id].map { |t| {:templateid => t} }

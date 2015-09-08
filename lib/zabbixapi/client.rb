@@ -19,7 +19,7 @@ class ZabbixApi
       api_request(
         :method => 'user.login',
         :params => {
-          :user => @options[:user],
+          :user     => @options[:user],
           :password => @options[:password],
         }
       )
@@ -41,9 +41,9 @@ class ZabbixApi
 
     def message_json(body)
       message = {
-        :method => body[:method],
-        :params => body[:params],
-        :id => id,
+        :method  => body[:method],
+        :params  => body[:params],
+        :id      => id,
         :jsonrpc => '2.0'
       }
 
@@ -97,4 +97,3 @@ class ZabbixApi
 
   end
 end
-
