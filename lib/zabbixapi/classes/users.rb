@@ -9,7 +9,7 @@ class ZabbixApi
       "userids"
     end
 
-    def key 
+    def key
       "userid"
     end
 

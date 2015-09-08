@@ -14,7 +14,7 @@ class ZabbixApi
     end
 
     # Return usrgrpid
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :name => "UserGroup"
     # * *Returns* :
@@ -28,15 +28,15 @@ class ZabbixApi
     end
 
     # Set permission for usrgrp on some hostgroup
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :usrgrpids => id, :hostgroupids => [], :permission => 2,3 (read and read write)
     # * *Returns* :
     #   - Integer
     def set_perms(data)
-      permission = data[:permission] || 2 
+      permission = data[:permission] || 2
       result = @client.api_request(
-        :method => "usergroup.massAdd", 
+        :method => "usergroup.massAdd",
         :params => {
           :usrgrpids => [data[:usrgrpid]],
           :rights => data[:hostgroupids].map { |t| {:permission => permission, :id => t} }
@@ -46,14 +46,14 @@ class ZabbixApi
     end
 
     # Update usergroup, add user
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :usrgrpids => id, :userids => []
     # * *Returns* :
     #   - Integer
     def add_user(data)
       result = @client.api_request(
-        :method => "usergroup.massAdd", 
+        :method => "usergroup.massAdd",
         :params => {
           :usrgrpids => data[:usrgrpids],
           :userids => data[:userids]
@@ -63,14 +63,14 @@ class ZabbixApi
     end
 
     # Update usergroup, modify users
-    # 
+    #
     # * *Args*    :
     #   - +data+ -> Hash with :usrgrpids => id, :userids => []
     # * *Returns* :
     #   - Integer
     def update_users(data)
       result = @client.api_request(
-        :method => "usergroup.massUpdate", 
+        :method => "usergroup.massUpdate",
         :params => {
           :usrgrpids => data[:usrgrpids],
           :userids => data[:userids]

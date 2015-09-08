@@ -14,7 +14,6 @@ class ZabbixApi
     end
 
     def method_name
-      
     end
 
   end

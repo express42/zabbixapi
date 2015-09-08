@@ -17,7 +17,7 @@ class ZabbixApi
     def isreadable(data)
       result = @client.api_request(:method => "proxy.isreadable", :params => data)
     end
-    
+
     def iswritable(data)
       result = @client.api_request(:method => "proxy.iswritable", :params => data)
     end

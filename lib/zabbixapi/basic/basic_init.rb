@@ -6,7 +6,7 @@ class ZabbixApi
     end
 
     def method_name
-      raise "Can't call method_name here"
+      raise ApiError.new("Can't call method_name here")
     end
 
     def default_options
@@ -22,7 +22,7 @@ class ZabbixApi
     end
 
     def indentify
-      raise "Can't call indentify here"
+      raise ApiError.new("Can't call indentify here")
     end
 
   end
