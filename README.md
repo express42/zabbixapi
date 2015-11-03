@@ -324,7 +324,7 @@ zbx.usergroups.add_user(
   :userids => [zbx.users.get_id(:alias => "user")]
 )
 # set write and read permissions for UserGroup on all hostgroups
-zbx.usergroups.set_perm(
+zbx.usergroups.set_perms(
    :usrgrpid => zbx.usergroups.get_or_create(:name => "Some user group"),
    :hostgroupids => zbx.hostgroups.all.values, # kind_of Array
    :permission => 3 # 2- read (by default) and 3 - write and read
