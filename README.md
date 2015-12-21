@@ -227,11 +227,11 @@ zbx.graphs.delete(zbx.graphs.get_id(:name => "graph"))
 ### Get all templates linked with host
 ```ruby
 zbx.templates.get_ids_by_host( :hostids => [zbx.hosts.get_id(:host => "hostname")] )
-#returned hash:
-#{
-#  "Templatename" => "10",
-#  "Templatename" => "1021"
-#}
+#returned array:
+#[
+#   "10",
+#   "1021"
+#]
 ```
 
 ### Mass (Un)Link host with templates
