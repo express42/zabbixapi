@@ -10,6 +10,7 @@ require "zabbixapi/classes/applications"
 require "zabbixapi/classes/errors"
 require "zabbixapi/classes/graphs"
 require "zabbixapi/classes/hostgroups"
+require "zabbixapi/classes/maintenance"
 require "zabbixapi/classes/hosts"
 require "zabbixapi/classes/items"
 require "zabbixapi/classes/mediatypes"
@@ -70,6 +71,10 @@ class ZabbixApi
 
   def hostgroups
     @hostgroups ||= HostGroups.new(@client)
+  end
+
+  def maintenance
+    @maintenance ||= Maintenance.new(@client)
   end
 
   def triggers
