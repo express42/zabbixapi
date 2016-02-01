@@ -46,22 +46,25 @@ class ZabbixApi
     end
 
     def get_full_data(data)
-      log "[DEBUG] Call get_full_data with parametrs: #{data.inspect}"
+      log "[DEBUG] Call get_full_data with parametrs: #{data.inspect} and params #{data[:params]}"
 
-      @client.api_request(
+      data[:params] ||= {}
+      res = @client.api_request(
         :method => "#{method_name}.get",
         :params => {
           :filter => {
             indentify.to_sym => data[indentify.to_sym]
           },
           :output => "extend"
-        }
+        }.merge(data[:params])
       )
+      res
     end
 
     def dump_by_id(data)
-      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
+      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect} and params #{data[:params]}"
 
+      data[:params] ||= {}
       @client.api_request(
         :method => "#{method_name}.get",
         :params => {
@@ -69,7 +72,7 @@ class ZabbixApi
             key.to_sym => data[key.to_sym]
           },
           :output => "extend"
-        }
+        }.merge(data[:params])
       )
     end
 
