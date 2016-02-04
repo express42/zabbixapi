@@ -9,7 +9,7 @@ rvm:
 before_script:
   - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3
   - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
-  - echo "deb http://repo.zabbix.com/zabbix/2.4/ubuntu/ precise main" | sudo tee /etc/apt/sources.list.d/zabbix.list
+  - echo "deb http://repo.zabbix.com/zabbix/2.5/ubuntu/ precise main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
   - sudo apt-get install libiodbc2
   - sudo apt-get install postgresql
@@ -21,4 +21,4 @@ before_script:
   - 'echo -e "local   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.4/main/pg_hba.conf'
   - sudo pg_ctlcluster 9.4 main reload
   - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/d661863063b76cc8e2599bc44d8595b1f86ece38/zabbix)" | sudo tee /etc/zabbix/web/zabbix.conf.php
-script: "ZABBIX_HOST_URL=http://localhost/zabbix/api_jsonrpc.php bundle exec rspec spec/*"
+script: "ZABBIX_HOST_URL=http://localhost/api_jsonrpc.php bundle exec rspec spec/*"
