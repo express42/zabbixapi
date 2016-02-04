@@ -36,15 +36,15 @@ describe 'host' do
         @hostgroupid2 = zbx.hostgroups.create(:name => gen_name('hostgroup'))
         host = gen_name('host')
         hostid = zbx.hosts.create(
-          host: host,
-          interfaces: [{ type: 1, main: 1, ip: '192.168.0.1', dns: 'server.example.org', port: 10050, useip: 0 }],
-          groups: [
-            {groupid: @hostgroupid},
-            {groupid: @hostgroupid2}
+          :host => host,
+          :interfaces => [{ :type => 1, :main => 1, :ip => '192.168.0.1', :dns => 'server.example.org', :port => 10050, :useip => 0 }],
+          :groups => [
+            {:groupid => @hostgroupid},
+            {:groupid => @hostgroupid2}
           ])
 
         expect(hostid).to be_kind_of Integer
-        host = zbx.query(method: 'host.get', params: { hostids: [hostid], selectGroups: 'extend' }).first
+        host = zbx.query(:method => 'host.get', :params => { :hostids => [hostid], :selectGroups => 'extend' }).first
 
         expect(host['hostid'].to_i).to eq hostid
         expect(host['groups'].size).to eq 2
@@ -89,6 +89,11 @@ describe 'host' do
     describe 'get_full_data' do
       it "should contains created host" do
         expect(zbx.hosts.get_full_data(:host => @host)[0]).to include("host" => @host)
+      end
+
+      it "shoulld dump interfaces" do
+        expect(zbx.hosts.get_full_data(:host => @host, :params => {:selectInterfaces => "extend"})[0]["interfaces"][0]).to include("type" => "1")
+        expect(zbx.hosts.get_full_data(:host => @host, :params => {:selectInterfaces => "extend"})[0]["interfaces"][0]).to include("ip" => "10.20.48.88")
       end
     end
 

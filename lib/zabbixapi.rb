@@ -23,6 +23,7 @@ require "zabbixapi/classes/usergroups"
 require "zabbixapi/classes/usermacros"
 require "zabbixapi/classes/users"
 require "zabbixapi/classes/configurations"
+require "zabbixapi/classes/hostinterfaces"
 
 class ZabbixApi
 
@@ -107,5 +108,8 @@ class ZabbixApi
     @configurations ||= Configurations.new(@client)
   end
 
+  def hostinterfaces
+    @hostinterfaces ||= Hostinterfaces.new(@client)
+  end
 end
 
