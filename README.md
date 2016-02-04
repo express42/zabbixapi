@@ -38,13 +38,13 @@ gem install zabbixapi -v 2.4.2
 require "zabbixapi"
 
 zbx = ZabbixApi.connect(
-  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :url => 'http://localhost/api_jsonrpc.php',
   :user => 'Admin',
   :password => 'zabbix'
 )
 # use basic_auth
 zbx = ZabbixApi.connect(
-  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :url => 'http://localhost/api_jsonrpc.php',
   :user => 'Admin',
   :password => 'zabbix',
   :http_password => 'foo',
