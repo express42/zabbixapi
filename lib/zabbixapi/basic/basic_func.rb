@@ -37,7 +37,7 @@ class ZabbixApi
           result.sort
         when Array
           result = obj.dup
-          result.collect { |item| normalize_hash(item) }
+          result.collect { |item| normalize_obj(item) }
           result.sort
         else
           result = obj
