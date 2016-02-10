@@ -35,9 +35,9 @@ class ZabbixApi
       result.empty? ? false : true
     end
 
-    def create_or_update(data)
+    def create_or_update(data, force = false)
       hostid = get_id(:host => data[:host])
-      hostid ? update(data.merge(:hostid => hostid)) : create(data)
+      hostid ? update(data.merge(:hostid => hostid), force) : create(data)
     end
 
     # to make delete call idempotent for all resources

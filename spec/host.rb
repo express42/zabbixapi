@@ -5,7 +5,9 @@ require 'spec_helper'
 describe 'host' do
   before :all do
     @hostgroup = gen_name 'hostgroup'
+    @hostgroup3 = gen_name 'hostgroup'
     @hostgroupid = zbx.hostgroups.create(:name => @hostgroup)
+    @hostgroupid3 = zbx.hostgroups.create(:name => @hostgroup3)
   end
 
   context 'when name not exists' do
@@ -119,6 +121,30 @@ describe 'host' do
           ],
           :groups => [:groupid => @hostgroupid]
         ).should eq @hostid
+      end
+
+      it "should add ghostgroup" do
+        zbx.hosts.create_or_update( {
+            :host => @host,
+            :interfaces => [
+                {
+                    :type => 1,
+                    :main => 1,
+                    :ip => "10.20.48.89",
+                    :port => 10050,
+                    :useip => 1,
+                    :dns => ''
+                }
+            ],
+            :groups => [{:groupid => @hostgroupid},
+                        {:groupid => @hostgroupid3}]
+                                    }, true)
+        zbx.hosts.get_full_data(
+            :host => @host,
+            :params => {
+                :selectGroups => "extend"
+            }
+        )[0]["groups"].collect { |group| group["groupid"].to_s }.sort.should eq [@hostgroupid, @hostgroupid3].collect{|item| item.to_s}.sort
       end
     end
 

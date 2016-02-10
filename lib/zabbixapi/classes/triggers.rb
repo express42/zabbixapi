@@ -49,10 +49,13 @@ class ZabbixApi
 
       log "[DEBUG] expression: #{dump[:expression]}\n data: #{data[:expression]}"
 
+      dump.delete(key.to_sym)
+      data.delete(key.to_sym)
       if hash_equals?(dump, data)
         log "[DEBUG] Equal keys #{dump} and #{data}, skip update"
         item_id
       else
+        data[key.to_sym] = item_id
         data[:expression] = old_expression
         # disable old trigger
         log "[DEBUG] disable :" + @client.api_request(:method => "#{method_name}.update", :params => [{:triggerid=> data[:triggerid], :status => "1" }]).inspect

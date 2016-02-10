@@ -18,14 +18,14 @@ class ZabbixApi
       parse_keys result
     end
 
-    def create_or_update(data)
+    def create_or_update(data, force = false)
       log "[DEBUG] Call create_or_update with parametrs: #{data.inspect}"
 
       id = get_id(indentify.to_sym => data[indentify.to_sym])
-      id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
+      id ? update(data.merge(key.to_sym => id.to_s), force) : create(data)
     end
 
-    def update(data)
+    def update(data, force = false)
       log "[DEBUG] Call update with parametrs: #{data.inspect}"
 
       dump = {}
@@ -34,10 +34,14 @@ class ZabbixApi
         dump = symbolize_keys(item) if item[key].to_i == data[key.to_sym].to_i
       end
 
-      if hash_equals?(dump, data) 
+      dump.delete(key.to_sym)
+      data.delete(key.to_sym)
+
+      if hash_equals?(dump, data) && !force
         log "[DEBUG] Equal keys #{dump} and #{data}, skip update"
         item_id
       else
+        data[key.to_sym] = item_id
         data_update = array_flag ? [data] : data
         result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
         parse_keys result
