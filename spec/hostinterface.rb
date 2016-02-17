@@ -62,18 +62,27 @@ describe "hostinterface" do
                   :dns => "",
                   :port => 10050,
                   :useip => 1
-              }
+              },
           ],
           :groups => [:groupid => @hostgroupid]
       )
-      @interfaceid = zbx.hostinterfaces.create(:hostid => @hostid, :type => 1, :main => 0, :ip => "10.20.48.88", :dns => "", :port => 10050, :useip => 1)
+      @interfaceid1 = zbx.hostinterfaces.create(:hostid => @hostid, :type => 1, :main => 0, :ip => "10.20.48.88", :dns => "", :port => 10050, :useip => 1)
+      @interfaceid2 = zbx.hostinterfaces.create(:hostid => @hostid, :type => 1, :main => 0, :ip => "10.20.48.88", :dns => "", :port => 10050, :useip => 1)
     end
 
     describe 'get_full_data' do
       it "should contains created host" do
-        expect(zbx.hostinterfaces.get_full_data(:hostid => "#{@hostid}")[0]).to include("hostid" => "#{@hostid}")
+        expect(zbx.hostinterfaces.get_full_data(:params => {:filter =>  {:hostid => "#{@hostid}"}})[0]).to include("hostid" => "#{@hostid}")
       end
     end
 
+    describe 'get_id' do
+      it "should update existing interface" do
+        zbx.hostinterfaces.create_or_update(:interfaceid => @interfaceid1, :type => 2, :ip => "8.8.8.8")
+        dump = zbx.hostinterfaces.get_full_data(:interfaceid => @interfaceid1)
+        dump[0]["type"].to_s.should eq 2.to_s
+        dump[0]["ip"].to_s.should eq "8.8.8.8"
+      end
+    end
   end
 end

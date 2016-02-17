@@ -9,7 +9,7 @@ class ZabbixApi
     end
 
     def indentify
-      "hostid"
+      "interfaceid"
     end
 
     def key
