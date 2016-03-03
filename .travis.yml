@@ -1,24 +1,34 @@
 language:
   - ruby
 addons:
-  postgresql: "9.4"
+  postgresql: "9.5"
 rvm:
   - 1.9.3
   - 2.0
   - 2.1
 before_script:
-  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3
+  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 postgresql-9.4 postgresql-9.5
+  - wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
   - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
-  - echo "deb http://repo.zabbix.com/zabbix/2.4/ubuntu/ precise main" | sudo tee /etc/apt/sources.list.d/zabbix.list
+  - echo "deb http://repo.zabbix.com/zabbix/3.0/ubuntu/ trusty main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
+  - sudo dpkg-reconfigure locales
+  - sudo apt-get install curl
+  - sudo apt-get install apache2
   - sudo apt-get install libiodbc2
-  - sudo apt-get install postgresql
+  - sudo apt-get install postgresql-9.5
   - sudo apt-get install zabbix-frontend-php
   - sudo useradd -r zabbix
   - sudo apt-get install zabbix-server-pgsql
   - sudo apt-get install php5-pgsql
-  - sudo service apache2 restart
-  - 'echo -e "local   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.4/main/pg_hba.conf'
-  - sudo pg_ctlcluster 9.4 main reload
+  - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
+  - 'echo -e "local all postgres trust\nlocal   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.5/main/pg_hba.conf'
+  - sudo /etc/init.d/postgresql restart
+  - sudo pg_ctlcluster 9.5 main reload
+  - sudo -u postgres createdb zabbix
+  - sudo -u postgres createuser -a -d -E zabbix
+  - zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | LC_ALL=C psql -U zabbix
   - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/d661863063b76cc8e2599bc44d8595b1f86ece38/zabbix)" | sudo tee /etc/zabbix/web/zabbix.conf.php
+  - sudo service apache2 restart
 script: "ZABBIX_HOST_URL=http://localhost/zabbix/api_jsonrpc.php bundle exec rspec spec/*"
