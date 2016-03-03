@@ -12,7 +12,8 @@ describe 'user' do
       :description => @mediatype,
       :type => 0,
       :smtp_server => "127.0.0.1",
-      :smtp_email => "zabbix@test.com"
+      :smtp_email => "zabbix@test.com",
+      :smtp_helo => "test.com"
     )
   end
 

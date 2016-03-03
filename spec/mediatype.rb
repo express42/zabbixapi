@@ -14,7 +14,8 @@ describe 'mediatype' do
         :description => @mediatype,
         :type => 0,
         :smtp_server => "127.0.0.1",
-        :smtp_email => "zabbix@test.com"
+        :smtp_email => "zabbix@test.com",
+        :smtp_helo => "test.com"
       )
       mediatypeid.should be_kind_of(Integer)
     end
@@ -27,7 +28,8 @@ describe 'mediatype' do
         :description => @mediatype,
         :type => 0,
         :smtp_server => "127.0.0.1",
-        :smtp_email => "zabbix@test.com"
+        :smtp_email => "zabbix@test.com",
+        :smtp_helo => "test.com"
       )
     end
 
@@ -35,7 +37,8 @@ describe 'mediatype' do
       it "should return id" do
         zbx.mediatypes.create_or_update(
           :description => @mediatype,
-          :smtp_email => "zabbix2@test.com"
+          :smtp_email => "zabbix2@test.com",
+          :smtp_helo => "test.com"
         ).should eq @mediatypeid
       end
 

@@ -1,7 +1,7 @@
 class ZabbixApi
   class Applications
 
-    API_PARAMETERS = %w(applicationids groupids hostids inherited itemids templated templateids expandData selectHosts selectItems)
+    API_PARAMETERS = %w(applicationids groupids hostids inherited itemids templated templateids selectItems)
 
     def initialize(client)
       @client = client
