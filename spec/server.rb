@@ -8,8 +8,8 @@ describe 'server' do
       zbx.server.version.should be_kind_of(String)
     end
 
-    it "should be 2.4.x" do
-      zbx.server.version.should match(/2\.4\.\d+/)
+    it "should be 2.4.x or 3.0.x or 3.2.x" do
+      zbx.server.version.should match(/(2\.4|3\.[02])\.\d+/)
     end
   end
 end
