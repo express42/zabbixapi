@@ -11,7 +11,7 @@ before_script:
   - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 -y
     #  - wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     #  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
-  - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-get add -
+  - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
   - echo "deb http://repo.zabbix.com/zabbix/3.0/ubuntu/ trusty main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
   - sudo dpkg-reconfigure locales
