@@ -8,9 +8,9 @@ rvm:
   - 2.1
   - 2.2
 before_script:
-  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 postgresql-9.4
+  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3
   - wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
+    #  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
   - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
   - echo "deb http://repo.zabbix.com/zabbix/3.0/ubuntu/ trusty main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
@@ -18,7 +18,6 @@ before_script:
   - sudo apt-get install curl
   - sudo apt-get install apache2
   - sudo apt-get install libiodbc2
-  - sudo apt-get install postgresql-9.4
   - sudo apt-get install zabbix-frontend-php
   - sudo useradd -r zabbix
   - sudo apt-get install zabbix-server-pgsql
@@ -26,7 +25,7 @@ before_script:
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
   - 'echo -e "local all postgres trust\nlocal   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.5/main/pg_hba.conf'
   - sudo /etc/init.d/postgresql restart
-  - sudo pg_ctlcluster 9.5 main reload
+  - sudo pg_ctlcluster 9.4 main reload
   - sudo -u postgres createdb zabbix
   - sudo -u postgres createuser -a -d -E zabbix
   - zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | LC_ALL=C psql -U zabbix
