@@ -11,17 +11,17 @@ before_script:
   - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 -y
     #  - wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     #  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
-  - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | echo
+  - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-get add -
   - echo "deb http://repo.zabbix.com/zabbix/3.0/ubuntu/ trusty main" | sudo tee /etc/apt/sources.list.d/zabbix.list
   - sudo apt-get update
   - sudo dpkg-reconfigure locales
-  - sudo apt-get install curl
-  - sudo apt-get install apache2
-  - sudo apt-get install libiodbc2
-  - sudo apt-get install zabbix-frontend-php
+  - sudo apt-get install curl -y
+  - sudo apt-get install apache2 -y
+  - sudo apt-get install libiodbc2 -y
+  - sudo apt-get install zabbix-frontend-php -y
   - sudo useradd -r zabbix
-  - sudo apt-get install zabbix-server-pgsql
-  - sudo apt-get install php5-pgsql
+  - sudo apt-get install zabbix-server-pgsql -y
+  - sudo apt-get install php5-pgsql -y
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
   - 'echo -e "local all postgres trust\nlocal   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.5/main/pg_hba.conf'
   - sudo /etc/init.d/postgresql restart
