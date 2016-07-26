@@ -27,7 +27,7 @@ class ZabbixApi
 
     def initialize(options = {})
       @options = options
-      unless ENV['http_proxy'].nil?
+      if ENV['http_proxy'] != nil && options[:no_proxy] != true
         @proxy_uri = URI.parse(ENV['http_proxy'])
         @proxy_host = @proxy_uri.host
         @proxy_port = @proxy_uri.port
