@@ -41,7 +41,7 @@ describe "trigger" do
           :status     => 0,
           :type => 0
         )
-        triggerid.should be_kind_of(Integer)
+        expect(triggerid).to be_kind_of(Integer)
       end
     end
   end
@@ -61,13 +61,13 @@ describe "trigger" do
 
     describe "get_id" do
       it "should return id" do
-        zbx.triggers.get_id(:description => @trigger).should eq @triggerid
+        expect(zbx.triggers.get_id(:description => @trigger)).to eq @triggerid
       end
     end
 
     describe "delete" do
       it "should return id" do
-        zbx.triggers.delete( @triggerid ).should eq @triggerid
+        expect(zbx.triggers.delete( @triggerid )).to eq @triggerid
       end
     end
   end

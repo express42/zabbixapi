@@ -24,7 +24,7 @@ describe 'application' do
           :name => @application,
           :hostid => @templateid
         )
-        applicationid.should be_kind_of(Integer)
+        expect(applicationid).to be_kind_of(Integer)
       end
     end
 
@@ -67,7 +67,7 @@ describe 'application' do
 
     describe "delete" do
       it "should return id" do
-        zbx.applications.delete(@applicationid).should eq @applicationid
+        expect(zbx.applications.delete(@applicationid)).to eq @applicationid
       end
     end
   end

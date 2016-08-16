@@ -41,35 +41,35 @@ describe 'maintenance' do
 
     describe 'get_id' do
       it "should return id" do
-        zbx.maintenance.get_id(:name => @maintenance).should eq @maintenanceid
+        expect(zbx.maintenance.get_id(:name => @maintenance)).to eq @maintenanceid
       end
 
       it "should return nil for not existing group" do
-        zbx.maintenance.get_id(:name => "#{@maintenance}______").should be_kind_of(NilClass)
+        expect(zbx.maintenance.get_id(:name => "#{@maintenance}______")).to be_kind_of(NilClass)
       end
     end
 
     describe 'get_or_create' do
       it "should return id of existing maintenance" do
-        zbx.maintenance.get_or_create(:name => @maintenance).should eq @maintenanceid
+        expect(zbx.maintenance.get_or_create(:name => @maintenance)).to eq @maintenanceid
       end
     end
 
     describe 'create_or_update' do
       it "should return id of maintenance" do
-        zbx.maintenance.create_or_update(:name => @maintenance).should eq @maintenanceid
+        expect(zbx.maintenance.create_or_update(:name => @maintenance)).to eq @maintenanceid
       end
     end
 
     describe 'all' do
       it "should contains created maintenance" do
-        zbx.maintenance.all.should include(@maintenance => @maintenanceid.to_s)
+        expect(zbx.maintenance.all).to include(@maintenance => @maintenanceid.to_s)
       end
     end
 
     describe "delete" do
       it "shold return id" do
-        zbx.maintenance.delete(@maintenanceid).should eq @maintenanceid
+        expect(zbx.maintenance.delete(@maintenanceid)).to eq @maintenanceid
       end
     end
 	

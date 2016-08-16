@@ -19,7 +19,7 @@ describe "template" do
           :host => @template,
           :groups => [:groupid => @hostgroupid]
         )
-        templateid.should be_kind_of(Integer)
+        expect(templateid).to be_kind_of(Integer)
       end
     end
 
@@ -62,7 +62,7 @@ describe "template" do
 
     describe "all" do
       it "should contains template" do
-        zbx.templates.all.should include(@template => @templateid.to_s)
+        expect(zbx.templates.all).to include(@template => @templateid.to_s)
       end
     end
 
@@ -73,7 +73,7 @@ describe "template" do
           :host => template,
           :groups => [:groupid => @hostgroupid]
         )
-        zbx.templates.delete(templateid).should eq templateid
+        expect(zbx.templates.delete(templateid)).to eq templateid
       end
     end
 
@@ -99,10 +99,10 @@ describe "template" do
       context "not linked with host" do
         describe "mass_update" do
           it "should return true" do
-            zbx.templates.mass_update(
+            expect(zbx.templates.mass_update(
               :hosts_id => [@hostid],
               :templates_id => [@templateid]
-            ).should be_true
+            )).to be true
           end
         end
       end
@@ -120,26 +120,26 @@ describe "template" do
             tmpl_array = zbx.templates.get_ids_by_host(
               :hostids => [@hostid]
             )
-            tmpl_array.should be_kind_of(Array)
-            tmpl_array.should include @templateid.to_s
+            expect(tmpl_array).to be_kind_of(Array)
+            expect(tmpl_array).to include @templateid.to_s
           end
         end
 
         describe "mass_add" do
           it "should return true" do
-            zbx.templates.mass_add(
+            expect(zbx.templates.mass_add(
               :hosts_id => [@hostid],
               :templates_id => [@templateid]
-            ).should be_kind_of(TrueClass)
+            )).to be_kind_of(TrueClass)
           end
         end
 
         describe "mass_remove" do
           it "should return true" do
-            zbx.templates.mass_remove(
+            expect(zbx.templates.mass_remove(
               :hosts_id => [@hostid],
               :templates_id => [@templateid]
-            ).should be_true
+            )).to be true
           end
         end
       end

@@ -29,7 +29,7 @@ describe 'host' do
           ],
           :groups => [:groupid => @hostgroupid]
         )
-        hostid.should be_kind_of(Integer)
+        expect(hostid).to be_kind_of(Integer)
       end
 
       it "should create host in multiple groups" do
@@ -54,6 +54,7 @@ describe 'host' do
     describe 'get_id' do
       it "should return nil" do
         expect(zbx.hosts.get_id(:host => @host)).to be_kind_of(NilClass)
+        expect(zbx.hosts.get_id('host' => @host)).to be_kind_of(NilClass)
       end
     end
   end
@@ -95,12 +96,13 @@ describe 'host' do
     describe 'get_id' do
       it "should return id of host" do
         expect(zbx.hosts.get_id(:host => @host)).to eq @hostid
+        expect(zbx.hosts.get_id('host' => @host)).to eq @hostid
       end
     end
 
     describe 'create_or_update' do
       it "should return id of updated host" do
-        zbx.hosts.create_or_update(
+        expect(zbx.hosts.create_or_update(
           :host => @host,
           :interfaces => [
             {
@@ -113,25 +115,25 @@ describe 'host' do
             }
           ],
           :groups => [:groupid => @hostgroupid]
-        ).should eq @hostid
+        )).to eq @hostid
       end
     end
 
     describe 'update' do
       it "should return id" do
-        zbx.hosts.update(
+        expect(zbx.hosts.update(
           :hostid => @hostid,
           :status => 0
-        ).should eq @hostid
+        )).to eq @hostid
       end
 
       it "should update groups" do
         @hostgroupid2 = zbx.hostgroups.create(:name => gen_name('hostgroup'))
 
-        zbx.hosts.update(
+        expect(zbx.hosts.update(
             :hostid  =>  @hostid,
             :groups => [ :groupid => @hostgroupid2]
-        ).should eq @hostid
+        )).to eq @hostid
 
         expect(zbx.hosts.dump_by_id(:hostid => @hostid).first['groups'].first["groupid"]).to eq @hostgroupid2.to_s
 
@@ -167,9 +169,8 @@ describe 'host' do
 
     describe 'delete' do
       it "HOST: Delete" do
-        zbx.hosts.delete( @hostid ).should eq @hostid
+        expect(zbx.hosts.delete( @hostid )).to eq @hostid
       end
     end
   end
 end
-

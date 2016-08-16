@@ -55,7 +55,7 @@ describe 'screen' do
           :screen_name => @screen_name,
           :graphids => [@graphid]
         )
-        screenid.should be_kind_of(Integer)
+        expect(screenid).to be_kind_of(Integer)
       end
     end
   end
@@ -75,13 +75,13 @@ describe 'screen' do
           :screen_name => @screen_name,
           :graphids => [@graphid]
         )
-        screenid.should eq @screenid
+        expect(screenid).to eq @screenid
       end
     end
 
     describe 'delete' do
       it "should return id" do
-        zbx.screens.delete(@screenid).should eq @screenid
+        expect(zbx.screens.delete(@screenid)).to eq @screenid
       end
     end
   end

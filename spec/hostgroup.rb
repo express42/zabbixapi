@@ -20,35 +20,35 @@ describe 'hostgroup' do
 
     describe 'get_id' do
       it "should return id" do
-        zbx.hostgroups.get_id(:name => @hostgroup).should eq @hostgroupid
+        expect(zbx.hostgroups.get_id(:name => @hostgroup)).to eq @hostgroupid
       end
 
       it "should return nil for not existing group" do
-        zbx.hostgroups.get_id(:name => "#{@hostgroup}______").should be_kind_of(NilClass)
+        expect(zbx.hostgroups.get_id(:name => "#{@hostgroup}______")).to be_kind_of(NilClass)
       end
     end
 
     describe 'get_or_create' do
       it "should return id of existing hostgroup" do
-        zbx.hostgroups.get_or_create(:name => @hostgroup).should eq @hostgroupid
+        expect(zbx.hostgroups.get_or_create(:name => @hostgroup)).to eq @hostgroupid
       end
     end
 
     describe 'create_or_update' do
       it "should return id of hostgroup" do
-        zbx.hostgroups.create_or_update(:name => @hostgroup).should eq @hostgroupid
+        expect(zbx.hostgroups.create_or_update(:name => @hostgroup)).to eq @hostgroupid
       end
     end
 
     describe 'all' do
       it "should contains created hostgroup" do
-        zbx.hostgroups.all.should include(@hostgroup => @hostgroupid.to_s)
+        expect(zbx.hostgroups.all).to include(@hostgroup => @hostgroupid.to_s)
       end
     end
 
     describe "delete" do
       it "shold return id" do
-        zbx.hostgroups.delete(@hostgroupid).should eq @hostgroupid
+        expect(zbx.hostgroups.delete(@hostgroupid)).to eq @hostgroupid
       end
     end
   end
