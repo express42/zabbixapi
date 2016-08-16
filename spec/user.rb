@@ -38,13 +38,13 @@ describe 'user' do
           :passwd => user,
           :usrgrps => [@usergroupid]
         )
-        userid.should be_kind_of(Integer)
+        expect(userid).to be_kind_of(Integer)
       end
     end
 
     describe 'get_id' do
       it "should return nil" do
-        zbx.users.get_id(:alias => "name_____").should be_nil
+        expect(zbx.users.get_id(:alias => "name_____")).to be_nil
       end
     end
   end
@@ -63,33 +63,33 @@ describe 'user' do
 
     describe 'create_or_update' do
       it "should return id" do
-        zbx.users.create_or_update(
+        expect(zbx.users.create_or_update(
           :alias => @user,
           :name => @user,
           :surname => @user,
           :passwd => @user
-        ).should eq @userid
+        )).to eq @userid
       end
     end
 
     describe 'get_full_data' do
       it "should return string name" do
-        zbx.users.get_full_data(:alias => @user)[0]['name'].should be_kind_of(String)
+        expect(zbx.users.get_full_data(:alias => @user)[0]['name']).to be_kind_of(String)
       end
     end
 
     describe 'update' do
       it "should return id" do
-        zbx.users.update(:userid => @userid, :name => gen_name('user')).should eq @userid
+        expect(zbx.users.update(:userid => @userid, :name => gen_name('user'))).to eq @userid
       end
     end
 
     describe 'add_medias' do
       it "should return integer media id" do
-        zbx.users.add_medias(
+        expect(zbx.users.add_medias(
           :userids => [@userid],
           :media => [media]
-        ).should be_kind_of(Integer)
+        )).to be_kind_of(Integer)
       end
     end
 
@@ -102,14 +102,14 @@ describe 'user' do
             :media => [media]
           )
 
-          returned_userid.should eq @userid
+          expect(returned_userid).to eq @userid
         end
       end
     end
 
     describe 'delete' do
       it "should return id" do
-        zbx.users.delete(@userid).should eq @userid
+        expect(zbx.users.delete(@userid)).to eq @userid
       end
     end
   end

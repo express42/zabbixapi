@@ -66,13 +66,13 @@ describe 'graph' do
 
     describe 'get_or_create' do
       it "should return id of existing graph" do
-        zbx.graphs.get_or_create(
+        expect(zbx.graphs.get_or_create(
           :gitems => [gitems],
           :show_triggers => "0",
           :name => @graph,
           :width => "900",
           :height => "200"
-        ).should eq @graphid
+        )).to eq @graphid
       end
     end
 
@@ -92,37 +92,37 @@ describe 'graph' do
 
     describe 'get_id' do
       it "should return id" do
-        zbx.graphs.get_id( :name => @graph ).should eq @graphid
+        expect(zbx.graphs.get_id( :name => @graph )).to eq @graphid
       end
     end
 
     describe 'get_ids_by_host' do
       it "should contains id of graph" do
         graph_array = zbx.graphs.get_ids_by_host( :host => @host )
-        graph_array.should be_kind_of(Array)
-        graph_array.should include(@graphid.to_s)
+        expect(graph_array).to be_kind_of(Array)
+        expect(graph_array).to include(@graphid.to_s)
       end
     end
 
     describe 'update' do
       it "should return id" do
-        zbx.graphs.update(
+        expect(zbx.graphs.update(
           :graphid => @graphid,
           :gitems => [gitems],
           :ymax_type => 1
-        ).should eq @graphid
+        )).to eq @graphid
       end
     end
 
     describe 'create_or_update' do
       it "should return existing id" do
-        zbx.graphs.create_or_update(
+        expect(zbx.graphs.create_or_update(
           :gitems => [gitems],
           :show_triggers => "1",
           :name => @graph,
           :width => "900",
           :height => "200"
-        ).should eq @graphid
+        )).to eq @graphid
       end
     end
 

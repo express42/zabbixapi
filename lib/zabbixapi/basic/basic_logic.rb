@@ -2,7 +2,7 @@ class ZabbixApi
   class Basic
 
     def create(data)
-      log "[DEBUG] Call create with parametrs: #{data.inspect}"
+      log "[DEBUG] Call create with parameters: #{data.inspect}"
 
       data_with_default = default_options.empty? ? data : merge_params(default_options, data)
       data_create = [data_with_default]
@@ -11,7 +11,7 @@ class ZabbixApi
     end
 
     def delete(data)
-      log "[DEBUG] Call delete with parametrs: #{data.inspect}"
+      log "[DEBUG] Call delete with parameters: #{data.inspect}"
 
       data_delete = [data]
       result = @client.api_request(:method => "#{method_name}.delete", :params => data_delete)
@@ -19,14 +19,14 @@ class ZabbixApi
     end
 
     def create_or_update(data)
-      log "[DEBUG] Call create_or_update with parametrs: #{data.inspect}"
+      log "[DEBUG] Call create_or_update with parameters: #{data.inspect}"
 
       id = get_id(indentify.to_sym => data[indentify.to_sym])
       id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
 
     def update(data, force=false)
-      log "[DEBUG] Call update with parametrs: #{data.inspect}"
+      log "[DEBUG] Call update with parameters: #{data.inspect}"
 
       dump = {}
       item_id = data[key.to_sym].to_i
@@ -46,7 +46,7 @@ class ZabbixApi
     end
 
     def get_full_data(data)
-      log "[DEBUG] Call get_full_data with parametrs: #{data.inspect}"
+      log "[DEBUG] Call get_full_data with parameters: #{data.inspect}"
 
       @client.api_request(
         :method => "#{method_name}.get",
@@ -69,7 +69,7 @@ class ZabbixApi
     end
 
     def dump_by_id(data)
-      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
+      log "[DEBUG] Call dump_by_id with parameters: #{data.inspect}"
 
       @client.api_request(
         :method => "#{method_name}.get",
@@ -91,16 +91,29 @@ class ZabbixApi
     end
 
     def get_id(data)
-      log "[DEBUG] Call get_id with parametrs: #{data.inspect}"
+      log "[DEBUG] Call get_id with parameters: #{data.inspect}"
 
-      result = symbolize_keys( get_full_data(data) )
+      # symbolize keys if the user used string keys instead of symbols
+      data = symbolize_keys(data) if data.key?(indentify)
+      # raise an error if indentify name was not supplied 
+      name = data[indentify.to_sym]
+      raise ApiError.new("#{indentify} not supplied in call to get_id") if name == nil
+      result = @client.api_request(
+        :method => "#{method_name}.get",
+        :params => {
+          :filter => {
+            indentify.to_sym => name
+          },
+          :output => [key, indentify]
+        }
+      )
       id = nil
-      result.each { |item| id = item[key.to_sym].to_i if item[indentify.to_sym] == data[indentify.to_sym] }
+      result.each { |item| id = item[key].to_i if item[indentify] == data[indentify.to_sym] }
       id
     end
 
     def get_or_create(data)
-      log "[DEBUG] Call get_or_create with parametrs: #{data.inspect}"
+      log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
       unless (id = get_id(data))
         id = create(data)

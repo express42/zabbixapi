@@ -4,8 +4,8 @@ require 'zabbixapi'
 def zbx
   # settings
   @api_url = ENV['ZABBIX_HOST_URL'] || 'http://10.211.55.6/api_jsonrpc.php'
-  @api_login = 'Admin'
-  @api_password = 'zabbix'
+  @api_login = ENV['ZABBIX_USERNAME'] || 'Admin'
+  @api_password = ENV['ZABBIX_PASSWORD'] || 'zabbix'
 
   @zbx ||= ZabbixApi.connect(
     :url => @api_url,

@@ -17,7 +17,7 @@ describe 'mediatype' do
         :smtp_email => "zabbix@test.com",
         :smtp_helo => "test.com"
       )
-      mediatypeid.should be_kind_of(Integer)
+      expect(mediatypeid).to be_kind_of(Integer)
     end
     end
   end
@@ -35,11 +35,11 @@ describe 'mediatype' do
 
     describe 'create_or_update' do
       it "should return id" do
-        zbx.mediatypes.create_or_update(
+        expect(zbx.mediatypes.create_or_update(
           :description => @mediatype,
           :smtp_email => "zabbix2@test.com",
           :smtp_helo => "test.com"
-        ).should eq @mediatypeid
+        )).to eq @mediatypeid
       end
 
       it "should return id" do

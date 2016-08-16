@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe "query" do
   it "should works" do
-    zbx.query(
+    expect(zbx.query(
       method: 'host.get',
       params: {
         filter: {
@@ -12,7 +12,7 @@ describe "query" do
         },
         selectInterfaces: 'refer'
       }
-    ).should be_kind_of(Array)
+    )).to be_kind_of(Array)
   end
 end
 
