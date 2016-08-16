@@ -59,6 +59,15 @@ class ZabbixApi
       )
     end
 
+    def get_raw(data)
+      log "[DEBUG] Call get_raw with parameters: #{data.inspect}"
+
+      @client.api_request(
+        :method => "#{method_name}.get",
+        :params => data
+      )
+    end
+
     def dump_by_id(data)
       log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
 

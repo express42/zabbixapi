@@ -24,6 +24,7 @@ require "zabbixapi/classes/usergroups"
 require "zabbixapi/classes/usermacros"
 require "zabbixapi/classes/users"
 require "zabbixapi/classes/configurations"
+require "zabbixapi/classes/actions"
 
 class ZabbixApi
 
@@ -107,6 +108,10 @@ class ZabbixApi
 
   def configurations
     @configurations ||= Configurations.new(@client)
+  end
+
+  def actions
+    @actions ||= Actions.new(@client)
   end
 
 end
