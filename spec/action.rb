@@ -22,11 +22,6 @@ describe 'action' do
                     :value => 'pattern'         # the pattern
                 },
                 {
-                    :conditiontype => '5',      # trigger value
-                    :operator => '0',           # equal
-                    :value => '1'               # 'on'
-                },
-                {
                     :conditiontype => '4',      # trigger severity
                     :operator => '5',           # >=
                     :value => '3'               # average
