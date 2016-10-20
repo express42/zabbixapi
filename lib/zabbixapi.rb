@@ -12,6 +12,7 @@ require "zabbixapi/classes/graphs"
 require "zabbixapi/classes/hostgroups"
 require "zabbixapi/classes/maintenance"
 require "zabbixapi/classes/hosts"
+require "zabbixapi/classes/httptests"
 require "zabbixapi/classes/items"
 require "zabbixapi/classes/mediatypes"
 require "zabbixapi/classes/proxies"
@@ -60,6 +61,10 @@ class ZabbixApi
 
   def hosts
     @hosts ||= Hosts.new(@client)
+  end
+
+  def httptests
+    @httptests ||= HttpTests.new(@client)
   end
 
   def applications
