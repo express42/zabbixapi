@@ -13,6 +13,7 @@ describe 'action' do
         :esc_period => '120',                   # how long each step should take
         :def_shortdata => "Email header",
         :def_longdata => "Email content",
+        :maintenance_mode => '1',
         :filter => {
             :evaltype => '1',                   # perform 'and' between the conditions
             :conditions => [
@@ -31,6 +32,20 @@ describe 'action' do
         :operations => [
             {
                 :operationtype => '0',              # send message
+                :opmessage_grp => [                 # who the message will be sent to
+                    {
+                        :usrgrpid => @usergroupid
+                    }
+                ],
+                :opmessage => {
+                    :default_msg => '0',            # use default message
+                    :mediatypeid =>  '1'            # email id
+                }
+            }
+        ],
+        :recovery_operations => [
+            {
+                :operationtype => '11',             # send recovery message
                 :opmessage_grp => [                 # who the message will be sent to
                     {
                         :usrgrpid => @usergroupid
