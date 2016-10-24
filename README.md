@@ -257,7 +257,17 @@ zbx.triggers.create(
   :priority => 5,
   :status     => 0,
   :templateid => 0,
-  :type => 0
+  :type => 0,
+  :tags => [
+    {
+      :tag => "process",
+      :value => "aaa"
+    },
+    {
+      :tag => "error",
+      :value => ""
+    }
+  ]
  )
 ```
 
