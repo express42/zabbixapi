@@ -1,7 +1,7 @@
 language:
   - ruby
 addons:
-  postgresql: "9.5"
+  postgresql: "9.4"
 rvm:
   - 1.9.3
   - 2.0
@@ -11,7 +11,7 @@ dist: trusty
 sudo: required
 
 before_script:
-  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 postgresql-9.4 -y
+  - sudo apt-get purge postgresql-9.1 postgresql-9.2 postgresql-9.3 -y
     #  - wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     #  - echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
   - wget -qO - http://repo.zabbix.com/zabbix-official-repo.key | sudo apt-key add -
@@ -28,7 +28,7 @@ before_script:
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
   - 'echo -e "local all postgres trust\nlocal   all   all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust" | sudo tee /etc/postgresql/9.5/main/pg_hba.conf'
   - sudo /etc/init.d/postgresql restart
-  - sudo pg_ctlcluster 9.5 main reload
+  - sudo pg_ctlcluster 9.4 main reload
   - sudo -u postgres createdb zabbix
   - sudo -u postgres createuser -a -d -E zabbix
   - zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | LC_ALL=C psql -U zabbix
