@@ -11,6 +11,7 @@ Simple and lightweight ruby module for work with zabbix api
 * 2.2.x (api version 2.2.x) /zabbixapi 2.2.x [branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
 * 2.4.x (api version 2.2.x) /zabbixapi 2.4.x [master](https://github.com/express42/zabbixapi/)
 * 3.0.x (api version 3.0.x) /zabbixapi 2.4.x [master](https://github.com/express42/zabbixapi/)
+* 3.2.x (api version 3.2.x) /zabbixapi 2.4.x [master](https://github.com/express42/zabbixapi/)
 
 Because Zabbix 3.0 is a main branch of Zabbix, so master of zabbixapi supports this version of zabbix.
 
