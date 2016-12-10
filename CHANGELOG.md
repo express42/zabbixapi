@@ -1,3 +1,10 @@
+## 2.4.9
+
+[PR #55](https://github.com/express42/zabbixapi/pull/55) Add 3.2.x support (Thanx @jrbeilke)
+
+[PR #54](https://github.com/express42/zabbixapi/pull/54) Add web scenarios support (Thanx @jrbeilke)
+
+
 ## 2.4.7
 
 [PR #45](https://github.com/express42/zabbixapi/pull/45) Add support for zabbix 3.0.x (Thanx @wandenberg)

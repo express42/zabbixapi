@@ -38,8 +38,18 @@ describe "trigger" do
           :expression => "{#{@template}:#{@proc}.last(0)}<1",
           :comments => "Bla-bla is faulty (disaster)",
           :priority => 5,
-          :status     => 0,
-          :type => 0
+          :status => 0,
+          :type => 0,
+          :tags => [
+            {
+              :tag => "proc",
+              :value => "#{@proc}"
+            },
+            {
+              :tag => "error",
+              :value => ""
+            }
+          ]
         )
         expect(triggerid).to be_kind_of(Integer)
       end
@@ -54,8 +64,18 @@ describe "trigger" do
         :expression => "{#{@template}:#{@proc}.last(0)}<1",
         :comments => "Bla-bla is faulty (disaster)",
         :priority => 5,
-        :status     => 0,
-        :type => 0
+        :status => 0,
+        :type => 0,
+        :tags => [
+          {
+            :tag => "proc",
+            :value => "#{@proc}"
+          },
+          {
+            :tag => "error",
+            :value => ""
+          }
+        ]
       )
     end
 
