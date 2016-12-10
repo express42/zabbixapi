@@ -24,14 +24,15 @@ describe 'usergroup' do
         :usrgrps => [@usergroupid]
       )
 
+      @usergroup2 = gen_name 'usergroup'
+      @usergroupid2 = zbx.usergroups.create(:name => @usergroup2)
       @user2 = gen_name 'user'
-
       @userid2 = zbx.users.create(
         :alias => @user2,
         :name => @user2,
         :surname => @user2,
         :passwd => @user2,
-        :usrgrps => [zbx.usergroups.create(:name => gen_name('usergroup'))]
+        :usrgrps => [@usergroupid2]
       )
     end
 
@@ -53,9 +54,9 @@ describe 'usergroup' do
     describe 'update_users' do
       it "should return id" do
         expect(zbx.usergroups.update_users(
-            :usrgrpids => [@usergroupid],
+            :usrgrpids => [@usergroupid2],
             :userids => [@userid2]
-        )).to eq @usergroupid
+        )).to eq @usergroupid2
       end
     end
 
