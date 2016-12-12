@@ -45,5 +45,11 @@ class ZabbixApi
         :ipmi_sensor => ''
       }
     end
+
+    def create_or_update(data)
+      itemid = get_id(:name => data[:name], :hostid => data[:hostid])
+      itemid ? update(data.merge(:itemid => itemid)) : create(data)
+    end
+
   end
 end

@@ -47,5 +47,10 @@ class ZabbixApi
       applicationid
     end
 
+    def create_or_update(data)
+      applicationid = get_id(:name => data[:name], :hostid => data[:hostid])
+      applicationid ? update(data.merge(:applicationid => applicationid)) : create(data)
+    end
+
   end
 end

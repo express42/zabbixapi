@@ -85,6 +85,15 @@ describe "trigger" do
       end
     end
 
+    describe 'create_or_update' do
+      it "should return id of updated trigger" do
+        expect(zbx.triggers.create_or_update(
+          :description => @trigger,
+          :hostid => @templateid
+        )).to eq @triggerid
+      end
+    end
+
     describe "delete" do
       it "should return id" do
         expect(zbx.triggers.delete( @triggerid )).to eq @triggerid

@@ -59,5 +59,10 @@ class ZabbixApi
 
     end
 
+    def create_or_update(data)
+      triggerid = get_id(:description => data[:description], :hostid => data[:hostid])
+      triggerid ? update(data.merge(:triggerid => triggerid)) : create(data)
+    end
+
   end
 end

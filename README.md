@@ -190,7 +190,8 @@ zbx.graphs.create(
   :show_triggers => "0",
   :name => "graph",
   :width => "900",
-  :height => "200"
+  :height => "200",
+  :hostid => zbx.templates.get_id(:host => "template")
 )
 ```
 
@@ -212,7 +213,8 @@ zbx.graphs.create_or_update(
   :show_triggers => "1",
   :name => graph,
   :width => "900",
-  :height => "200"
+  :height => "200",
+  :hostid => zbx.templates.get_id(:host => "template")
 )
 ```
 ### Get ids by host ###
@@ -257,7 +259,7 @@ zbx.triggers.create(
   :comments => "Bla-bla is faulty (disaster)",
   :priority => 5,
   :status     => 0,
-  :templateid => 0,
+  :hostid => zbx.templates.get_id(:host => "template"),
   :type => 0,
   :tags => [
     {
