@@ -1,36 +1,7 @@
 class ZabbixApi
-  class Applications
+  class Applications < Basic
 
     API_PARAMETERS = %w(applicationids groupids hostids inherited itemids templated templateids selectItems)
-
-    def initialize(client)
-      @client = client
-    end
-
-    def create(data)
-      result = @client.api_request(:method => "application.create", :params => [data])
-      result.empty? ? nil : result['applicationids'][0].to_i
-    end
-
-    def add(data)
-      create(data)
-    end
-
-    def delete(data)
-      result = @client.api_request(:method => "application.delete", :params => [data])
-      result.empty? ? nil : result['applicationids'][0].to_i
-    end
-
-    def get_or_create(data)
-      unless (appid = get_id(data))
-        appid = create(data)
-      end
-      appid
-    end
-
-    def destroy(data)
-      delete(data)
-    end
 
     def get_full_data(data)
       filter_params = {}
