@@ -3,6 +3,14 @@ class ZabbixApi
 
     API_PARAMETERS = %w(applicationids groupids hostids inherited itemids templated templateids selectItems)
 
+    def method_name
+      "application"
+    end
+
+    def indentify
+      "name"
+    end
+
     def get_full_data(data)
       filter_params = {}
       request_data = data.dup # Duplicate data, as we modify it. Otherwise methods that use data after calling get_full_data (such as get_id) will fail.
