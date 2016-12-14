@@ -65,6 +65,15 @@ describe 'application' do
       end
     end
 
+    describe 'create_or_update' do
+      it "should return id of updated application" do
+        expect(zbx.applications.create_or_update(
+          :name => @application,
+          :hostid => @templateid
+        )).to eq @applicationid
+      end
+    end
+
     describe "delete" do
       it "should return id" do
         expect(zbx.applications.delete(@applicationid)).to eq @applicationid
