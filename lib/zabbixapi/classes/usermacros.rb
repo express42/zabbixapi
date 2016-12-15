@@ -49,7 +49,15 @@ class ZabbixApi
     private
       def request(data, method, result_key)
         result = @client.api_request(:method => method, :params => data)
-        result.empty? ? nil : result[result_key][0].to_i
+
+        # Zabbix has different result formats for gets vs updates on macros - boo!
+        if result.key?(result_key)
+          result[result_key][0].to_i
+        elsif result.length > 0
+          result[0][result_key].to_i
+        else
+          nil
+        end
       end
 
   end
