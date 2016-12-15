@@ -15,7 +15,7 @@ describe 'usermacro' do
 
   context 'when hostmacro not exists' do
     before do
-      @hostmacro = '{$' + gen_name('hostmacro') + '}'
+      @hostmacro = '{$' + gen_name('HOSTMACRO') + '}'
     end
 
     describe 'create' do
@@ -38,7 +38,7 @@ describe 'usermacro' do
 
   context 'when hostmacro exists' do
     before :all do
-      @hostmacro = '{$' + gen_name('hostmacro') + '}'
+      @hostmacro = '{$' + gen_name('HOSTMACRO') + '}'
       @hostmacroid = zbx.usermacros.create(
         :macro => @hostmacro,
         :value => "public",
@@ -119,7 +119,7 @@ describe 'usermacro' do
   
   context 'when globalmacro not exists' do
     before do
-      @globalmacro = '{$' + gen_name('globalmacro') + '}'
+      @globalmacro = '{$' + gen_name('GLOBALMACRO') + '}'
     end
 
     describe 'create_global' do
@@ -142,7 +142,7 @@ describe 'usermacro' do
 
   context 'when globalmacro exists' do
     before :all do
-      @globalmacro = '{$' + gen_name('globalmacro') + '}'
+      @globalmacro = '{$' + gen_name('GLOBALMACRO') + '}'
       @globalmacroid = zbx.usermacros.create_global(
         :macro => @globalmacro,
         :value => "public",
