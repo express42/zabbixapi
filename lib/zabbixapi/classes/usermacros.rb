@@ -24,12 +24,26 @@ class ZabbixApi
       request(data, "usermacro.deleteglobal", "globalmacroids")
     end
 
-    def update
+    def update(data)
       request(data, "usermacro.update", "hostmacroids")
     end
 
-    def update_global
+    def update_global(data)
       request(data, "usermacro.updateglobal", "globalmacroids")
+    end
+
+    def get_or_create(data)
+      log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
+
+      unless (id = request({:macro => data[:macro], :hostid => data[:hostid]}, "usermacro.get", "hostmacroid"))
+        id = create(data)
+      end
+      id
+    end
+
+    def create_or_update(data)
+      hostmacroid = request({:macro => data[:macro], :hostid => data[:hostid]}, "usermacro.get", "hostmacroid")
+      hostmacroid ? update(data.merge(:hostmacroid => hostmacroid)) : create(data)
     end
 
     private
