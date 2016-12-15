@@ -101,9 +101,7 @@ class ZabbixApi
       result = @client.api_request(
         :method => "#{method_name}.get",
         :params => {
-          :filter => {
-            indentify.to_sym => name
-          },
+          :filter => data,
           :output => [key, indentify]
         }
       )
@@ -115,7 +113,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(data))
+      unless (id = get_id(indentify.to_sym => data[indentify.to_sym]))
         id = create(data)
       end
       id

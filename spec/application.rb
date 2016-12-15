@@ -30,7 +30,7 @@ describe 'application' do
 
     describe 'get_id' do
       it "should return nil" do
-        expect(zbx.applications.get_id(:host => @application)).to be_kind_of(NilClass)
+        expect(zbx.applications.get_id(:name => @application)).to be_kind_of(NilClass)
       end
     end
   end

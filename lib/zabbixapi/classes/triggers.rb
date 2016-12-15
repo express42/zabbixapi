@@ -59,6 +59,15 @@ class ZabbixApi
 
     end
 
+    def get_or_create(data)
+      log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
+
+      unless (id = get_id(:description => data[:description], :hostid => data[:hostid]))
+        id = create(data)
+      end
+      id
+    end
+
     def create_or_update(data)
       triggerid = get_id(:description => data[:description], :hostid => data[:hostid])
       triggerid ? update(data.merge(:triggerid => triggerid)) : create(data)
