@@ -101,9 +101,7 @@ class ZabbixApi
       result = @client.api_request(
         :method => "#{method_name}.get",
         :params => {
-          :filter => {
-            indentify.to_sym => name
-          },
+          :filter => data,
           :output => [key, indentify]
         }
       )
