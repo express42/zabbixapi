@@ -13,20 +13,6 @@ class ZabbixApi
       "name"
     end
 
-    # Return usrgrpid
-    #
-    # * *Args*    :
-    #   - +data+ -> Hash with :name => "UserGroup"
-    # * *Returns* :
-    #   - Integer
-    def get_or_create(data)
-      usrgrpid = get_id(data)
-      if usrgrpid.nil?
-        usrgrpid = create(data)
-      end
-      usrgrpid
-    end
-
     # Set permission for usrgrp on some hostgroup
     #
     # * *Args*    :

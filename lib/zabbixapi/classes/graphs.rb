@@ -48,6 +48,15 @@ class ZabbixApi
       @client.api_request(:method => "graphitem.get", :params => { :graphids => [data], :output => "extend" } )
     end
 
+    def get_or_create(data)
+      log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
+
+      unless (id = get_id(:name => data[:name], :templateid => data[:templateid]))
+        id = create(data)
+      end
+      id
+    end
+
     def create_or_update(data)
       graphid = get_id(:name => data[:name], :templateid => data[:templateid])
       graphid ? _update(data.merge(:graphid => graphid)) : create(data)

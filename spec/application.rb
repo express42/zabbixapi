@@ -30,7 +30,7 @@ describe 'application' do
 
     describe 'get_id' do
       it "should return nil" do
-        expect(zbx.applications.get_id(:host => @application)).to be_kind_of(NilClass)
+        expect(zbx.applications.get_id(:name => @application)).to be_kind_of(NilClass)
       end
     end
   end
@@ -62,6 +62,15 @@ describe 'application' do
     describe 'get_id' do
       it "should return id of application" do
         expect(zbx.applications.get_id(:name => @application)).to eq @applicationid
+      end
+    end
+
+    describe 'create_or_update' do
+      it "should return id of updated application" do
+        expect(zbx.applications.create_or_update(
+          :name => @application,
+          :hostid => @templateid
+        )).to eq @applicationid
       end
     end
 
