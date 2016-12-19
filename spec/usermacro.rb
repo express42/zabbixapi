@@ -126,16 +126,15 @@ describe 'usermacro' do
       it "should return integer id" do
         globalmacroid = zbx.usermacros.create_global(
           :macro => @globalmacro,
-          :value => "public",
-          :hostid => @templateid
+          :value => "public"
         )
         expect(globalmacroid).to be_kind_of(Integer)
       end
     end
 
-    describe 'get_id' do
+    describe 'get_id_global' do
       it "should return nil" do
-        expect(zbx.usermacros.get_id(:macro => @globalmacro)).to be_kind_of(NilClass)
+        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to be_kind_of(NilClass)
       end
     end
   end
@@ -145,39 +144,38 @@ describe 'usermacro' do
       @globalmacro = '{$' + gen_name('GLOBALMACRO') + '}'
       @globalmacroid = zbx.usermacros.create_global(
         :macro => @globalmacro,
-        :value => "public",
-        :hostid => @templateid
+        :value => "public"
       )
     end
 
-    describe 'get_full_data' do
+    describe 'get_full_data_global' do
       it "should contains created globalmacro" do
-        expect(zbx.usermacros.get_full_data(:macro => @globalmacro)[0]).to include("macro" => @globalmacro)
+        expect(zbx.usermacros.get_full_data_global(:macro => @globalmacro)[0]).to include("macro" => @globalmacro)
       end
     end
 
-    describe 'get_id' do
+    describe 'get_id_global' do
       it "should return id of globalmacro" do
-        expect(zbx.usermacros.get_id(:macro => @globalmacro)).to eq @globalmacroid
+        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to eq @globalmacroid
       end
     end
 
     it "should raise error on no identity given" do
-        expect { zbx.usermacros.get_id({}) }.to raise_error(ZabbixApi::ApiError)
+        expect { zbx.usermacros.get_id_global({}) }.to raise_error(ZabbixApi::ApiError)
     end
 
     describe 'update_global' do
       it "should return id" do
         expect(zbx.usermacros.update_global(
-          :globalmacroid => zbx.usermacros.get_id(:macro => @globalmacro),
+          :globalmacroid => zbx.usermacros.get_id_global(:macro => @globalmacro),
           :value => "private",
         )).to eq @globalmacroid
       end
     end
 
-    describe 'delete' do
+    describe 'delete_global' do
       before :all do
-        @result = zbx.usermacros.delete(@globalmacroid)
+        @result = zbx.usermacros.delete_global(@globalmacroid)
       end
 
       it "should return deleted id" do
@@ -185,7 +183,7 @@ describe 'usermacro' do
       end
 
       it "should delete item from zabbix" do
-        expect(zbx.usermacros.get_id(:macro => @globalmacro)).to be_nil
+        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to be_nil
       end
     end
   end
