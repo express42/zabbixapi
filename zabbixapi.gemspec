@@ -12,7 +12,10 @@ Gem::Specification.new do |s|
   s.description = %q{Allows you to work with zabbix api from ruby.}
   s.licenses    = %w(MIT)
 
-  s.add_dependency('json', '~> 1.6', '>= 1.6.0')
+  s.add_runtime_dependency 'json'
+
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
 
   s.rubyforge_project = "zabbixapi"
 

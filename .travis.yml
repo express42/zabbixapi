@@ -17,6 +17,10 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
+  - 2.3
+gemfile:
+  - Gemfile
+  - json-1.x.Gemfile
 dist: trusty
 sudo: required
 
@@ -29,3 +33,9 @@ before_script:
   - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/d661863063b76cc8e2599bc44d8595b1f86ece38/zabbix)" | sudo tee /etc/zabbix/web/zabbix.conf.php
   - sudo service apache2 restart
 script: "ZABBIX_HOST_URL=http://localhost/zabbix/api_jsonrpc.php bundle exec rspec spec/*"
+
+matrix:
+  exclude:
+    # json 2.x requires ruby 2.x
+    - rvm: 1.9.3
+      gemfile: json-1.x.Gemfile
