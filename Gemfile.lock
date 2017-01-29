@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zabbixapi (2.4.9)
+    zabbixapi (3.0.0)
       json
 
 GEM
@@ -33,4 +33,4 @@ DEPENDENCIES
   zabbixapi!
 
 BUNDLED WITH
-   1.12.5
+   1.14.3
