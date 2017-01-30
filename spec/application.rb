@@ -55,7 +55,8 @@ describe 'application' do
 
     describe 'get_full_data' do
       it "should contains created application" do
-        expect(zbx.applications.get_full_data(:name => @application)[0]).to include("name" => @application)
+        matching_applications = zbx.applications.get_full_data(:name => @application).select { |a| a['name'] == @application }
+        expect(matching_applications.count).to eq(1)
       end
     end
 
