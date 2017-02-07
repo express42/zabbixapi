@@ -22,7 +22,7 @@ Zabbixapi has next version policy:
 * for zabbix 2.0.x you should use zabbixapi 2.0.y
 * for zabbix 2.2.x you should use zabbixapi 2.2.y
 * for zabbix 2.4.x you should use zabbixapi 2.4.y
-* for zabbix 3.0.x you should use zabbixapi 2.4.y (>= 2.4.7)
+* for zabbix 3.0.x you should use zabbixapi 3.0.y and ruby >= 2
 
 The PATCH (third digit) version of zabbixapi should not correspond to PATCH version of zabbix, for example
 zabbixapi-2.0.x should works with all version of zabbix 2.0.y
