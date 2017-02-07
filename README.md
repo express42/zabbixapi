@@ -488,6 +488,30 @@ zbx.users.update_medias(
 )
 ```
 
+### Create Script
+```ruby
+zbx.scripts.create(
+  :name => 'Hostname',
+  :command => 'hostname'
+)
+# or use (lib merge json):
+zbx.scripts.create_or_update(
+  :name => 'Hostname',
+  :command => 'hostname',
+  :description => 'Show the system hostname'
+)
+```
+
+### Update Script
+```ruby
+zbx.scripts.update(
+  :httptestid => zbx.scripts.get_id(:name => 'Hostname'),
+  :execute_on => 0
+)
+#You can check script:
+puts zbx.scripts.get_full_data(:name => 'Hostname')
+
+
 ### Create proxy
 #### Active proxy
 ```ruby
