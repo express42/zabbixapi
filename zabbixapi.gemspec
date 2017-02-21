@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Vasiliev D.V.", "Ivan Evtuhovich"]
   s.email       = %w(vadv.mkn@gmail.com evtuhovich@gmail.com)
   s.homepage    = "https://github.com/express42/zabbixapi"
-  s.summary     = %q{Realization for Zabbix API.}
+  s.summary     = %q{Simple and lightweight ruby module for working with the Zabbix API}
   s.description = %q{Allows you to work with zabbix api from ruby.}
   s.licenses    = %w(MIT)
 
