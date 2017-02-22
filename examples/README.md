@@ -68,6 +68,7 @@ zbx.hosts.create(
   ],
   :groups => [ :groupid => zbx.hostgroups.get_id(:name => "hostgroup") ]
 )
+```
 
 ## Custom Queries
 ```ruby

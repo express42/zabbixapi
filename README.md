@@ -72,8 +72,8 @@ dropped.
 * [Zabbix Project Homepage][Zabbix]
 * [Zabbix API docs][Zabbix API]
 
-[Zabbix]: https://rubygems.org/gems/zabbixapi
-[Zabbix API]: https://www.zabbix.com/documentation/3.2/manual/api/reference
+[Zabbix]: https://www.zabbix.com
+[Zabbix API]: https://www.zabbix.com/documentation/3.2/manual/api
 
 ## Copyright
 Copyright (c) 2015-2017 Express 42
