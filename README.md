@@ -508,7 +508,7 @@ zbx.scripts.update(
   :httptestid => zbx.scripts.get_id(:name => 'Hostname'),
   :execute_on => 0
 )
-#You can check script:
+# You can check script:
 puts zbx.scripts.get_full_data(:name => 'Hostname')
 
 
