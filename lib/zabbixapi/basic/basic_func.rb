@@ -24,7 +24,7 @@ class ZabbixApi
     #
     # @param object [Array, Hash]
     # @return [Array, Hash]
-    def symbolize_keys!(object)
+    def symbolize_keys(object)
       if object.is_a?(Array)
         object.each_with_index do |val, index|
           object[index] = symbolize_keys!(val)
