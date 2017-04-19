@@ -1,0 +1,60 @@
+inherit_from: .rubocop_todo.yml
+
+Metrics/AbcSize:
+  Max: 58 # TODO: Lower to 15
+
+Metrics/BlockLength:
+  Max: 35
+  Exclude:
+    - spec/**/*.rb
+
+Metrics/BlockNesting:
+  Max: 2
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/LineLength:
+  AllowURI: true
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 35 # TODO: Lower to 15
+
+Metrics/ModuleLength:
+  Max: 150 # TODO: Lower to 100
+
+Metrics/ParameterLists:
+  Max: 4
+  CountKeywordArgs: true
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Style/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: 'comma'

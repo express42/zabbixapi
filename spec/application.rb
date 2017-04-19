@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
@@ -19,7 +19,7 @@ describe 'application' do
     end
 
     describe 'create' do
-      it "should return integer id" do
+      it 'should return integer id' do
         applicationid = zbx.applications.create(
           :name => @application,
           :hostid => @templateid
@@ -29,7 +29,7 @@ describe 'application' do
     end
 
     describe 'get_id' do
-      it "should return nil" do
+      it 'should return nil' do
         expect(zbx.applications.get_id(:name => @application)).to be_kind_of(NilClass)
       end
     end
@@ -45,37 +45,41 @@ describe 'application' do
     end
 
     describe 'get_or_create' do
-      it "should return id of application" do
-        expect(zbx.applications.get_or_create(
-          :name => @application,
-          :hostid => @templateid
-        )).to eq @applicationid
+      it 'should return id of application' do
+        expect(
+          zbx.applications.get_or_create(
+            :name => @application,
+            :hostid => @templateid
+          )
+        ).to eq @applicationid
       end
     end
 
     describe 'get_full_data' do
-      it "should contains created application" do
-        expect(zbx.applications.get_full_data(:name => @application)[0]).to include("name" => @application)
+      it 'should contains created application' do
+        expect(zbx.applications.get_full_data(:name => @application)[0]).to include('name' => @application)
       end
     end
 
     describe 'get_id' do
-      it "should return id of application" do
+      it 'should return id of application' do
         expect(zbx.applications.get_id(:name => @application)).to eq @applicationid
       end
     end
 
     describe 'create_or_update' do
-      it "should return id of updated application" do
-        expect(zbx.applications.create_or_update(
-          :name => @application,
-          :hostid => @templateid
-        )).to eq @applicationid
+      it 'should return id of updated application' do
+        expect(
+          zbx.applications.create_or_update(
+            :name => @application,
+            :hostid => @templateid
+          )
+        ).to eq @applicationid
       end
     end
 
-    describe "delete" do
-      it "should return id" do
+    describe 'delete' do
+      it 'should return id' do
         expect(zbx.applications.delete(@applicationid)).to eq @applicationid
       end
     end

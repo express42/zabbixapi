@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
@@ -24,7 +24,7 @@ describe 'item' do
     end
 
     describe 'create' do
-      it "should return integer id" do
+      it 'should return integer id' do
         itemid = zbx.items.create(
           :name => @item,
           :key_ => "proc.num[#{gen_name 'proc'}]",
@@ -37,7 +37,7 @@ describe 'item' do
     end
 
     describe 'get_id' do
-      it "should return nil" do
+      it 'should return nil' do
         expect(zbx.items.get_id(:name => @item)).to be_kind_of(NilClass)
       end
     end
@@ -48,7 +48,7 @@ describe 'item' do
       @item = gen_name 'item'
       @itemid = zbx.items.create(
         :name => @item,
-        :key_ => "proc.num[aaa]",
+        :key_ => 'proc.num[aaa]',
         :status => 0,
         :hostid => @templateid,
         :applications => [@applicationid]
@@ -56,56 +56,62 @@ describe 'item' do
     end
 
     describe 'get_or_create' do
-      it "should return id of item" do
-        expect(zbx.items.get_or_create(
-          :name => @item,
-          :key_ => "proc.num[#{gen_name 'proc'}]",
-          :status => 0,
-          :hostid => @templateid,
-          :applications => [@applicationid]
-        )).to eq @itemid
+      it 'should return id of item' do
+        expect(
+          zbx.items.get_or_create(
+            :name => @item,
+            :key_ => "proc.num[#{gen_name 'proc'}]",
+            :status => 0,
+            :hostid => @templateid,
+            :applications => [@applicationid]
+          )
+        ).to eq @itemid
       end
     end
 
     describe 'get_full_data' do
-      it "should contains created item" do
-        expect(zbx.items.get_full_data(:name => @item)[0]).to include("name" => @item)
+      it 'should contains created item' do
+        expect(zbx.items.get_full_data(:name => @item)[0]).to include('name' => @item)
       end
     end
 
     describe 'get_id' do
-      it "should return id of item" do
+      it 'should return id of item' do
         expect(zbx.items.get_id(:name => @item)).to eq @itemid
       end
     end
 
-    it "should raise error on no identity given" do
-        expect { zbx.items.get_id({}) }.to raise_error(ZabbixApi::ApiError)
+    it 'should raise error on no identity given' do
+      expect { zbx.items.get_id({}) }.to raise_error(ZabbixApi::ApiError)
     end
 
     describe 'update' do
-      it "should return id" do
-        expect(zbx.items.update(
-          :itemid => zbx.items.get_id(:name => @item),
-          :status => 1
-        )).to eq @itemid
+      it 'should return id' do
+        expect(
+          zbx.items.update(
+            :itemid => zbx.items.get_id(:name => @item),
+            :status => 1
+          )
+        ).to eq @itemid
       end
     end
 
     describe 'create_or_update' do
-      it "should update existing item" do
-        expect(zbx.items.create_or_update(
-          :name => @item,
-          :key_ => "proc.num[#{gen_name 'proc'}]",
-          :status => 0,
-          :hostid => @templateid,
-          :applications => [@applicationid]
-        )).to eq @itemid
+      it 'should update existing item' do
+        expect(
+          zbx.items.create_or_update(
+            :name => @item,
+            :key_ => "proc.num[#{gen_name 'proc'}]",
+            :status => 0,
+            :hostid => @templateid,
+            :applications => [@applicationid]
+          )
+        ).to eq @itemid
       end
 
-      it "should create item" do
+      it 'should create item' do
         new_item_id = zbx.items.create_or_update(
-          :name => @item + "____1",
+          :name => @item + '____1',
           :key_ => "proc.num[#{gen_name 'proc'}]",
           :status => 0,
           :hostid => @templateid,
@@ -122,11 +128,11 @@ describe 'item' do
         @result = zbx.items.delete(@itemid)
       end
 
-      it "should return deleted id" do
+      it 'should return deleted id' do
         expect(@result).to eq @itemid
       end
 
-      it "should delete item from zabbix" do
+      it 'should delete item from zabbix' do
         expect(zbx.items.get_id(:name => @item)).to be_nil
       end
     end
