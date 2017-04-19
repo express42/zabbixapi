@@ -1,5 +1,6 @@
-language:
-  - ruby
+cache: bundler
+
+language: ruby
 
 addons:
   postgresql: '9.5'
@@ -22,12 +23,17 @@ rvm:
   - 2.3
   - 2.4
   - ruby-head
-  - jruby-9.1.1.0
+  - jruby-9.1.6.0
   - jruby-head
+  - rbx-2
 
 dist: trusty
 
 sudo: required
+
+before_install:
+  - gem update --system
+  - gem update bundler
 
 before_script:
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
@@ -48,5 +54,6 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+    - rvm: rbx-2
   fast_finish: true
 
