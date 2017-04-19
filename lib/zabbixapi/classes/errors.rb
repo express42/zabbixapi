@@ -12,8 +12,8 @@ class ZabbixApi
   private
 
     def set_error!
-      @error = @response.try(:[], :error)
-      @error_message = @error.try(:[], :message) + ': ' + @error.try(:[], :data)
+      @error = @response['error'] rescue nil
+      @error_message = "#{@error['message']}: #{@error['data']}" rescue nil
     end
   end
 
