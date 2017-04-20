@@ -1,3 +1,6 @@
+## 3.1.0
+[PR #68](https://github.com/express42/zabbixapi/pull/68) Add support for scripts (Thanx @jrbeilke)
+
 ## 2.4.9
 
 [PR #55](https://github.com/express42/zabbixapi/pull/55) Add 3.2.x support (Thanx @jrbeilke)
