@@ -19,6 +19,7 @@ require 'zabbixapi/classes/maintenance'
 require 'zabbixapi/classes/mediatypes'
 require 'zabbixapi/classes/proxies'
 require 'zabbixapi/classes/screens'
+require 'zabbixapi/classes/scripts'
 require 'zabbixapi/classes/server'
 require 'zabbixapi/classes/templates'
 require 'zabbixapi/classes/triggers'
@@ -118,6 +119,11 @@ class ZabbixApi
   # @return [ZabbixApi::Screens]
   def screens
     @screens ||= Screens.new(@client)
+  end
+
+  # @return [ZabbixApi::Scripts]
+  def scripts
+    @scripts ||= Scripts.new(@client)
   end
 
   # @return [ZabbixApi::Server]
