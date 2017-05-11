@@ -1,11 +1,10 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
 describe 'usergroup' do
-
   context 'when not exists' do
-    it "should be integer id" do
+    it 'should be integer id' do
       usergroupid = zbx.usergroups.create(:name => gen_name('usergroup'))
       expect(usergroupid).to be_kind_of(Integer)
     end
@@ -37,45 +36,51 @@ describe 'usergroup' do
     end
 
     describe 'get_or_create' do
-      it "should return id" do
+      it 'should return id' do
         expect(zbx.usergroups.get_or_create(:name => @usergroup)).to eq @usergroupid
       end
     end
 
     describe 'add_user' do
-      it "should return id" do
-        expect(zbx.usergroups.add_user(
+      it 'should return id' do
+        expect(
+          zbx.usergroups.add_user(
             :usrgrpids => [@usergroupid],
             :userids => [@userid2]
-        )).to eq @usergroupid
+          )
+        ).to eq @usergroupid
       end
     end
 
     describe 'update_users' do
-      it "should return id" do
-        expect(zbx.usergroups.update_users(
+      it 'should return id' do
+        expect(
+          zbx.usergroups.update_users(
             :usrgrpids => [@usergroupid2],
             :userids => [@userid2]
-        )).to eq @usergroupid2
+          )
+        ).to eq @usergroupid2
       end
     end
 
     describe 'set_perms' do
-      it "should return id" do
-        expect(zbx.usergroups.set_perms(
-          :usrgrpid => @usergroupid,
-          :hostgroupids => zbx.hostgroups.all.values,
-          :permission => 3
-        )).to eq @usergroupid
+      it 'should return id' do
+        expect(
+          zbx.usergroups.set_perms(
+            :usrgrpid => @usergroupid,
+            :hostgroupids => zbx.hostgroups.all.values,
+            :permission => 3
+          )
+        ).to eq @usergroupid
       end
     end
 
     describe 'delete' do
-      it "should raise error when has users with only one group" do
+      it 'should raise error when has users with only one group' do
         expect { zbx.usergroups.delete(@usergroupid) }.to raise_error(ZabbixApi::ApiError)
       end
 
-      it "should return id of deleted group" do
+      it 'should return id of deleted group' do
         usergroupid = zbx.usergroups.create(:name => gen_name('usergroup'))
 
         expect(zbx.usergroups.delete(usergroupid)).to eq usergroupid

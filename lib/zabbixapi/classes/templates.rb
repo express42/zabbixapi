@@ -1,46 +1,50 @@
 class ZabbixApi
   class Templates < Basic
-
-    def method_name
-      "template"
-    end
-
-    def indentify
-      "host"
-    end
-
-
-    # Delete template
+    # The method name used for interacting with Templates via Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :host => "Template_Name"
-    # * *Returns* :
-    #   - Nil or Integer
+    # @return [String]
+    def method_name
+      'template'
+    end
+
+    # The id field name used for identifying specific Template objects via Zabbix API
+    #
+    # @return [String]
+    def indentify
+      'host'
+    end
+
+    # Delete Template object using Zabbix API
+    #
+    # @param data [Array] Should include array of templateid's
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Integer] The Template object id that was deleted
     def delete(data)
-      result = @client.api_request(:method => "template.delete", :params => [data])
+      result = @client.api_request(:method => 'template.delete', :params => [data])
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
-    # Return templateids linked with host
+    # Get Template ids for Host from Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :hostids => [hostid]
-    # * *Returns* :
-    #   - Array with templateids
+    # @param data [Hash] Should include host value to query for matching templates
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Array] Returns array of Template ids
     def get_ids_by_host(data)
       result = []
-      @client.api_request(:method => "template.get", :params => data).each do |tmpl|
+      @client.api_request(:method => 'template.get', :params => data).each do |tmpl|
         result << tmpl['templateid']
       end
       result
     end
 
-    # Return templateid
+    # Get or Create Template object using Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :host => "Template_Name" and :groups => array with hostgroup ids
-    # * *Returns* :
-    #   - Integer
+    # @param data [Hash] Needs to include host to properly identify Templates via Zabbix API
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Integer] Zabbix object id
     def get_or_create(data)
       unless (templateid = get_id(:host => data[:host]))
         templateid = create(data)
@@ -48,58 +52,57 @@ class ZabbixApi
       templateid
     end
 
-    # Analog Zabbix api call massUpdate
+    # Mass update Templates for Hosts using Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
-    # * *Returns* :
-    #   - True or False
+    # @param data [Hash] Should include hosts_id array and templates_id array
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Boolean]
     def mass_update(data)
       result = @client.api_request(
-        :method => "template.massUpdate",
+        :method => 'template.massUpdate',
         :params => {
           :hosts => data[:hosts_id].map { |t| {:hostid => t} },
-          :templates => data[:templates_id].map { |t| {:templateid => t} }
+          :templates => data[:templates_id].map { |t| {:templateid => t} },
         }
       )
       result.empty? ? false : true
     end
 
-    # Analog Zabbix api call massAdd
+    # Mass add Templates to Hosts using Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
-    # * *Returns* :
-    #   - True or False
+    # @param data [Hash] Should include hosts_id array and templates_id array
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Boolean]
     def mass_add(data)
       result = @client.api_request(
-        :method => "template.massAdd",
+        :method => 'template.massAdd',
         :params => {
           :hosts => data[:hosts_id].map { |t| {:hostid => t} },
-          :templates => data[:templates_id].map { |t| {:templateid => t} }
+          :templates => data[:templates_id].map { |t| {:templateid => t} },
         }
       )
       result.empty? ? false : true
     end
 
-    # Analog Zabbix api call massRemove
+    # Mass remove Templates to Hosts using Zabbix API
     #
-    # * *Args*    :
-    #   - +data+ -> Hash with :hosts_id => [hostid1, hostid2 ...], and :templates_id => [templateid1, templateid2 ...]
-    # * *Returns* :
-    #   - True or False
+    # @param data [Hash] Should include hosts_id array and templates_id array
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Boolean]
     def mass_remove(data)
       result = @client.api_request(
-        :method => "template.massRemove",
+        :method => 'template.massRemove',
         :params => {
           :hostids => data[:hosts_id],
           :templateids => data[:templates_id],
           :groupids => data[:group_id],
-          :force => 1
+          :force => 1,
         }
       )
       result.empty? ? false : true
     end
-
   end
 end

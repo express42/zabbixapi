@@ -1,14 +1,14 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
 describe 'server' do
   describe 'version' do
-    it "should be string" do
+    it 'should be string' do
       expect(zbx.server.version).to be_kind_of(String)
     end
 
-    it "should be 2.4.x or 3.0.x or 3.2.x" do
+    it 'should be 2.4.x or 3.0.x or 3.2.x' do
       expect(zbx.server.version).to match(/(2\.4|3\.[02])\.\d+/)
     end
   end

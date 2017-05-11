@@ -1,0 +1,9 @@
+--no-private
+--protected
+--tag authentication:"Authentication"
+--markup markdown
+-
+CHANGELOG.md
+LICENSE.md
+README.md
+examples/*.md

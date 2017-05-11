@@ -1,36 +1,42 @@
 class ZabbixApi
   class Configurations < Basic
-
+    # @return [Boolean]
     def array_flag
       true
     end
 
+    # The method name used for interacting with Configurations via Zabbix API
+    #
+    # @return [String]
     def method_name
-      "configuration"
+      'configuration'
     end
 
+    # The id field name used for identifying specific Configuration objects via Zabbix API
+    #
+    # @return [String]
     def indentify
-      "host"
+      'host'
     end
 
-    # Export configuration data as a serialized string
-    # * *Args*    :
-    # see available parameters: https://www.zabbix.com/documentation/2.2/manual/api/reference/configuration/export
-    # * *Returns* :
-    #   - String
+    # Export configuration data using Zabbix API
+    #
+    # @param data [Hash]
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Hash]
     def export(data)
-      @client.api_request(:method => "configuration.export", :params => data)
+      @client.api_request(:method => 'configuration.export', :params => data)
     end
 
-    # Import configurations data from a serialized string
-    # * *Args*    :
-    # see available parameters: https://www.zabbix.com/documentation/2.2/manual/api/reference/configuration/import
-    # * *Returns* :
-    #   - Boolean
+    # Import configuration data using Zabbix API
+    #
+    # @param data [Hash]
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
+    # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
+    # @return [Hash]
     def import(data)
-      @client.api_request(:method => "configuration.import", :params => data)
+      @client.api_request(:method => 'configuration.import', :params => data)
     end
-
   end
 end
-

@@ -1,6 +1,5 @@
 require 'zabbixapi'
 
-
 def zbx
   # settings
   @api_url = ENV['ZABBIX_HOST_URL'] || 'http://10.211.55.6/api_jsonrpc.php'
@@ -11,7 +10,7 @@ def zbx
     :url => @api_url,
     :user => @api_login,
     :password => @api_password,
-    :debug => ENV['ZABBIX_DEBUG']? true : false
+    :debug => ENV['ZABBIX_DEBUG'] ? true : false
   )
 end
 

@@ -1,10 +1,17 @@
 class ZabbixApi
   class Basic
-
+    # Log messages to stdout when debugging
+    #
+    # @param message [String]
     def log(message)
-      puts "#{message}" if @client.options[:debug]
+      puts message.to_s if @client.options[:debug]
     end
 
+    # Compare two hashes for equality
+    #
+    # @param a [Hash]
+    # @param b [Hash]
+    # @return [Boolean]
     def hash_equals?(a, b)
       a_new = normalize_hash(a)
       b_new = normalize_hash(b)
@@ -13,40 +20,64 @@ class ZabbixApi
       hash1 == hash2
     end
 
-    def symbolize_keys(obj)
-      return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  symbolize_keys(v); memo} if obj.is_a? Hash
-      return obj.inject([]){|memo,v    | memo           << symbolize_keys(v); memo} if obj.is_a? Array
-      obj
-    end
-
-    def normalize_hash(hash)
-      result = hash.dup
-      result.delete(:hostid) #TODO remove to logig. TemplateID and HostID has different id 
-      result.each do |key, value|
-        case value
-          when Array
-            result[key] = normalize_array(value)
-          else
-            result[key] = value.to_s
+    # Convert all hash/array keys to symbols
+    #
+    # @param object [Array, Hash]
+    # @return [Array, Hash]
+    def symbolize_keys(object)
+      if object.is_a?(Array)
+        object.each_with_index do |val, index|
+          object[index] = symbolize_keys(val)
+        end
+      elsif object.is_a?(Hash)
+        object.keys.each do |key|
+          object[key.to_sym] = symbolize_keys(object.delete(key))
         end
       end
+      object
+    end
+
+    # Normalize all hash values to strings
+    #
+    # @param hash [Hash]
+    # @return [Hash]
+    def normalize_hash(hash)
+      result = hash.dup
+
+      result.delete(:hostid) # TODO: remove to logig. TemplateID and HostID has different id
+
+      result.each do |key, value|
+        result[key] = value.is_a?(Array) ? normalize_array(value) : value.to_s
+      end
+
       result
     end
 
+    # Normalize all array values to strings
+    #
+    # @param array [Array]
+    # @return [Array]
     def normalize_array(array)
       result = []
+
       array.each do |e|
-        case e
-          when Array
-            result << normalize_array(e)
-          when Hash
-            result << normalize_hash(e)
-          else
-            result << e.to_s
+        if e.is_a?(Array)
+          result.push(normalize_array(e))
+        elsif e.is_a?(Hash)
+          result.push(normalize_hash(e))
+        else
+          result.push(e.to_s)
         end
       end
+
+      result
     end
 
+    # Parse a data hash for id key or boolean to return
+    #
+    # @param data [Hash]
+    # @return [Integer] The object id if a single object hash is provided with key
+    # @return [Boolean] True/False if multiple class object hash is provided
     def parse_keys(data)
       case data
       when Hash
@@ -55,15 +86,17 @@ class ZabbixApi
         true
       when FalseClass
         false
-      else
-        nil
       end
     end
 
+    # Merge two hashes into a single new hash
+    #
+    # @param a [Hash]
+    # @param b [Hash]
+    # @return [Hash]
     def merge_params(a, b)
       new = a.dup
       new.merge(b)
     end
-
   end
 end

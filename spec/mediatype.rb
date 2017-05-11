@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
@@ -9,16 +9,16 @@ describe 'mediatype' do
 
   context 'when not exists' do
     describe 'create' do
-    it "should return integer id" do
-      mediatypeid = zbx.mediatypes.create(
-        :description => @mediatype,
-        :type => 0,
-        :smtp_server => "127.0.0.1",
-        :smtp_email => "zabbix@test.com",
-        :smtp_helo => "test.com"
-      )
-      expect(mediatypeid).to be_kind_of(Integer)
-    end
+      it 'should return integer id' do
+        mediatypeid = zbx.mediatypes.create(
+          :description => @mediatype,
+          :type => 0,
+          :smtp_server => '127.0.0.1',
+          :smtp_email => 'zabbix@test.com',
+          :smtp_helo => 'test.com'
+        )
+        expect(mediatypeid).to be_kind_of(Integer)
+      end
     end
   end
 
@@ -27,22 +27,24 @@ describe 'mediatype' do
       @mediatypeid = zbx.mediatypes.create(
         :description => @mediatype,
         :type => 0,
-        :smtp_server => "127.0.0.1",
-        :smtp_email => "zabbix@test.com",
-        :smtp_helo => "test.com"
+        :smtp_server => '127.0.0.1',
+        :smtp_email => 'zabbix@test.com',
+        :smtp_helo => 'test.com'
       )
     end
 
     describe 'create_or_update' do
-      it "should return id" do
-        expect(zbx.mediatypes.create_or_update(
-          :description => @mediatype,
-          :smtp_email => "zabbix2@test.com",
-          :smtp_helo => "test.com"
-        )).to eq @mediatypeid
+      it 'should return id' do
+        expect(
+          zbx.mediatypes.create_or_update(
+            :description => @mediatype,
+            :smtp_email => 'zabbix2@test.com',
+            :smtp_helo => 'test.com'
+          )
+        ).to eq @mediatypeid
       end
 
-      it "should return id" do
+      it 'should return id' do
         expect(@mediatypeid).to eq @mediatypeid
       end
     end

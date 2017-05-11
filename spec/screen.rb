@@ -1,4 +1,4 @@
-#encoding: utf-8
+# encoding: utf-8
 
 require 'spec_helper'
 
@@ -25,24 +25,24 @@ describe 'screen' do
       :applications => [@applicationid]
     )
 
-    @color = "123456"
+    @color = '123456'
 
     @gitems = {
       :itemid => @itemid,
-      :calc_fnc => "3",
+      :calc_fnc => '3',
       :color => @color,
-      :type => "0",
-      :periods_cnt => "5"
+      :type => '0',
+      :periods_cnt => '5',
     }
 
     @graph = gen_name 'graph'
 
     @graphid = zbx.graphs.create(
       :gitems => [@gitems],
-      :show_triggers => "0",
+      :show_triggers => '0',
       :name => @graph,
-      :width => "900",
-      :height => "200"
+      :width => '900',
+      :height => '200'
     )
 
     @screen_name = gen_name 'screen'
@@ -50,7 +50,7 @@ describe 'screen' do
 
   context 'when not exists' do
     describe 'get_or_create_for_host' do
-      it "should return id" do
+      it 'should return id' do
         screenid = zbx.screens.get_or_create_for_host(
           :screen_name => @screen_name,
           :graphids => [@graphid]
@@ -70,7 +70,7 @@ describe 'screen' do
     end
 
     describe 'get_or_create_for_host' do
-      it "should return id" do
+      it 'should return id' do
         screenid = zbx.screens.get_or_create_for_host(
           :screen_name => @screen_name,
           :graphids => [@graphid]
@@ -80,7 +80,7 @@ describe 'screen' do
     end
 
     describe 'delete' do
-      it "should return id" do
+      it 'should return id' do
         expect(zbx.screens.delete(@screenid)).to eq @screenid
       end
     end
