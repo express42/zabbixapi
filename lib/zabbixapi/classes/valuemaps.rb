@@ -43,7 +43,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      valuemapid = get_id(:valuemap => data[:valuemap])
+      valuemapid = get_id(:name => data[:name])
       valuemapid ? update(data.merge(:valuemapids => [:valuemapid])) : create(data)
     end
   end
