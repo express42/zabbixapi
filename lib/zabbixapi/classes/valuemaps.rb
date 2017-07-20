@@ -38,5 +38,6 @@ class ZabbixApi
     def create_or_update(data)
       valuemapid = get_id(:valuemapids => data[:valuemapids])
       valuemapid ? update(data.merge(:valuemapids => [:valuemapid])) : create(data)
+    end
   end
 end
