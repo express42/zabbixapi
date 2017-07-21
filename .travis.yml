@@ -36,6 +36,7 @@ bundler_args: --without development --retry=3 --jobs=3
 before_install:
   - gem update --system
   - gem update bundler
+  - gem install rspec
 
 before_script:
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
