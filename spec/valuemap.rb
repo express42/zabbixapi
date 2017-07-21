@@ -16,8 +16,8 @@ describe 'valuemap' do
             'newvalue'  => 'test',
             'value'     => 'test'
           ]
-          expect(valuemapid).to be_kind_of(Integer)
         )
+        expect(valuemapid).to be_kind_of(Integer)
       end
     end
   end
