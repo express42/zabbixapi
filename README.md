@@ -4,7 +4,7 @@
 [![Build Status](http://img.shields.io/travis/express42/zabbixapi.svg)][travis]
 
 [gem]: https://rubygems.org/gems/zabbixapi
-[travis]: https://travis-ci.org/express42/zabbixapi
+[travis]: https://travis-ci.org/julienlevasseur/zabbixapi
 
 Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Zabbix API][Zabbix API]
 
