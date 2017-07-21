@@ -11,7 +11,7 @@ describe 'valuemap' do
     describe 'create' do
       it 'should return an integer id' do
         valuemapid = zbx.valuemaps.create_or_update(
-          :name => @valuemap
+          :name => @valuemap,
           :mappings => [
             'newvalue'  => 'test',
             'value'     => 'test'
@@ -25,7 +25,7 @@ describe 'valuemap' do
   context 'when exists' do
     before do
       @valuemapid = zbx.valuemaps.create_or_update(
-        :name => @valuemap
+        :name => @valuemap,
         :mappings => [
           'newvalue'  => 'test',
           'value'     => 'test'
@@ -37,7 +37,7 @@ describe 'valuemap' do
       it 'should return id' do
         expect(
           zbx.valuemaps.create_or_update(
-            :name => @valuemap
+            :name => @valuemap,
             :mappings => [
               'newvalue'  => 'test',
               'value'     => 'test'
