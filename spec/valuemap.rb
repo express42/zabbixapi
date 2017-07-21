@@ -50,4 +50,5 @@ describe 'valuemap' do
         expect(@valuemapid).to eq @valuemapid
       end
     end
+  end
 end
