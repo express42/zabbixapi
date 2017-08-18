@@ -113,7 +113,7 @@ class ZabbixApi
       parsed_body = JSON.parse(body)
 
       # If password is in body hide it
-      parsed_body['params']['password'] = '***' if parsed_body['params'].has_key? 'password'
+      parsed_body['params']['password'] = '***' if parsed_body['params'].key? 'password'
 
       JSON.pretty_unparse(parsed_body)
     end
