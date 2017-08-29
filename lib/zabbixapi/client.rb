@@ -105,8 +105,17 @@ class ZabbixApi
     def _request(body)
       puts "[DEBUG] Send request: #{body}" if @options[:debug]
       result = JSON.parse(http_request(body))
-      raise ApiError.new("Server answer API error\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{JSON.pretty_unparse(JSON.parse(body))}", result) if result['error']
+      raise ApiError.new("Server answer API error\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{pretty_body(body)}", result) if result['error']
       result['result']
+    end
+
+    def pretty_body(body)
+      parsed_body = JSON.parse(body)
+
+      # If password is in body hide it
+      parsed_body['params']['password'] = '***' if parsed_body['params'].is_a?(Hash) && parsed_body['params'].key?('password')
+
+      JSON.pretty_unparse(parsed_body)
     end
 
     # Execute Zabbix API requests and return response
