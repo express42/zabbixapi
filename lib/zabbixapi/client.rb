@@ -86,6 +86,7 @@ class ZabbixApi
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
 
+      http.open_timeout = timeout
       http.read_timeout = timeout
 
       request = Net::HTTP::Post.new(uri.request_uri)
