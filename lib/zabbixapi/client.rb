@@ -3,6 +3,7 @@ require 'json'
 
 class ZabbixApi
   class Client
+    # @param (see ZabbixApi::Client#initialize)
     # @return [Hash]
     attr_reader :options
 
@@ -34,6 +35,13 @@ class ZabbixApi
     # Initializes a new Client object
     #
     # @param options [Hash]
+    # @options opts [String] :url The url of zabbixapi(example: 'http://localhost/zabbix/api_jsonrpc.php')
+    # @options opts [String] :user
+    # @options opts [String] :password
+    # @options opts [String] :http_user A user for basic auth.(optional)
+    # @options opts [String] :http_password A password for basic auth.(optional)
+    # @options opts [Integer] :timeout Set timeout for requests in seconds.(default: 60)
+    #
     # @return [ZabbixApi::Client]
     def initialize(options = {})
       @options = options
