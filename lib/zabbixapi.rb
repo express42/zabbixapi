@@ -27,6 +27,7 @@ require 'zabbixapi/classes/unusable'
 require 'zabbixapi/classes/usergroups'
 require 'zabbixapi/classes/usermacros'
 require 'zabbixapi/classes/users'
+require 'zabbixapi/classes/valuemaps'
 
 class ZabbixApi
   # @return [ZabbixApi::Client]
@@ -154,5 +155,10 @@ class ZabbixApi
   # @return [ZabbixApi::Users]
   def users
     @users ||= Users.new(@client)
+  end
+
+  # @return [ZabbixApi::ValueMaps]
+  def valuemaps
+    @valuemaps ||= ValueMaps.new(@client)
   end
 end
