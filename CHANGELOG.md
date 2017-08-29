@@ -1,3 +1,8 @@
+## 3.2.0
+[PR #77](https://github.com/express42/zabbixapi/pull/77) Add support for Valuemap (Thanks @julienlevasseur)
+
+[PR #80](https://github.com/express42/zabbixapi/pull/80) Hide password then raising error (Thanks @bbaugher)
+
 ## 3.1.0
 [PR #68](https://github.com/express42/zabbixapi/pull/68) Add support for scripts (Thanx @jrbeilke)
 
