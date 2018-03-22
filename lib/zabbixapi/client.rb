@@ -51,7 +51,7 @@ class ZabbixApi
         @proxy_port = @proxy_uri.port
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
-      unless api_version =~ /(2\.4|3\.[02])\.\d+/
+      unless api_version =~ /(2\.4|3\.[024])\.\d+/
         raise ApiError.new("Zabbix API version: #{api_version} is not support by this version of zabbixapi")
       end
       @auth_hash = auth
