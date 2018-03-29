@@ -28,6 +28,7 @@ require 'zabbixapi/classes/usergroups'
 require 'zabbixapi/classes/usermacros'
 require 'zabbixapi/classes/users'
 require 'zabbixapi/classes/valuemaps'
+require 'zabbixapi/classes/drules'
 
 class ZabbixApi
   # @return [ZabbixApi::Client]
@@ -160,5 +161,10 @@ class ZabbixApi
   # @return [ZabbixApi::ValueMaps]
   def valuemaps
     @valuemaps ||= ValueMaps.new(@client)
+  end
+
+  # @return [ZabbixApi::Drules]
+  def drules
+    @drules ||= Drules.new(@client)
   end
 end
