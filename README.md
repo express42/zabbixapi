@@ -6,7 +6,7 @@
 [gem]: https://rubygems.org/gems/zabbixapi
 [travis]: https://travis-ci.org/express42/zabbixapi
 
-Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Zabbix API][Zabbix API]
+Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Zabbix API][Zabbix API].
 
 ## Installation
     gem install zabbixapi
