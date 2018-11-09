@@ -23,7 +23,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(:name => data[:name], :hostid => data[:hostid]))
+      unless (id = get_id(name: data[:name], hostid: data[:hostid]))
         id = create(data)
       end
       id
@@ -36,8 +36,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      applicationid = get_id(:name => data[:name], :hostid => data[:hostid])
-      applicationid ? update(data.merge(:applicationid => applicationid)) : create(data)
+      applicationid = get_id(name: data[:name], hostid: data[:hostid])
+      applicationid ? update(data.merge(applicationid: applicationid)) : create(data)
     end
   end
 end

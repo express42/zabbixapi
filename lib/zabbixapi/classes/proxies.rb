@@ -21,7 +21,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] The Proxy object id that was deleted
     def delete(data)
-      result = @client.api_request(:method => 'proxy.delete', :params => data)
+      result = @client.api_request(method: 'proxy.delete', params: data)
       result.empty? ? nil : result['proxyids'][0].to_i
     end
 
@@ -32,7 +32,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Boolean] Returns true if the given proxies are readable
     def isreadable(data)
-      @client.api_request(:method => 'proxy.isreadable', :params => data)
+      @client.api_request(method: 'proxy.isreadable', params: data)
     end
 
     # Check if a Proxy object is writable using Zabbix API
@@ -42,7 +42,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Boolean] Returns true if the given proxies are writable
     def iswritable(data)
-      @client.api_request(:method => 'proxy.iswritable', :params => data)
+      @client.api_request(method: 'proxy.iswritable', params: data)
     end
   end
 end

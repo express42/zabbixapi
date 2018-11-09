@@ -52,7 +52,7 @@ class ZabbixApi
   # @param data [Hash]
   # @return [Hash]
   def query(data)
-    @client.api_request(:method => data[:method], :params => data[:params])
+    @client.api_request(method: data[:method], params: data[:params])
   end
 
   # Invalidate current authentication token

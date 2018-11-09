@@ -1,6 +1,4 @@
-# coding: utf-8
-
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
@@ -11,19 +9,19 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'json', '~> 2.0'
   spec.add_development_dependency 'bundler', '~> 1.0'
 
-  spec.name        = 'zabbixapi'
+  spec.name        = 'ets_zabbixapi'
   spec.version     = ZabbixApi::VERSION
-  spec.authors     = ['Vasiliev D.V.', 'Ivan Evtuhovich']
-  spec.email       = ['vadv.mkn@gmail.com', 'evtuhovich@gmail.com']
+  spec.authors     = ['Scott Mackensen']
+  spec.email       = ['scott.mackensen@cerner.com']
 
-  spec.summary     = 'Simple and lightweight ruby module for working with the Zabbix API'
-  spec.description = 'Allows you to work with zabbix api from ruby.'
-  spec.homepage    = 'https://github.com/express42/zabbixapi'
+  spec.summary     = 'Internal Fork of the Zabbixapi Gem located here:https://github.com/express42/zabbixapi'
+  spec.description = 'Simple and lightweight ruby module for working with the Zabbix API'
+  spec.homepage    = 'https://github.cerner.com/ETS/ets_zabbixapi'
   spec.licenses    = 'MIT'
 
   spec.rubyforge_project = 'zabbixapi'
 
   spec.files         = ['.yardopts', 'CHANGELOG.md', 'LICENSE.md', 'README.md', 'zabbixapi.gemspec'] + Dir['lib/**/*.rb']
   spec.require_paths = 'lib'
-  spec.required_ruby_version = '>= 2.0.0'
+  spec.required_ruby_version = '>= 2.2.0'
 end

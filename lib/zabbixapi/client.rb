@@ -17,7 +17,7 @@ class ZabbixApi
     #
     # @return [String]
     def api_version
-      @version ||= api_request(:method => 'apiinfo.version', :params => {})
+      @api_version ||= api_request(method: 'apiinfo.version', params: {})
     end
 
     # Log in to the Zabbix Server and generate an auth token using the API
@@ -25,10 +25,10 @@ class ZabbixApi
     # @return [Hash]
     def auth
       api_request(
-        :method => 'user.login',
-        :params => {
-          :user     => @options[:user],
-          :password => @options[:password],
+        method: 'user.login',
+        params: {
+          user: @options[:user],
+          password: @options[:password]
         }
       )
     end
@@ -52,16 +52,11 @@ class ZabbixApi
         @proxy_port = @proxy_uri.port
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
-<<<<<<< HEAD
+
       unless api_version =~ /(2\.4|3\.[024]|4\.0)\.\d+/
         raise ApiError.new("Zabbix API version: #{api_version} is not support by this version of zabbixapi")
       end
-=======
-    end
-    
-      raise ApiError.new("Zabbix API version: #{api_version} is not support by this version of zabbixapi") unless api_version =~ /4\.\d\.\d+/
-    end
->>>>>>> c12efab... updated version and Readme to explicitly only work on Zabbix 4
+
       @auth_hash = auth
     end
 
@@ -71,10 +66,10 @@ class ZabbixApi
     # @return [String]
     def message_json(body)
       message = {
-        :method  => body[:method],
-        :params  => body[:params],
-        :id      => id,
-        :jsonrpc => '2.0',
+        method: body[:method],
+        params: body[:params],
+        id: id,
+        jsonrpc: '2.0'
       }
 
       message[:auth] = @auth_hash unless body[:method] == 'apiinfo.version' || body[:method] == 'user.login'
@@ -91,11 +86,12 @@ class ZabbixApi
       timeout = @options[:timeout].nil? ? 60 : @options[:timeout]
       puts "[DEBUG] Timeout for request set to #{timeout} seconds" if @options[:debug]
 
-      if @proxy_uri
-        http = Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
-      else
-        http = Net::HTTP.new(uri.host, uri.port)
-      end
+      http =
+        if @proxy_uri
+          Net::HTTP.Proxy(@proxy_host, @proxy_port, @proxy_user, @proxy_pass).new(uri.host, uri.port)
+        else
+          Net::HTTP.new(uri.host, uri.port)
+        end
 
       if uri.scheme == 'https'
         http.use_ssl = true
@@ -123,6 +119,7 @@ class ZabbixApi
       puts "[DEBUG] Send request: #{body}" if @options[:debug]
       result = JSON.parse(http_request(body))
       raise ApiError.new("Server answer API error\n #{JSON.pretty_unparse(result['error'])}\n on request:\n #{pretty_body(body)}", result) if result['error']
+
       result['result']
     end
 

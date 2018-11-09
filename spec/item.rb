@@ -1,20 +1,18 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 describe 'item' do
   before :all do
     @hostgroup = gen_name 'hostgroup'
-    @hostgroupid = zbx.hostgroups.create(:name => @hostgroup)
+    @hostgroupid = zbx.hostgroups.create(name: @hostgroup)
     @template = gen_name 'template'
     @templateid = zbx.templates.create(
-      :host => @template,
-      :groups => [:groupid => @hostgroupid]
+      host: @template,
+      groups: [groupid: @hostgroupid]
     )
     @application = gen_name 'application'
     @applicationid = zbx.applications.create(
-      :name => @application,
-      :hostid => @templateid
+      name: @application,
+      hostid: @templateid
     )
   end
 
@@ -26,11 +24,11 @@ describe 'item' do
     describe 'create' do
       it 'should return integer id' do
         itemid = zbx.items.create(
-          :name => @item,
-          :key_ => "proc.num[#{gen_name 'proc'}]",
-          :status => 0,
-          :hostid => @templateid,
-          :applications => [@applicationid]
+          name: @item,
+          key_: "proc.num[#{gen_name 'proc'}]",
+          status: 0,
+          hostid: @templateid,
+          applications: [@applicationid]
         )
         expect(itemid).to be_kind_of(Integer)
       end
@@ -38,7 +36,7 @@ describe 'item' do
 
     describe 'get_id' do
       it 'should return nil' do
-        expect(zbx.items.get_id(:name => @item)).to be_kind_of(NilClass)
+        expect(zbx.items.get_id(name: @item)).to be_kind_of(NilClass)
       end
     end
   end
@@ -47,11 +45,11 @@ describe 'item' do
     before :all do
       @item = gen_name 'item'
       @itemid = zbx.items.create(
-        :name => @item,
-        :key_ => 'proc.num[aaa]',
-        :status => 0,
-        :hostid => @templateid,
-        :applications => [@applicationid]
+        name: @item,
+        key_: 'proc.num[aaa]',
+        status: 0,
+        hostid: @templateid,
+        applications: [@applicationid]
       )
     end
 
@@ -59,11 +57,11 @@ describe 'item' do
       it 'should return id of item' do
         expect(
           zbx.items.get_or_create(
-            :name => @item,
-            :key_ => "proc.num[#{gen_name 'proc'}]",
-            :status => 0,
-            :hostid => @templateid,
-            :applications => [@applicationid]
+            name: @item,
+            key_: "proc.num[#{gen_name 'proc'}]",
+            status: 0,
+            hostid: @templateid,
+            applications: [@applicationid]
           )
         ).to eq @itemid
       end
@@ -71,13 +69,13 @@ describe 'item' do
 
     describe 'get_full_data' do
       it 'should contains created item' do
-        expect(zbx.items.get_full_data(:name => @item)[0]).to include('name' => @item)
+        expect(zbx.items.get_full_data(name: @item)[0]).to include('name' => @item)
       end
     end
 
     describe 'get_id' do
       it 'should return id of item' do
-        expect(zbx.items.get_id(:name => @item)).to eq @itemid
+        expect(zbx.items.get_id(name: @item)).to eq @itemid
       end
     end
 
@@ -89,8 +87,8 @@ describe 'item' do
       it 'should return id' do
         expect(
           zbx.items.update(
-            :itemid => zbx.items.get_id(:name => @item),
-            :status => 1
+            itemid: zbx.items.get_id(name: @item),
+            status: 1
           )
         ).to eq @itemid
       end
@@ -100,22 +98,22 @@ describe 'item' do
       it 'should update existing item' do
         expect(
           zbx.items.create_or_update(
-            :name => @item,
-            :key_ => "proc.num[#{gen_name 'proc'}]",
-            :status => 0,
-            :hostid => @templateid,
-            :applications => [@applicationid]
+            name: @item,
+            key_: "proc.num[#{gen_name 'proc'}]",
+            status: 0,
+            hostid: @templateid,
+            applications: [@applicationid]
           )
         ).to eq @itemid
       end
 
       it 'should create item' do
         new_item_id = zbx.items.create_or_update(
-          :name => @item + '____1',
-          :key_ => "proc.num[#{gen_name 'proc'}]",
-          :status => 0,
-          :hostid => @templateid,
-          :applications => [@applicationid]
+          name: @item + '____1',
+          key_: "proc.num[#{gen_name 'proc'}]",
+          status: 0,
+          hostid: @templateid,
+          applications: [@applicationid]
         )
 
         expect(new_item_id).to be_kind_of(Integer)
@@ -133,7 +131,7 @@ describe 'item' do
       end
 
       it 'should delete item from zabbix' do
-        expect(zbx.items.get_id(:name => @item)).to be_nil
+        expect(zbx.items.get_id(name: @item)).to be_nil
       end
     end
   end

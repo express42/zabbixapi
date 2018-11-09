@@ -9,14 +9,15 @@ class ZabbixApi
 
     # Compare two hashes for equality
     #
-    # @param a [Hash]
-    # @param b [Hash]
+    # @param first_hash [Hash]
+    # @param second_hash [Hash]
     # @return [Boolean]
-    def hash_equals?(a, b)
-      a_new = normalize_hash(a)
-      b_new = normalize_hash(b)
-      hash1 = a_new.merge(b_new)
-      hash2 = b_new.merge(a_new)
+    def hash_equals?(first_hash, second_hash)
+      normalized_first_hash = normalize_hash(first_hash)
+      normalized_second_hash = normalize_hash(second_hash)
+
+      hash1 = normalized_first_hash.merge(normalized_second_hash)
+      hash2 = normalized_second_hash.merge(normalized_first_hash)
       hash1 == hash2
     end
 
@@ -91,12 +92,12 @@ class ZabbixApi
 
     # Merge two hashes into a single new hash
     #
-    # @param a [Hash]
-    # @param b [Hash]
+    # @param first_hash [Hash]
+    # @param second_hash [Hash]
     # @return [Hash]
-    def merge_params(a, b)
-      new = a.dup
-      new.merge(b)
+    def merge_params(first_hash, second_hash)
+      new = first_hash.dup
+      new.merge(second_hash)
     end
   end
 end

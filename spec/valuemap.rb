@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 describe 'valuemap' do
@@ -11,10 +9,10 @@ describe 'valuemap' do
     describe 'create' do
       it 'should return an integer id' do
         valuemapid = zbx.valuemaps.create_or_update(
-          :name => @valuemap,
-          :mappings => [
-            'newvalue'  => 'test',
-            'value'     => 'test'
+          name: @valuemap,
+          mappings: [
+            'newvalue' => 'test',
+            'value' => 'test'
           ]
         )
         expect(valuemapid).to be_kind_of(Integer)
@@ -25,10 +23,10 @@ describe 'valuemap' do
   context 'when exists' do
     before do
       @valuemapid = zbx.valuemaps.create_or_update(
-        :name => @valuemap,
-        :mappings => [
-          'newvalue'  => 'test',
-          'value'     => 'test'
+        name: @valuemap,
+        mappings: [
+          'newvalue' => 'test',
+          'value' => 'test'
         ]
       )
     end
@@ -37,10 +35,10 @@ describe 'valuemap' do
       it 'should return id' do
         expect(
           zbx.valuemaps.create_or_update(
-            :name => @valuemap,
-            :mappings => [
-              'newvalue'  => 'test',
-              'value'     => 'test'
+            name: @valuemap,
+            mappings: [
+              'newvalue' => 'test',
+              'value' => 'test'
             ]
           )
         ).to eq @valuemapid

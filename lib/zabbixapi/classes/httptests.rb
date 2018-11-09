@@ -19,9 +19,9 @@ class ZabbixApi
     # @return [Hash]
     def default_options
       {
-        :hostid => nil,
-        :name => nil,
-        :steps => [],
+        hostid: nil,
+        name: nil,
+        steps: []
       }
     end
 
@@ -34,7 +34,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(:name => data[:name], :hostid => data[:hostid]))
+      unless (id = get_id(name: data[:name], hostid: data[:hostid]))
         id = create(data)
       end
       id
@@ -47,8 +47,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      httptestid = get_id(:name => data[:name], :hostid => data[:hostid])
-      httptestid ? update(data.merge(:httptestid => httptestid)) : create(data)
+      httptestid = get_id(name: data[:name], hostid: data[:hostid])
+      httptestid ? update(data.merge(httptestid: httptestid)) : create(data)
     end
   end
 end
