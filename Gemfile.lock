@@ -1,7 +1,11 @@
 PATH
   remote: .
   specs:
+<<<<<<< HEAD
     zabbixapi (4.1.0)
+=======
+    zabbixapi (3.2.1)
+>>>>>>> 5e890f5... ETSOE-415 Update Gem Compatibility
       http (~> 2.0)
       json (~> 2.0)
 
@@ -22,17 +26,17 @@ GEM
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    domain_name (0.5.20170404)
+    domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     hashdiff (0.3.2)
-    http (2.2.1)
+    http (2.2.2)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
       http-form_data (~> 1.0.1)
       http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    http-form_data (1.0.1)
+    http-form_data (1.0.3)
     http_parser.rb (0.6.0)
     json (2.1.0)
     method_source (0.8.2)
@@ -80,7 +84,7 @@ GEM
     tins (1.13.2)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     unicode-display_width (1.2.1)
     webmock (3.0.1)
       addressable (>= 2.3.6)
@@ -109,4 +113,4 @@ DEPENDENCIES
   zabbixapi!
 
 BUNDLED WITH
-   1.14.6
+   1.16.5
