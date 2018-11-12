@@ -22,12 +22,7 @@ Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Za
 [examples]: https://github.com/express42/zabbixapi/tree/master/examples
 
 ## Version Policy
-<<<<<<< HEAD
 We support only two last versions of zabbix (3.4 and 4.0), so you should consider all previous versions deprecated.
-=======
-We support only two last versions of zabbix (3.0 and 3.2), so you should consider zabbixapi 0.6.x, 2.0.x, 2.2.x, and 2.4.x deprecated.
-NOTE: We no longer enforce version controls on zabbix. The versions below are known to work but this gem may work with others.
->>>>>>> 5e890f5... ETSOE-415 Update Gem Compatibility
 
 * Zabbix 1.8.2 (api version 1.2) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * Zabbix 1.8.9 (api version 1.3) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
