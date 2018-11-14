@@ -38,7 +38,7 @@ class ZabbixApi
       result = @client.api_request(
         method: 'user.addMedia',
         params: {
-          users: data[:userids].map { |t| {userid: t} },
+          users: data[:userids].map { |t| { userid: t } },
           medias: data[:media]
         }
       )
@@ -55,7 +55,7 @@ class ZabbixApi
       result = @client.api_request(
         method: 'user.updateMedia',
         params: {
-          users: data[:userids].map { |t| {userid: t} },
+          users: data[:userids].map { |t| { userid: t } },
           medias: data[:media]
         }
       )

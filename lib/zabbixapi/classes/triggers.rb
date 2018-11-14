@@ -68,7 +68,7 @@ class ZabbixApi
       else
         data[:expression] = old_expression
         # disable old trigger
-        log '[DEBUG] disable :' + @client.api_request(method: "#{method_name}.update", params: [{triggerid: data[:triggerid], status: '1'}]).inspect
+        log '[DEBUG] disable :' + @client.api_request(method: "#{method_name}.update", params: [{ triggerid: data[:triggerid], status: '1' }]).inspect
         # create new trigger
         data.delete(:triggerid)
         create(data)

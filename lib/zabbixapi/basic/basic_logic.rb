@@ -131,7 +131,7 @@ class ZabbixApi
     # @return [Array<Hash>] Array of matching objects
     def all
       result = {}
-      @client.api_request(method: "#{method_name}.get", params: {output: 'extend'}).each do |item|
+      @client.api_request(method: "#{method_name}.get", params: { output: 'extend' }).each do |item|
         result[item[indentify]] = item[key]
       end
       result

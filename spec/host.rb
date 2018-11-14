@@ -46,13 +46,13 @@ describe 'host' do
             }
           ],
           groups: [
-            {groupid: @hostgroupid},
-            {groupid: @hostgroupid2}
+            { groupid: @hostgroupid },
+            { groupid: @hostgroupid2 }
           ]
         )
 
         expect(hostid).to be_kind_of Integer
-        host = zbx.query(method: 'host.get', params: {hostids: [hostid], selectGroups: 'extend'}).first
+        host = zbx.query(method: 'host.get', params: { hostids: [hostid], selectGroups: 'extend' }).first
 
         expect(host['hostid'].to_i).to eq hostid
         expect(host['groups'].size).to eq 2

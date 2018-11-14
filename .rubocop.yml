@@ -36,9 +36,6 @@ Metrics/PerceivedComplexity:
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
-Layout/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
-
 Style/Documentation:
   Enabled: false
 

@@ -214,9 +214,9 @@ class ZabbixApi
       # Zabbix has different result formats for gets vs updates
       if method.include?('.get')
         if result_key.include?('global')
-          @client.api_request(method: method, params: {globalmacro: true, filter: data})
+          @client.api_request(method: method, params: { globalmacro: true, filter: data })
         else
-          @client.api_request(method: method, params: {filter: data})
+          @client.api_request(method: method, params: { filter: data })
         end
       else
         result = @client.api_request(method: method, params: data)

@@ -33,7 +33,7 @@ class ZabbixApi
         method: 'usergroup.massAdd',
         params: {
           usrgrpids: [data[:usrgrpid]],
-          rights: data[:hostgroupids].map { |t| {permission: permission, id: t} }
+          rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
         }
       )
       result ? result['usrgrpids'][0].to_i : nil
