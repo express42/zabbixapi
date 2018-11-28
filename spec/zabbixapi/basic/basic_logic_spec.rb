@@ -182,6 +182,42 @@ describe 'ZabbixApi::Basic' do
         expect(subject).to eq result
       end
     end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: {
+              testidentify: '1'
+            },
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: {
+              testidentify: '1'
+            },
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+    end
   end
 
   describe '.get_raw' do
@@ -207,6 +243,32 @@ describe 'ZabbixApi::Basic' do
     context 'when api request is successful' do
       it 'returns an array of hash return by an API' do
         expect(subject).to eq result
+      end
+    end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: data
+        ).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: data
+        ).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
       end
     end
   end
@@ -241,6 +303,42 @@ describe 'ZabbixApi::Basic' do
         expect(subject).to eq result
       end
     end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: {
+              testkey: '1'
+            },
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: {
+              testkey: '1'
+            },
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+    end
   end
 
   describe '.all' do
@@ -266,6 +364,36 @@ describe 'ZabbixApi::Basic' do
     context 'when api request is successful' do
       it 'returns an array of hash return by an API' do
         expect(subject).to eq expected
+      end
+    end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            output: 'extend'
+          }
+        ).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
       end
     end
   end
@@ -317,6 +445,38 @@ describe 'ZabbixApi::Basic' do
         expect { subject }.to raise_error(ZabbixApi::ApiError, "#{indentify} not supplied in call to get_id")
       end
     end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: symbolized_data,
+            output: [key, indentify]
+          }
+        ).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(client).to receive(:api_request).with(
+          method: "#{method_name}.get",
+          params: {
+            filter: symbolized_data,
+            output: [key, indentify]
+          }
+        ).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+    end
   end
 
   describe '.get_or_create' do
@@ -351,6 +511,26 @@ describe 'ZabbixApi::Basic' do
     context 'when id does not exist' do
       it 'returns the newly created ID' do
         expect(subject).to eq id_through_create
+      end
+    end
+
+    context 'when an API request raise ApiError' do
+      before do
+        allow(basic_mock).to receive(:create).with(data).and_raise(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+
+      it 'propogates the ApiError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::ApiError, 'ApiError occured.')
+      end
+    end
+
+    context 'when an API request raise HttpError' do
+      before do
+        allow(basic_mock).to receive(:create).with(data).and_raise(ZabbixApi::HttpError, 'HttpError occured.')
+      end
+
+      it 'propogates the HttpError raise by an API' do
+        expect { subject }.to raise_error(ZabbixApi::HttpError, 'HttpError occured.')
       end
     end
   end
