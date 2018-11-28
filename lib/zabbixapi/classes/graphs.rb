@@ -41,9 +41,6 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Array] Returns array of Graph ids
     def get_ids_by_host(data)
-      ids = []
-      graphs = {}
-
       result = @client.api_request(
         method: 'graph.get',
         params: {
@@ -54,20 +51,13 @@ class ZabbixApi
         }
       )
 
-      result.each do |graph|
+      result.map do |graph|
         num  = graph['graphid']
         name = graph['name']
-        graphs[name] = num
         filter = data[:filter]
 
-        if filter.nil?
-          ids.push(graphs[name])
-        elsif /#{filter}/ =~ name
-          ids.push(graphs[name])
-        end
-      end
-
-      ids
+        num if filter.nil? || /#{filter}/ =~ name
+      end.compact
     end
 
     # Get Graph Item object using Zabbix API
