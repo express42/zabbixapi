@@ -98,6 +98,7 @@ class ZabbixApi
     # @return [Integer] Zabbix object id
     def create_or_update(data)
       triggerid = get_id(description: data[:description], hostid: data[:hostid])
+
       triggerid ? update(data.merge(triggerid: triggerid)) : create(data)
     end
   end

@@ -80,6 +80,7 @@ class ZabbixApi
             width: width
           }
         end
+
         screenid = create(
           name: screen_name,
           hsize: hsize,

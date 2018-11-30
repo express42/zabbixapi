@@ -32,11 +32,9 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Array] Returns array of Template ids
     def get_ids_by_host(data)
-      result = []
-      @client.api_request(method: 'template.get', params: data).each do |tmpl|
-        result << tmpl['templateid']
+      @client.api_request(method: 'template.get', params: data).map do |tmpl|
+        tmpl['templateid']
       end
-      result
     end
 
     # Get or Create Template object using Zabbix API

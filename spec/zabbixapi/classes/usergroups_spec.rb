@@ -10,20 +10,20 @@ describe 'ZabbixApi::Usergroups' do
     it { is_expected.to eq 'usergroup' }
   end
 
-  describe '.key' do
-    subject { usergroups_mock.key }
-
-    it { is_expected.to eq 'usrgrpid' }
-  end
-
   describe '.indentify' do
     subject { usergroups_mock.indentify }
 
     it { is_expected.to eq 'name' }
   end
 
-  describe 'set_perms' do
-    subject { usergroups_mock.set_perms(data) }
+  describe '.key' do
+    subject { usergroups_mock.key }
+
+    it { is_expected.to eq 'usrgrpid' }
+  end
+
+  describe '.permissions' do
+    subject { usergroups_mock.permissions(data) }
 
     let(:data) { { permission: permission, usrgrpid: 123, hostgroupids: [4, 5] } }
     let(:result) { { 'usrgrpids' => [9090] } }
