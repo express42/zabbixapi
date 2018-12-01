@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd80b37... ETSOE-458: [ets_zabbixapi] Rspec for Client class and other remaining classes in zabbixapi/classes/ dir
 require 'spec_helper'
 
 describe 'ZabbixApi::Client' do
@@ -161,8 +164,13 @@ describe 'ZabbixApi::Client' do
       end
     end
 
+<<<<<<< HEAD
     context 'when major api_version is not supported' do
       let(:api_version) { 'not_a_valid_version' }
+=======
+    context 'when major api_version is not 4' do
+      let(:api_version) { '3.0.0' }
+>>>>>>> bd80b37... ETSOE-458: [ets_zabbixapi] Rspec for Client class and other remaining classes in zabbixapi/classes/ dir
 
       before { allow(ENV).to receive(:[]).with('http_proxy').and_return(nil) }
 
@@ -273,9 +281,16 @@ describe 'ZabbixApi::Client' do
       allow(mock_post).to receive(:body=).with(body)
       allow(http_mock).to receive(:request).with(mock_post).and_return(response)
       allow(http_mock).to receive(:use_ssl=).with(true)
+<<<<<<< HEAD
       allow(http_mock).to receive(:verify_mode=).with(0)
       allow(http_mock).to receive(:open_timeout=).with(timeout)
       allow(http_mock).to receive(:read_timeout=).with(timeout)
+=======
+      allow(http_mock).to receive(:verify_mode=).with(true)
+      allow(http_mock).to receive(:open_timeout=).with(timeout)
+      allow(http_mock).to receive(:read_timeout=).with(timeout)
+      allow(OpenSSL::SSL).to receive(:VERIFY_NONE).and_return(true)
+>>>>>>> bd80b37... ETSOE-458: [ets_zabbixapi] Rspec for Client class and other remaining classes in zabbixapi/classes/ dir
       allow(response).to receive(:[]).with('error').and_return('Test error')
     end
 
@@ -423,6 +438,14 @@ describe 'ZabbixApi::Client' do
     let(:parsed_body) do
       "{\n  \"params\": \"testparams\"\n}"
     end
+<<<<<<< HEAD
+=======
+    let(:result) do
+      {
+        'result' => 'testresult'
+      }
+    end
+>>>>>>> bd80b37... ETSOE-458: [ets_zabbixapi] Rspec for Client class and other remaining classes in zabbixapi/classes/ dir
 
     before do
       allow_any_instance_of(ZabbixApi::Client).to receive(:api_version).and_return('4.0.0')

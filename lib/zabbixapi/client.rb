@@ -95,7 +95,7 @@ class ZabbixApi
 
       if uri.scheme == 'https'
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL.VERIFY_NONE
       end
 
       http.open_timeout = timeout
@@ -105,6 +105,7 @@ class ZabbixApi
       request.basic_auth @options[:http_user], @options[:http_password] if @options[:http_user]
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = body
+
       response = http.request(request)
 
       raise HttpError.new("HTTP Error: #{response.code} on #{@options[:url]}", response) unless response.code == '200'
