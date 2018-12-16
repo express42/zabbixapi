@@ -1,9 +1,17 @@
+## 4.0.0
+
+[PR #90](https://github.com/express42/zabbixapi/pull/90) Add 4.0 support (Thanks @svdasein)
+
+[PR #85](https://github.com/express42/zabbixapi/pull/85) Add 3.4 support (Thanks @ottok)
+
 ## 3.2.0
+
 [PR #77](https://github.com/express42/zabbixapi/pull/77) Add support for Valuemap (Thanks @julienlevasseur)
 
 [PR #80](https://github.com/express42/zabbixapi/pull/80) Hide password then raising error (Thanks @bbaugher)
 
 ## 3.1.0
+
 [PR #68](https://github.com/express42/zabbixapi/pull/68) Add support for scripts (Thanx @jrbeilke)
 
 ## 2.4.9
