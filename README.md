@@ -22,15 +22,15 @@ Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Za
 [examples]: https://github.com/express42/zabbixapi/tree/master/examples
 
 ## Version Policy
-We support only two last versions of zabbix (3.0 and 3.2), so you should consider zabbixapi 0.6.x, 2.0.x, 2.2.x, and 2.4.x deprecated.
+We support only two last versions of zabbix (3.4 and 4.0), so you should consider all previous versions deprecated.
 
 * Zabbix 1.8.2 (api version 1.2) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * Zabbix 1.8.9 (api version 1.3) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * Zabbix 2.0.x (api version 1.4 -> 2.0.10) | zabbixapi 2.0.x | [branch zabbix2.0](https://github.com/express42/zabbixapi/tree/zabbix2.0)
 * Zabbix 2.2.x (api version 2.2.x) | zabbixapi 2.2.x | [branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
 * Zabbix 2.4.x (api version 2.2.x) | zabbixapi 2.4.x | [branch zabbix2.4](https://github.com/express42/zabbixapi/tree/zabbix2.4)
-* Zabbix 3.0.x (api version 3.0.x) | zabbixapi 3.0.x | [master](https://github.com/express42/zabbixapi/)
-* Zabbix 3.2.x (api version 3.2.x) | zabbixapi 3.0.x | [master](https://github.com/express42/zabbixapi/)
+* Zabbix 3.0.x (api version 3.0.x) | zabbixapi 3.0.x | [branch zabbix3.0](https://github.com/express42/zabbixapi/tree/zabbix3.0)
+* Zabbix 3.2.x (api version 3.2.x) | zabbixapi 3.0.x | [branch zabbix3.2](https://github.com/express42/zabbixapi/tree/zabbix3.2)
 
 ## Supported Ruby Versions
 This library aims to support and is [tested against][travis] the following Ruby
@@ -78,7 +78,7 @@ dropped.
 [Zabbix API]: https://www.zabbix.com/documentation/3.2/manual/api
 
 ## Copyright
-Copyright (c) 2015-2017 Express 42
+Copyright (c) 2015-2018 Express 42
 
 See [LICENSE][] for details.
 
