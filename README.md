@@ -59,7 +59,6 @@ dropped.
 ## Dependencies
 
 * net/http
-* net/https
 * json
 
 ## Contributing
