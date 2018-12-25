@@ -3,7 +3,7 @@
 This example assumes you have already initialized and connected the ZabbixApi.
 
 For more information and available properties please refer to the Zabbix API documentation for Usergroups:
-[https://www.zabbix.com/documentation/3.2/manual/api/reference/usergroup](https://www.zabbix.com/documentation/3.2/manual/api/reference/usergroup)
+[https://www.zabbix.com/documentation/4.0/manual/api/reference/usergroup](https://www.zabbix.com/documentation/4.0/manual/api/reference/usergroup)
 
 ## Create UserGroup, add User and set permission
 ```ruby
