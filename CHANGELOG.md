@@ -1,3 +1,9 @@
+## 4.1.0
+
+[PR #82](https://github.com/express42/zabbixapi/pull/82) Add logout method (Thanks @baurmatt)
+
+[PR #86](https://github.com/express42/zabbixapi/pull/86) Feature: add support for Discovery Rules (`drule` API) (Thanks @lehn-etracker)
+
 ## 4.0.0
 
 [PR #90](https://github.com/express42/zabbixapi/pull/90) Add 4.0 support (Thanks @svdasein)
