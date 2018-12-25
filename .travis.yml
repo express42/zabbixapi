@@ -6,7 +6,7 @@ addons:
   postgresql: '9.5'
   apt:
     sources:
-      - sourceline: 'deb http://repo.zabbix.com/zabbix/3.0/ubuntu/ trusty main'
+      - sourceline: 'deb http://repo.zabbix.com/zabbix/4.0/ubuntu/ trusty main'
         key_url: 'http://repo.zabbix.com/zabbix-official-repo.key'
     packages:
       - php5-pgsql
