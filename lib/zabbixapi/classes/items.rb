@@ -40,7 +40,7 @@ class ZabbixApi
         :snmpv3_authpassphrase => '',
         :snmpv3_privpassphrase => '',
         :formula => 0,
-        :trends => 365,
+        :trends => 86400,
         :logtimefmt => '',
         :valuemapid => 0,
         :delay_flex => '',
