@@ -23,7 +23,7 @@ class ZabbixApi
         :key_ => nil,
         :hostid => nil,
         :delay => 60,
-        :history => 60,
+        :history => 3600,
         :status => 0,
         :type => 7,
         :snmp_community => '',
