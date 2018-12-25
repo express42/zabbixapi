@@ -52,6 +52,21 @@ zbx = ZabbixApi.connect(
 )
 ```
 
+## Logout
+```ruby
+require "zabbixapi"
+
+zbx = ZabbixApi.connect(
+  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :user => 'Admin',
+  :password => 'zabbix'
+)
+
+# Do stuff
+
+zbx.logout
+```
+
 ## Create Host
 ```ruby
 zbx.hosts.create(

@@ -54,6 +54,12 @@ class ZabbixApi
     @client.api_request(:method => data[:method], :params => data[:params])
   end
 
+  # Invalidate current authentication token
+  # @return [Boolean]
+  def logout
+    @client.logout
+  end
+
   # Initializes a new ZabbixApi object
   #
   # @param options [Hash]
