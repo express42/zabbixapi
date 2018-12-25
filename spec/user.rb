@@ -86,28 +86,16 @@ describe 'user' do
       end
     end
 
-    describe 'add_medias' do
-      it 'should return integer media id' do
+    describe 'update by adding media' do
+      it 'should return id' do
         expect(
-          zbx.users.add_medias(
-            :userids => [@userid],
-            :media => [media]
+          zbx.users.update(
+            :userid => @userid,
+            :user_medias => [
+                media,
+            ]
           )
-        ).to be_kind_of(Integer)
-      end
-    end
-
-    describe 'update_medias' do
-      it 'should return the user id' do
-        # Call twice to ensure update_medias first successfully creates the media, then updates it
-        2.times do
-          returned_userid = zbx.users.update_medias(
-            :userids => [@userid],
-            :media => [media]
-          )
-
-          expect(returned_userid).to eq @userid
-        end
+        ).to eq @userid
       end
     end
 
