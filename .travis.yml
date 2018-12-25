@@ -43,7 +43,7 @@ before_script:
   - psql -c 'create database zabbix;' -U postgres
   - psql -c 'create user zabbix;' -U postgres
   - psql -c 'grant all privileges on database zabbix to zabbix;' -U postgres
-  - zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | LC_ALL=C psql -U zabbix
+  - zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | LC_ALL=C psql -U zabbix >/dev/null
   - echo "$(curl -fsSL https://gist.githubusercontent.com/evtuhovich/9544441/raw/d661863063b76cc8e2599bc44d8595b1f86ece38/zabbix)" | sudo tee /etc/zabbix/web/zabbix.conf.php
   - sudo service apache2 restart
 
