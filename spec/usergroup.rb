@@ -20,7 +20,9 @@ describe 'usergroup' do
         :name => @user,
         :surname => @user,
         :passwd => @user,
-        :usrgrps => [@usergroupid]
+        :usrgrps => [
+            :usrgrpid => @usergroupid,
+        ]
       )
 
       @usergroup2 = gen_name 'usergroup'
@@ -31,7 +33,9 @@ describe 'usergroup' do
         :name => @user2,
         :surname => @user2,
         :passwd => @user2,
-        :usrgrps => [@usergroupid2]
+        :usrgrps => [
+            :usrgrpid => @usergroupid2,
+        ]
       )
     end
 
