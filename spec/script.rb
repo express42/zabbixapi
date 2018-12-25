@@ -67,7 +67,6 @@ describe 'script' do
       it "should return id" do
         expect(zbx.scripts.update(
           :scriptid => zbx.scripts.get_id(:name => @script),
-          :enable_confirmation => 1,
           :confirmation => 'Are you sure you would like to show the system hostname?'
         )).to eq @scriptid
       end
