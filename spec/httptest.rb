@@ -28,7 +28,7 @@ describe 'httptest' do
             {
               :name => @step_name,
               :url => 'http://localhost/zabbix/',
-              :status_codes => 200,
+              :status_codes => '200',
               :no => 1,
             },
           ]
@@ -56,7 +56,7 @@ describe 'httptest' do
           {
             :name => @step_name,
             :url => 'http://localhost/zabbix/',
-            :status_codes => 200,
+            :status_codes => '200',
             :no => 1,
           },
         ]
@@ -73,7 +73,7 @@ describe 'httptest' do
               {
                 :name => @step_name,
                 :url => 'http://localhost/zabbix/',
-                :status_codes => 200,
+                :status_codes => '200',
                 :no => 1,
               },
             ]
@@ -105,7 +105,7 @@ describe 'httptest' do
               {
                 :name => @step_name,
                 :url => 'http://localhost/zabbix/',
-                :status_codes => 200,
+                :status_codes => '200',
                 :no => 1,
               },
             ]
@@ -124,7 +124,7 @@ describe 'httptest' do
               {
                 :name => @step_name,
                 :url => 'http://localhost/zabbix/',
-                :status_codes => 200,
+                :status_codes => '200',
                 :no => 1,
               },
             ]
