@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zabbixapi (3.0.0)
+    zabbixapi (4.0.0)
       http (~> 2.0)
       json (~> 2.0)
 
