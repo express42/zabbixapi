@@ -95,7 +95,7 @@ class ZabbixApi
 
       if uri.scheme == 'https'
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL.VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
 
       http.open_timeout = timeout
