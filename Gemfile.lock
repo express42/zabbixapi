@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ets_zabbixapi (4.1.0)
+    zabbixapi (4.1.0)
       http (~> 2.0)
       json (~> 2.0)
 
@@ -72,13 +72,13 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.0)
-  ets_zabbixapi!
   jruby-openssl
   pry
   rake (~> 11.1)
   rspec (>= 3.8)
   rubocop (>= 0.60)
   yard (>= 0.9)
+  zabbixapi!
 
 BUNDLED WITH
    1.16.5

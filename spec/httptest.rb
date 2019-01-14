@@ -52,19 +52,11 @@ describe 'httptest' do
         hostid: @templateid,
         steps: [
           {
-<<<<<<< HEAD
-            :name => @step_name,
-            :url => 'http://localhost/zabbix/',
-            :status_codes => '200',
-            :no => 1,
-          },
-=======
             name: @step_name,
             url: 'http://localhost/zabbix/',
             status_codes: 200,
             no: 1
           }
->>>>>>> 17e60e3... ETSOE-413 ets_zabbixapi gem cleanup
         ]
       )
     end
@@ -77,19 +69,11 @@ describe 'httptest' do
             hostid: @templateid,
             steps: [
               {
-<<<<<<< HEAD
-                :name => @step_name,
-                :url => 'http://localhost/zabbix/',
-                :status_codes => '200',
-                :no => 1,
-              },
-=======
                 name: @step_name,
                 url: 'http://localhost/zabbix/',
                 status_codes: 200,
                 no: 1
               }
->>>>>>> 17e60e3... ETSOE-413 ets_zabbixapi gem cleanup
             ]
           )
         ).to eq @httptestid
@@ -117,19 +101,11 @@ describe 'httptest' do
             hostid: @templateid,
             steps: [
               {
-<<<<<<< HEAD
-                :name => @step_name,
-                :url => 'http://localhost/zabbix/',
-                :status_codes => '200',
-                :no => 1,
-              },
-=======
                 name: @step_name,
                 url: 'http://localhost/zabbix/',
                 status_codes: 200,
                 no: 1
               }
->>>>>>> 17e60e3... ETSOE-413 ets_zabbixapi gem cleanup
             ]
           )
         ).to eq @httptestid
@@ -144,19 +120,11 @@ describe 'httptest' do
             status: 0,
             steps: [
               {
-<<<<<<< HEAD
-                :name => @step_name,
-                :url => 'http://localhost/zabbix/',
-                :status_codes => '200',
-                :no => 1,
-              },
-=======
                 name: @step_name,
                 url: 'http://localhost/zabbix/',
                 status_codes: 200,
                 no: 1
               }
->>>>>>> 17e60e3... ETSOE-413 ets_zabbixapi gem cleanup
             ]
           )
         ).to eq @httptestid

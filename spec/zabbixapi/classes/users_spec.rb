@@ -27,8 +27,6 @@ describe 'ZabbixApi::Users' do
 
     it { is_expected.to eq 'userids' }
   end
-<<<<<<< HEAD
-=======
 
   describe '.add_medias' do
     subject { users_mock.add_medias(data) }
@@ -87,5 +85,4 @@ describe 'ZabbixApi::Users' do
       end
     end
   end
->>>>>>> bd80b37... ETSOE-458: [ets_zabbixapi] Rspec for Client class and other remaining classes in zabbixapi/classes/ dir
 end

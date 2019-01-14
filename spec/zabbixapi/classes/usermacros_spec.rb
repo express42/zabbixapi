@@ -8,13 +8,13 @@ describe 'ZabbixApi::Usermacros' do
   describe '.indentify' do
     subject { usermacros_mock.indentify }
 
-    it { is_expected.to eq 'usermacro' }
+    it { is_expected.to eq 'macro' }
   end
 
   describe '.method_name' do
     subject { usermacros_mock.method_name }
 
-    it { is_expected.to eq 'macro' }
+    it { is_expected.to eq 'usermacro' }
   end
 
   describe '.get_id' do

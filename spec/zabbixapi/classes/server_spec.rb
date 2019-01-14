@@ -20,7 +20,7 @@ describe 'ZabbixApi::Server' do
     end
 
     it 'sets api_version class variable' do
-      expect(subject.instance_variable_get(:@version)).to eq result
+      expect(subject.instance_variable_get(:@api_version)).to eq result
     end
   end
 end
