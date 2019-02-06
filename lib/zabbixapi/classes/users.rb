@@ -27,6 +27,5 @@ class ZabbixApi
     def indentify
       'alias'
     end
-
   end
 end

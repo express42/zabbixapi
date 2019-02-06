@@ -47,7 +47,7 @@ class ZabbixApi
       data = symbolize_keys(data) if data.key?(indentify)
       # raise an error if indentify name was not supplied
       name = data[indentify.to_sym]
-      raise ApiError.new("#{indentify} not supplied in call to get_id") if name.nil?
+      raise ApiError.new("#{indentify} not supplied in call to get_id_global") if name.nil?
 
       result = request(data, 'usermacro.get', 'globalmacroid')
 
@@ -196,8 +196,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update_global(data)
-      hostmacroid = get_id_global(:macro => data[:macro], :hostid => data[:hostid])
-      hostmacroid ? update_global(data.merge(:globalmacroid => globalmacroid)) : create_global(data)
+      globalmacroid = get_id_global(:macro => data[:macro], :hostid => data[:hostid])
+      globalmacroid ? update_global(data.merge(:globalmacroid => globalmacroid)) : create_global(data)
     end
 
   private
