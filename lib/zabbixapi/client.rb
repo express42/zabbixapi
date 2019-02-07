@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'openssl'
 
 class ZabbixApi
   class Client
@@ -29,16 +30,6 @@ class ZabbixApi
           :user     => @options[:user],
           :password => @options[:password],
         }
-      )
-    end
-
-    # Log out from the Zabbix Server
-    #
-    # @return [Boolean]
-    def logout
-      api_request(
-        :method => 'user.logout',
-        :params => []
       )
     end
 
