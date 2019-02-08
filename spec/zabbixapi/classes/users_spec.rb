@@ -28,15 +28,16 @@ describe 'ZabbixApi::Users' do
     it { is_expected.to eq 'userids' }
   end
 
-  describe '.add_medias' do
-    subject { users_mock.add_medias(data) }
+  describe '.medias_helper' do
+    subject { users_mock.medias_helper(data, action) }
 
     let(:data) { { userids: [1234, 5678], media: 'testmedia' } }
     let(:result) { { 'mediaids' => ['111'], 'testindentify' => 1 } }
+    let(:action) { 'updateMedia' }
 
     before do
       allow(client).to receive(:api_request).with(
-        method: 'user.addMedia',
+        method: "user.#{action}",
         params: {
           users: data[:userids].map { |t| { userid: t } },
           medias: data[:media]
@@ -57,6 +58,25 @@ describe 'ZabbixApi::Users' do
     end
   end
 
+  describe '.add_medias' do
+    subject { users_mock.add_medias(data) }
+
+    let(:data) { { userids: [1234, 5678], media: 'testmedia' } }
+    let(:result) { { 'userids' => ['111'], 'testindentify' => 1 } }
+
+    before do
+      allow(users_mock).to receive(:medias_helper)
+    end
+
+    it 'calls medias_helper' do
+      expect(users_mock).to receive(:medias_helper).with(
+        data,
+        'addMedia'
+      )
+      subject
+    end
+  end
+
   describe '.update_medias' do
     subject { users_mock.update_medias(data) }
 
@@ -64,25 +84,15 @@ describe 'ZabbixApi::Users' do
     let(:result) { { 'userids' => ['111'], 'testindentify' => 1 } }
 
     before do
-      allow(client).to receive(:api_request).with(
-        method: 'user.updateMedia',
-        params: {
-          users: data[:userids].map { |t| { userid: t } },
-          medias: data[:media]
-        }
-      ).and_return(result)
+      allow(users_mock).to receive(:medias_helper)
     end
 
-    context 'when api_request returns nil result' do
-      let(:result) { nil }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'when api_request doesn not return empty result' do
-      it 'returns first userid' do
-        expect(subject).to eq 111
-      end
+    it 'calls medias_helper' do
+      expect(users_mock).to receive(:medias_helper).with(
+        data,
+        'updateMedia'
+      )
+      subject
     end
   end
 end
