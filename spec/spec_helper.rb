@@ -7,10 +7,10 @@ def zbx
   @api_password = ENV['ZABBIX_PASSWORD'] || 'zabbix'
 
   @zbx ||= ZabbixApi.connect(
-    :url => @api_url,
-    :user => @api_login,
-    :password => @api_password,
-    :debug => ENV['ZABBIX_DEBUG'] ? true : false
+    url: @api_url,
+    user: @api_login,
+    password: @api_password,
+    debug: ENV['ZABBIX_DEBUG'] ? true : false
   )
 end
 

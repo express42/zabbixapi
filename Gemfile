@@ -9,13 +9,8 @@ group :development do
 end
 
 group :test do
-  gem 'coveralls'
-  gem 'rspec', '>= 3.4.4'
-  gem 'rubocop', '>= 0.38'
-  gem 'simplecov', '>= 0.9'
-  gem 'timecop'
-  gem 'webmock', '>= 2.0.3'
-  gem 'yardstick'
+  gem 'rspec', '>= 3.8'
+  gem 'rubocop', '>= 0.60'
 end
 
 gemspec

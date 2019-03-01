@@ -1,15 +1,13 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 describe 'usermacro' do
   before :all do
     @hostgroup = gen_name 'hostgroup'
-    @hostgroupid = zbx.hostgroups.create(:name => @hostgroup)
+    @hostgroupid = zbx.hostgroups.create(name: @hostgroup)
     @template = gen_name 'template'
     @templateid = zbx.templates.create(
-      :host => @template,
-      :groups => [:groupid => @hostgroupid]
+      host: @template,
+      groups: [groupid: @hostgroupid]
     )
   end
 
@@ -21,9 +19,9 @@ describe 'usermacro' do
     describe 'create' do
       it 'should return integer id' do
         hostmacroid = zbx.usermacros.create(
-          :macro => @hostmacro,
-          :value => 'public',
-          :hostid => @templateid
+          macro: @hostmacro,
+          value: 'public',
+          hostid: @templateid
         )
         expect(hostmacroid).to be_kind_of(Integer)
       end
@@ -31,7 +29,7 @@ describe 'usermacro' do
 
     describe 'get_id' do
       it 'should return nil' do
-        expect(zbx.usermacros.get_id(:macro => @hostmacro)).to be_kind_of(NilClass)
+        expect(zbx.usermacros.get_id(macro: @hostmacro)).to be_kind_of(NilClass)
       end
     end
   end
@@ -40,9 +38,9 @@ describe 'usermacro' do
     before :all do
       @hostmacro = '{$' + gen_name('HOSTMACRO') + '}'
       @hostmacroid = zbx.usermacros.create(
-        :macro => @hostmacro,
-        :value => 'public',
-        :hostid => @templateid
+        macro: @hostmacro,
+        value: 'public',
+        hostid: @templateid
       )
     end
 
@@ -50,9 +48,9 @@ describe 'usermacro' do
       it 'should return id of hostmacro' do
         expect(
           zbx.usermacros.get_or_create(
-            :macro => @hostmacro,
-            :value => 'public',
-            :hostid => @templateid
+            macro: @hostmacro,
+            value: 'public',
+            hostid: @templateid
           )
         ).to eq @hostmacroid
       end
@@ -60,13 +58,13 @@ describe 'usermacro' do
 
     describe 'get_full_data' do
       it 'should contains created hostmacro' do
-        expect(zbx.usermacros.get_full_data(:macro => @hostmacro)[0]).to include('macro' => @hostmacro)
+        expect(zbx.usermacros.get_full_data(macro: @hostmacro)[0]).to include('macro' => @hostmacro)
       end
     end
 
     describe 'get_id' do
       it 'should return id of hostmacro' do
-        expect(zbx.usermacros.get_id(:macro => @hostmacro)).to eq @hostmacroid
+        expect(zbx.usermacros.get_id(macro: @hostmacro)).to eq @hostmacroid
       end
     end
 
@@ -78,10 +76,10 @@ describe 'usermacro' do
       it 'should return id' do
         expect(
           zbx.usermacros.update(
-            :hostmacroid => zbx.usermacros.get_id(
-              :macro => @hostmacro
+            hostmacroid: zbx.usermacros.get_id(
+              macro: @hostmacro
             ),
-            :value => 'private'
+            value: 'private'
           )
         ).to eq @hostmacroid
       end
@@ -91,18 +89,18 @@ describe 'usermacro' do
       it 'should update existing usermacro' do
         expect(
           zbx.usermacros.create_or_update(
-            :macro => @hostmacro,
-            :value => 'public',
-            :hostid => @templateid
+            macro: @hostmacro,
+            value: 'public',
+            hostid: @templateid
           )
         ).to eq @hostmacroid
       end
 
       it 'should create usermacro' do
         new_hostmacro_id = zbx.usermacros.create_or_update(
-          :macro => @hostmacro.gsub(/}/, '____1}'),
-          :value => 'public',
-          :hostid => @templateid
+          macro: @hostmacro.gsub(/}/, '____1}'),
+          value: 'public',
+          hostid: @templateid
         )
 
         expect(new_hostmacro_id).to be_kind_of(Integer)
@@ -120,7 +118,7 @@ describe 'usermacro' do
       end
 
       it 'should delete item from zabbix' do
-        expect(zbx.usermacros.get_id(:macro => @hostmacro)).to be_nil
+        expect(zbx.usermacros.get_id(macro: @hostmacro)).to be_nil
       end
     end
   end
@@ -133,8 +131,8 @@ describe 'usermacro' do
     describe 'create_global' do
       it 'should return integer id' do
         globalmacroid = zbx.usermacros.create_global(
-          :macro => @globalmacro,
-          :value => 'public'
+          macro: @globalmacro,
+          value: 'public'
         )
         expect(globalmacroid).to be_kind_of(Integer)
       end
@@ -142,7 +140,7 @@ describe 'usermacro' do
 
     describe 'get_id_global' do
       it 'should return nil' do
-        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to be_kind_of(NilClass)
+        expect(zbx.usermacros.get_id_global(macro: @globalmacro)).to be_kind_of(NilClass)
       end
     end
   end
@@ -151,20 +149,20 @@ describe 'usermacro' do
     before :all do
       @globalmacro = '{$' + gen_name('GLOBALMACRO') + '}'
       @globalmacroid = zbx.usermacros.create_global(
-        :macro => @globalmacro,
-        :value => 'public'
+        macro: @globalmacro,
+        value: 'public'
       )
     end
 
     describe 'get_full_data_global' do
       it 'should contains created globalmacro' do
-        expect(zbx.usermacros.get_full_data_global(:macro => @globalmacro)[0]).to include('macro' => @globalmacro)
+        expect(zbx.usermacros.get_full_data_global(macro: @globalmacro)[0]).to include('macro' => @globalmacro)
       end
     end
 
     describe 'get_id_global' do
       it 'should return id of globalmacro' do
-        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to eq @globalmacroid
+        expect(zbx.usermacros.get_id_global(macro: @globalmacro)).to eq @globalmacroid
       end
     end
 
@@ -176,10 +174,10 @@ describe 'usermacro' do
       it 'should return id' do
         expect(
           zbx.usermacros.update_global(
-            :globalmacroid => zbx.usermacros.get_id_global(
-              :macro => @globalmacro
+            globalmacroid: zbx.usermacros.get_id_global(
+              macro: @globalmacro
             ),
-            :value => 'private'
+            value: 'private'
           )
         ).to eq @globalmacroid
       end
@@ -195,7 +193,7 @@ describe 'usermacro' do
       end
 
       it 'should delete item from zabbix' do
-        expect(zbx.usermacros.get_id_global(:macro => @globalmacro)).to be_nil
+        expect(zbx.usermacros.get_id_global(macro: @globalmacro)).to be_nil
       end
     end
   end

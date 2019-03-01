@@ -21,7 +21,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] The Template object id that was deleted
     def delete(data)
-      result = @client.api_request(:method => 'template.delete', :params => [data])
+      result = @client.api_request(method: 'template.delete', params: [data])
       result.empty? ? nil : result['templateids'][0].to_i
     end
 
@@ -32,11 +32,9 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Array] Returns array of Template ids
     def get_ids_by_host(data)
-      result = []
-      @client.api_request(:method => 'template.get', :params => data).each do |tmpl|
-        result << tmpl['templateid']
+      @client.api_request(method: 'template.get', params: data).map do |tmpl|
+        tmpl['templateid']
       end
-      result
     end
 
     # Get or Create Template object using Zabbix API
@@ -46,7 +44,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def get_or_create(data)
-      unless (templateid = get_id(:host => data[:host]))
+      unless (templateid = get_id(host: data[:host]))
         templateid = create(data)
       end
       templateid
@@ -60,10 +58,10 @@ class ZabbixApi
     # @return [Boolean]
     def mass_update(data)
       result = @client.api_request(
-        :method => 'template.massUpdate',
-        :params => {
-          :hosts => data[:hosts_id].map { |t| {:hostid => t} },
-          :templates => data[:templates_id].map { |t| {:templateid => t} },
+        method: 'template.massUpdate',
+        params: {
+          hosts: data[:hosts_id].map { |t| { hostid: t } },
+          templates: data[:templates_id].map { |t| { templateid: t } }
         }
       )
       result.empty? ? false : true
@@ -77,10 +75,10 @@ class ZabbixApi
     # @return [Boolean]
     def mass_add(data)
       result = @client.api_request(
-        :method => 'template.massAdd',
-        :params => {
-          :hosts => data[:hosts_id].map { |t| {:hostid => t} },
-          :templates => data[:templates_id].map { |t| {:templateid => t} },
+        method: 'template.massAdd',
+        params: {
+          hosts: data[:hosts_id].map { |t| { hostid: t } },
+          templates: data[:templates_id].map { |t| { templateid: t } }
         }
       )
       result.empty? ? false : true
@@ -94,12 +92,12 @@ class ZabbixApi
     # @return [Boolean]
     def mass_remove(data)
       result = @client.api_request(
-        :method => 'template.massRemove',
-        :params => {
-          :hostids => data[:hosts_id],
-          :templateids => data[:templates_id],
-          :groupids => data[:group_id],
-          :force => 1,
+        method: 'template.massRemove',
+        params: {
+          hostids: data[:hosts_id],
+          templateids: data[:templates_id],
+          groupids: data[:group_id],
+          force: 1
         }
       )
       result.empty? ? false : true

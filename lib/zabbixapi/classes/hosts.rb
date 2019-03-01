@@ -24,13 +24,13 @@ class ZabbixApi
       log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
 
       @client.api_request(
-        :method => 'host.get',
-        :params => {
-          :filter => {
-            key.to_sym => data[key.to_sym],
+        method: 'host.get',
+        params: {
+          filter: {
+            key.to_sym => data[key.to_sym]
           },
-          :output => 'extend',
-          :selectGroups => 'shorten',
+          output: 'extend',
+          selectGroups: 'shorten'
         }
       )
     end
@@ -40,12 +40,12 @@ class ZabbixApi
     # @return [Hash]
     def default_options
       {
-        :host => nil,
-        :interfaces => [],
-        :status => 0,
-        :available => 1,
-        :groups => [],
-        :proxy_hostid => nil,
+        host: nil,
+        interfaces: [],
+        status: 0,
+        available: 1,
+        groups: [],
+        proxy_hostid: nil
       }
     end
 
@@ -57,10 +57,10 @@ class ZabbixApi
     # @return [Boolean]
     def unlink_templates(data)
       result = @client.api_request(
-        :method => 'host.massRemove',
-        :params => {
-          :hostids => data[:hosts_id],
-          :templates => data[:templates_id],
+        method: 'host.massRemove',
+        params: {
+          hostids: data[:hosts_id],
+          templates: data[:templates_id]
         }
       )
       result.empty? ? false : true
@@ -73,8 +73,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      hostid = get_id(:host => data[:host])
-      hostid ? update(data.merge(:hostid => hostid)) : create(data)
+      hostid = get_id(host: data[:host])
+      hostid ? update(data.merge(hostid: hostid)) : create(data)
     end
   end
 end

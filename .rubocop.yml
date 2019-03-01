@@ -1,4 +1,5 @@
-inherit_from: .rubocop_todo.yml
+AllCops:
+  DisplayCopNames: true
 
 Metrics/AbcSize:
   Max: 58 # TODO: Lower to 15
@@ -32,7 +33,7 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 10
 
-Style/AccessModifierIndentation:
+Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
 Style/Documentation:
@@ -50,11 +51,5 @@ Style/HashSyntax:
 Style/RaiseArgs:
   EnforcedStyle: compact
 
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
-
 Style/SymbolArray:
   EnforcedStyle: brackets
-
-Style/TrailingCommaInLiteral:
-  EnforcedStyleForMultiline: 'comma'

@@ -47,7 +47,7 @@ class ZabbixApi
       data = symbolize_keys(data) if data.key?(indentify)
       # raise an error if indentify name was not supplied
       name = data[indentify.to_sym]
-      raise ApiError.new("#{indentify} not supplied in call to get_id") if name.nil?
+      raise ApiError.new("#{indentify} not supplied in call to get_id_global") if name.nil?
 
       result = request(data, 'usermacro.get', 'globalmacroid')
 
@@ -157,7 +157,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(:macro => data[:macro], :hostid => data[:hostid]))
+      unless (id = get_id(macro: data[:macro], hostid: data[:hostid]))
         id = create(data)
       end
       id
@@ -172,7 +172,7 @@ class ZabbixApi
     def get_or_create_global(data)
       log "[DEBUG] Call get_or_create_global with parameters: #{data.inspect}"
 
-      unless (id = get_id_global(:macro => data[:macro], :hostid => data[:hostid]))
+      unless (id = get_id_global(macro: data[:macro], hostid: data[:hostid]))
         id = create_global(data)
       end
       id
@@ -185,8 +185,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      hostmacroid = get_id(:macro => data[:macro], :hostid => data[:hostid])
-      hostmacroid ? update(data.merge(:hostmacroid => hostmacroid)) : create(data)
+      hostmacroid = get_id(macro: data[:macro], hostid: data[:hostid])
+      hostmacroid ? update(data.merge(hostmacroid: hostmacroid)) : create(data)
     end
 
     # Create or update Global macro object using Zabbix API
@@ -196,8 +196,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update_global(data)
-      hostmacroid = get_id_global(:macro => data[:macro], :hostid => data[:hostid])
-      hostmacroid ? update_global(data.merge(:globalmacroid => globalmacroid)) : create_global(data)
+      globalmacroid = get_id_global(macro: data[:macro], hostid: data[:hostid])
+      globalmacroid ? update_global(data.merge(globalmacroid: globalmacroid)) : create_global(data)
     end
 
   private
@@ -214,12 +214,12 @@ class ZabbixApi
       # Zabbix has different result formats for gets vs updates
       if method.include?('.get')
         if result_key.include?('global')
-          @client.api_request(:method => method, :params => {:globalmacro => true, :filter => data})
+          @client.api_request(method: method, params: { globalmacro: true, filter: data })
         else
-          @client.api_request(:method => method, :params => {:filter => data})
+          @client.api_request(method: method, params: { filter: data })
         end
       else
-        result = @client.api_request(:method => method, :params => data)
+        result = @client.api_request(method: method, params: data)
 
         result.key?(result_key) && !result[result_key].empty? ? result[result_key][0].to_i : nil
       end

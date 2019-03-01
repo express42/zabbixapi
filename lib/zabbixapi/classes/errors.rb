@@ -12,8 +12,11 @@ class ZabbixApi
   private
 
     def set_error!
-      @error = @response['error'] rescue nil
-      @error_message = "#{@error['message']}: #{@error['data']}" rescue nil
+      @error = @response['error']
+      @error_message = "#{@error['message']}: #{@error['data']}"
+    rescue StandardError
+      @error = nil
+      @error_message = nil
     end
   end
 

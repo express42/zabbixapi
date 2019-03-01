@@ -24,12 +24,12 @@ class ZabbixApi
       log "[DEBUG] Call get_full_data with parametrs: #{data.inspect}"
 
       @client.api_request(
-        :method => "#{method_name}.get",
-        :params => {
-          :search => {
-            indentify.to_sym => data[indentify.to_sym],
+        method: "#{method_name}.get",
+        params: {
+          search: {
+            indentify.to_sym => data[indentify.to_sym]
           },
-          :output => 'extend',
+          output: 'extend'
         }
       )
     end
@@ -41,33 +41,23 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Array] Returns array of Graph ids
     def get_ids_by_host(data)
-      ids = []
-      graphs = {}
-
       result = @client.api_request(
-        :method => 'graph.get',
-        :params => {
-          :filter => {
-            :host => data[:host],
+        method: 'graph.get',
+        params: {
+          filter: {
+            host: data[:host]
           },
-          :output => 'extend',
+          output: 'extend'
         }
       )
 
-      result.each do |graph|
+      result.map do |graph|
         num  = graph['graphid']
         name = graph['name']
-        graphs[name] = num
         filter = data[:filter]
 
-        if filter.nil?
-          ids.push(graphs[name])
-        elsif /#{filter}/ =~ name
-          ids.push(graphs[name])
-        end
-      end
-
-      ids
+        num if filter.nil? || /#{filter}/ =~ name
+      end.compact
     end
 
     # Get Graph Item object using Zabbix API
@@ -78,10 +68,10 @@ class ZabbixApi
     # @return [Hash]
     def get_items(data)
       @client.api_request(
-        :method => 'graphitem.get',
-        :params => {
-          :graphids => [data],
-          :output => 'extend',
+        method: 'graphitem.get',
+        params: {
+          graphids: [data],
+          output: 'extend'
         }
       )
     end
@@ -95,7 +85,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(:name => data[:name], :templateid => data[:templateid]))
+      unless (id = get_id(name: data[:name], templateid: data[:templateid]))
         id = create(data)
       end
 
@@ -109,8 +99,8 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      graphid = get_id(:name => data[:name], :templateid => data[:templateid])
-      graphid ? _update(data.merge(:graphid => graphid)) : create(data)
+      graphid = get_id(name: data[:name], templateid: data[:templateid])
+      graphid ? _update(data.merge(graphid: graphid)) : create(data)
     end
 
     def _update(data)

@@ -1,29 +1,27 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 describe 'user' do
   before :all do
     @usergroup = gen_name 'usergroup'
-    @usergroupid = zbx.usergroups.create(:name => @usergroup)
+    @usergroupid = zbx.usergroups.create(name: @usergroup)
 
     @mediatype = gen_name 'mediatype'
     @mediatypeid = zbx.mediatypes.create(
-      :description => @mediatype,
-      :type => 0,
-      :smtp_server => '127.0.0.1',
-      :smtp_email => 'zabbix@test.com',
-      :smtp_helo => 'test.com'
+      description: @mediatype,
+      type: 0,
+      smtp_server: '127.0.0.1',
+      smtp_email: 'zabbix@test.com',
+      smtp_helo: 'test.com'
     )
   end
 
   def media
     {
-      :mediatypeid => @mediatypeid,
-      :sendto => 'test@test',
-      :active => 0,
-      :period => '1-7,00:00-24:00',
-      :severity => '56',
+      mediatypeid: @mediatypeid,
+      sendto: 'test@test',
+      active: 0,
+      period: '1-7,00:00-24:00',
+      severity: '56'
     }
   end
 
@@ -32,11 +30,11 @@ describe 'user' do
       it 'should return integer id' do
         user = gen_name 'user'
         userid = zbx.users.create(
-          :alias => user,
-          :name => user,
-          :surname => user,
-          :passwd => user,
-          :usrgrps => [@usergroupid]
+          alias: user,
+          name: user,
+          surname: user,
+          passwd: user,
+          usrgrps: [@usergroupid]
         )
         expect(userid).to be_kind_of(Integer)
       end
@@ -44,7 +42,7 @@ describe 'user' do
 
     describe 'get_id' do
       it 'should return nil' do
-        expect(zbx.users.get_id(:alias => 'name_____')).to be_nil
+        expect(zbx.users.get_id(alias: 'name_____')).to be_nil
       end
     end
   end
@@ -53,11 +51,11 @@ describe 'user' do
     before :all do
       @user = gen_name 'user'
       @userid = zbx.users.create(
-        :alias => @user,
-        :name => @user,
-        :surname => @user,
-        :passwd => @user,
-        :usrgrps => [@usergroupid]
+        alias: @user,
+        name: @user,
+        surname: @user,
+        passwd: @user,
+        usrgrps: [@usergroupid]
       )
     end
 
@@ -65,10 +63,10 @@ describe 'user' do
       it 'should return id' do
         expect(
           zbx.users.create_or_update(
-            :alias => @user,
-            :name => @user,
-            :surname => @user,
-            :passwd => @user
+            alias: @user,
+            name: @user,
+            surname: @user,
+            passwd: @user
           )
         ).to eq @userid
       end
@@ -76,26 +74,38 @@ describe 'user' do
 
     describe 'get_full_data' do
       it 'should return string name' do
-        expect(zbx.users.get_full_data(:alias => @user)[0]['name']).to be_kind_of(String)
+        expect(zbx.users.get_full_data(alias: @user)[0]['name']).to be_kind_of(String)
       end
     end
 
     describe 'update' do
       it 'should return id' do
-        expect(zbx.users.update(:userid => @userid, :name => gen_name('user'))).to eq @userid
+        expect(zbx.users.update(userid: @userid, name: gen_name('user'))).to eq @userid
       end
     end
 
     describe 'update by adding media' do
       it 'should return id' do
         expect(
-          zbx.users.update(
-            :userid => @userid,
-            :user_medias => [
-                media,
-            ]
+          zbx.users.add_medias(
+            userids: [@userid],
+            media: [media]
           )
-        ).to eq @userid
+        ).to be_kind_of(Integer)
+      end
+    end
+
+    describe 'update_medias' do
+      it 'should return the user id' do
+        # Call twice to ensure update_medias first successfully creates the media, then updates it
+        2.times do
+          returned_userid = zbx.users.update_medias(
+            userids: [@userid],
+            media: [media]
+          )
+
+          expect(returned_userid).to eq @userid
+        end
       end
     end
 

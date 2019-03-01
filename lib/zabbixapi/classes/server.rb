@@ -10,7 +10,7 @@ class ZabbixApi
     # @return [String] Zabbix API version number
     def initialize(client)
       @client = client
-      @version = @client.api_request(:method => 'apiinfo.version', :params => {})
+      @api_version = @client.api_request(method: 'apiinfo.version', params: {})
     end
   end
 end

@@ -27,13 +27,13 @@ class ZabbixApi
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id (usergroup)
-    def set_perms(data)
+    def permissions(data)
       permission = data[:permission] || 2
       result = @client.api_request(
-        :method => 'usergroup.massAdd',
-        :params => {
-          :usrgrpids => [data[:usrgrpid]],
-          :rights => data[:hostgroupids].map { |t| {:permission => permission, :id => t} },
+        method: 'usergroup.massAdd',
+        params: {
+          usrgrpids: [data[:usrgrpid]],
+          rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
         }
       )
       result ? result['usrgrpids'][0].to_i : nil
@@ -47,10 +47,10 @@ class ZabbixApi
     # @return [Integer] Zabbix object id (usergroup)
     def add_user(data)
       result = @client.api_request(
-        :method => 'usergroup.massAdd',
-        :params => {
-          :usrgrpids => data[:usrgrpids],
-          :userids => data[:userids],
+        method: 'usergroup.massAdd',
+        params: {
+          usrgrpids: data[:usrgrpids],
+          userids: data[:userids]
         }
       )
       result ? result['usrgrpids'][0].to_i : nil
@@ -64,10 +64,10 @@ class ZabbixApi
     # @return [Integer] Zabbix object id (usergroup)
     def update_users(data)
       result = @client.api_request(
-        :method => 'usergroup.massUpdate',
-        :params => {
-          :usrgrpids => data[:usrgrpids],
-          :userids => data[:userids],
+        method: 'usergroup.massUpdate',
+        params: {
+          usrgrpids: data[:usrgrpids],
+          userids: data[:userids]
         }
       )
       result ? result['usrgrpids'][0].to_i : nil

@@ -24,14 +24,14 @@ class ZabbixApi
       log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
 
       @client.api_request(
-        :method => 'trigger.get',
-        :params => {
-          :filter => {
-            key.to_sym => data[key.to_sym],
+        method: 'trigger.get',
+        params: {
+          filter: {
+            key.to_sym => data[key.to_sym]
           },
-          :output => 'extend',
-          :select_items => 'extend',
-          :select_functions => 'extend',
+          output: 'extend',
+          select_items: 'extend',
+          select_functions: 'extend'
         }
       )
     end
@@ -68,7 +68,7 @@ class ZabbixApi
       else
         data[:expression] = old_expression
         # disable old trigger
-        log '[DEBUG] disable :' + @client.api_request(:method => "#{method_name}.update", :params => [{:triggerid => data[:triggerid], :status => '1'}]).inspect
+        log '[DEBUG] disable :' + @client.api_request(method: "#{method_name}.update", params: [{ triggerid: data[:triggerid], status: '1' }]).inspect
         # create new trigger
         data.delete(:triggerid)
         create(data)
@@ -84,7 +84,7 @@ class ZabbixApi
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(:description => data[:description], :hostid => data[:hostid]))
+      unless (id = get_id(description: data[:description], hostid: data[:hostid]))
         id = create(data)
       end
       id
@@ -97,8 +97,9 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def create_or_update(data)
-      triggerid = get_id(:description => data[:description], :hostid => data[:hostid])
-      triggerid ? update(data.merge(:triggerid => triggerid)) : create(data)
+      triggerid = get_id(description: data[:description], hostid: data[:hostid])
+
+      triggerid ? update(data.merge(triggerid: triggerid)) : create(data)
     end
   end
 end

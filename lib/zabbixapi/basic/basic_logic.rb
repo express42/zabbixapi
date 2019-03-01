@@ -12,7 +12,7 @@ class ZabbixApi
 
       data_with_default = default_options.empty? ? data : merge_params(default_options, data)
       data_create = [data_with_default]
-      result = @client.api_request(:method => "#{method_name}.create", :params => data_create)
+      result = @client.api_request(method: "#{method_name}.create", params: data_create)
       parse_keys result
     end
 
@@ -27,7 +27,7 @@ class ZabbixApi
       log "[DEBUG] Call delete with parameters: #{data.inspect}"
 
       data_delete = [data]
-      result = @client.api_request(:method => "#{method_name}.delete", :params => data_delete)
+      result = @client.api_request(method: "#{method_name}.delete", params: data_delete)
       parse_keys result
     end
 
@@ -64,7 +64,7 @@ class ZabbixApi
         data[key.to_sym].to_i
       else
         data_update = [data]
-        result = @client.api_request(:method => "#{method_name}.update", :params => data_update)
+        result = @client.api_request(method: "#{method_name}.update", params: data_update)
         parse_keys result
       end
     end
@@ -79,12 +79,12 @@ class ZabbixApi
       log "[DEBUG] Call get_full_data with parameters: #{data.inspect}"
 
       @client.api_request(
-        :method => "#{method_name}.get",
-        :params => {
-          :filter => {
-            indentify.to_sym => data[indentify.to_sym],
+        method: "#{method_name}.get",
+        params: {
+          filter: {
+            indentify.to_sym => data[indentify.to_sym]
           },
-          :output => 'extend',
+          output: 'extend'
         }
       )
     end
@@ -99,8 +99,8 @@ class ZabbixApi
       log "[DEBUG] Call get_raw with parameters: #{data.inspect}"
 
       @client.api_request(
-        :method => "#{method_name}.get",
-        :params => data
+        method: "#{method_name}.get",
+        params: data
       )
     end
 
@@ -114,12 +114,12 @@ class ZabbixApi
       log "[DEBUG] Call dump_by_id with parameters: #{data.inspect}"
 
       @client.api_request(
-        :method => "#{method_name}.get",
-        :params => {
-          :filter => {
-            key.to_sym => data[key.to_sym],
+        method: "#{method_name}.get",
+        params: {
+          filter: {
+            key.to_sym => data[key.to_sym]
           },
-          :output => 'extend',
+          output: 'extend'
         }
       )
     end
@@ -131,7 +131,7 @@ class ZabbixApi
     # @return [Array<Hash>] Array of matching objects
     def all
       result = {}
-      @client.api_request(:method => "#{method_name}.get", :params => {:output => 'extend'}).each do |item|
+      @client.api_request(method: "#{method_name}.get", params: { output: 'extend' }).each do |item|
         result[item[indentify]] = item[key]
       end
       result
@@ -150,11 +150,12 @@ class ZabbixApi
       # raise an error if indentify name was not supplied
       name = data[indentify.to_sym]
       raise ApiError.new("#{indentify} not supplied in call to get_id") if name.nil?
+
       result = @client.api_request(
-        :method => "#{method_name}.get",
-        :params => {
-          :filter => data,
-          :output => [key, indentify],
+        method: "#{method_name}.get",
+        params: {
+          filter: data,
+          output: [key, indentify]
         }
       )
       id = nil

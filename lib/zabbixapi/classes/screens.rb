@@ -40,7 +40,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def delete(data)
-      result = @client.api_request(:method => 'screen.delete', :params => [data])
+      result = @client.api_request(method: 'screen.delete', params: [data])
       result.empty? ? nil : result['screenids'][0].to_i
     end
 
@@ -62,29 +62,30 @@ class ZabbixApi
       height = data[:height] || 320 # default 320
       width = data[:width] || 200 # default 200
       vsize = data[:vsize] || [1, (graphids.size / hsize).to_i].max
-      screenid = get_id(:name => screen_name)
+      screenid = get_id(name: screen_name)
 
       unless screenid
         # Create screen
         graphids.each_with_index do |graphid, index|
           screenitems << {
-            :resourcetype => 0,
-            :resourceid => graphid,
-            :x => (index % hsize).to_i,
-            :y => (index % graphids.size / hsize).to_i,
-            :valign => valign,
-            :halign => halign,
-            :rowspan => rowspan,
-            :colspan => colspan,
-            :height => height,
-            :width => width,
+            resourcetype: 0,
+            resourceid: graphid,
+            x: (index % hsize).to_i,
+            y: (index % graphids.size / hsize).to_i,
+            valign: valign,
+            halign: halign,
+            rowspan: rowspan,
+            colspan: colspan,
+            height: height,
+            width: width
           }
         end
+
         screenid = create(
-          :name => screen_name,
-          :hsize => hsize,
-          :vsize => vsize,
-          :screenitems => screenitems
+          name: screen_name,
+          hsize: hsize,
+          vsize: vsize,
+          screenitems: screenitems
         )
       end
       screenid
