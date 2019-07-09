@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'json', '~> 1.8'
+gem 'json', '~> 2.0'
 gem 'rspec'
