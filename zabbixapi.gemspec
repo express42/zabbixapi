@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.rubyforge_project = 'zabbixapi'
 
-  spec.files         = ['.yardopts', 'CHANGELOG.md', 'LICENSE.md', 'README.md', 'zabbixapi.gemspec'] + Dir['lib/**/*.rb']
+  spec.files         = ['CHANGELOG.md', 'LICENSE.md', 'README.md', 'zabbixapi.gemspec'] + Dir['lib/**/*.rb']
   spec.require_paths = 'lib'
   spec.required_ruby_version = '>= 2.0.0'
 end

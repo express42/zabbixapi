@@ -1,3 +1,8 @@
+## 4.1.1
+
+[PR #97](https://github.com/express42/zabbixapi/pull/97)
+[PR #98](https://github.com/express42/zabbixapi/pull/98)
+
 ## 4.1.0
 
 [PR #82](https://github.com/express42/zabbixapi/pull/82) Add logout method (Thanks @baurmatt)
