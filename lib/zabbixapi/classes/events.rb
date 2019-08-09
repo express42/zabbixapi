@@ -4,7 +4,7 @@ class ZabbixApi
     #
     # @return [String]
     def method_name
-      'events'
+      'event'
     end
 
     # The id field name used for identifying specific Event objects via Zabbix API
