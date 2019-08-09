@@ -78,7 +78,6 @@ class ZabbixApi
     def get_full_data(data)
       log "[DEBUG] Call get_full_data with parameters: #{data.inspect}"
 
-      puts "API.get_full_data.data: #{data.inspect}"
       @client.api_request(
         method: "#{method_name}.get",
         params: {
