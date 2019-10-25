@@ -1,3 +1,14 @@
+#CHANGELOG
+
+## 4.1.2
+[PR #99](https://github.com/express42/zabbixapi/pull/99) Patch addressing log error function not found
+
+## 4.1.1
+
+[PR #97](https://github.com/express42/zabbixapi/pull/97) Bumped version
+
+[PR #98](https://github.com/express42/zabbixapi/pull/98) Removed strict zabbix versioning error
+
 ## 4.1.0
 
 [PR #82](https://github.com/express42/zabbixapi/pull/82) Add logout method (Thanks @baurmatt)
