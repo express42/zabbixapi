@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'jruby-openssl', platforms: :jruby
-gem 'rake', '~> 11.1'
+gem 'rake', '~> 12.3'
 gem 'yard', '>= 0.9'
 
 group :development do
