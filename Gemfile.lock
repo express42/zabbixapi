@@ -25,7 +25,7 @@ GEM
     http-form_data (1.0.3)
     http_parser.rb (0.6.0)
     jaro_winkler (1.5.2)
-    json (2.2.0)
+    json (2.3.1)
     method_source (0.9.2)
     parallel (1.17.0)
     parser (2.6.3.0)
