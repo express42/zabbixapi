@@ -39,6 +39,45 @@ zbx.hosts.create_or_update(
 )
 ```
 
+## Add SNMP Bulk Hosts
+hosts = [
+  { :group=>"Discovered Hosts", :hostname=>"zabbix", :ip => "127.0.0.1", :community_string=>"public", :template=>"123" },
+  { :group=>"Discovered Hosts", :hostname=>"zabbix", :ip => "127.0.0.1", :community_string=>"public", :template=>"123" }
+]
+
+hosts.each do |h|
+  zbx.hosts.create_or_update(
+    :host => h[:hostname],
+    :interfaces => [
+      {
+        :type => 2,
+        :main => 1,
+        :useip => 1,
+        :ip => h[:ip],
+        :dns => "",
+        :port => 161,
+        :details => {
+          :version => 2,
+          :community => "{$SNMP_COMMUNITY}"
+        }
+      }
+    ],
+    :groups => [ :groupid => zbx.hostgroups.get_id(:name => h[:group]) ],
+    :templates => [
+        {
+            :templateid => h[:template]
+        }
+    ],
+    :inventory_mode => 1,
+    :macros => [
+        {
+            :macro => "{$SNMP_COMMUNITY}",
+            :value => h[:community_string]
+        }
+    ]
+  )
+end
+
 ## Update Host
 ```ruby
 zbx.hosts.update(
@@ -65,6 +104,12 @@ zbx.hosts.update({
       :useip => 0
     }
   ]}, true)
+```
+
+
+## Get Host by id (See URL)
+```ruby
+zbx.hosts.dump_by_id(:hostid => get_id(:host => "hostname"))
 ```
 
 ## Delete Host
