@@ -58,29 +58,11 @@ describe 'event' do
     }
   end
 
-  context 'when not exists' do
+  context 'when incorrect method' do
     describe 'create' do
-      it 'should return integer id' do
-        eventid = zbx.events.create(@eventdata)
-        expect(eventid).to be_kind_of(Integer)
-      end
-    end
-  end
-
-  context 'when exists' do
-    before do
-      @eventid = zbx.events.create(@eventdata)
-    end
-
-    describe 'create_or_update' do
-      it 'should return id' do
-        expect(zbx.events.create_or_update(@eventdata)).to eq @eventid
-      end
-    end
-
-    describe 'delete' do
-      it 'should return id' do
-        expect(zbx.events.delete(@eventid)).to eq @eventid
+      it 'should raise ApiError' do
+        expect{zbx.events.create(@eventdata)}.
+          to raise_error(ZabbixApi::ApiError, /.*\"data\": \"Incorrect method \\\"event.create\\\"\.\"/)
       end
     end
   end

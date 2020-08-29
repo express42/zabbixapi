@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ZabbixApi::Basic' do
   let(:basic_mock) { ZabbixApi::Basic.new(client) }
-  let(:client) { double }
+  let(:client) { double('mock_client', options: {}, api_request: {} ) }
   let(:data) { {} }
 
   after { subject }
@@ -10,7 +10,10 @@ describe 'ZabbixApi::Basic' do
   describe '.get' do
     subject { basic_mock.get(data) }
 
-    before { allow(basic_mock).to receive(:get_full_data).with(data) }
+    before do
+      allow(basic_mock).to receive(:get_full_data).with(data)
+      allow(basic_mock).to receive(:method_name)
+    end
 
     it 'calls get_full_data' do
       expect(basic_mock).to receive(:get_full_data).with(data)

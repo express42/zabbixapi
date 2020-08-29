@@ -31,12 +31,14 @@ class ZabbixApi
     def medias_helper(data, action)
       result = @client.api_request(
         method: "user.#{action}",
-        params: {
-          users: data[:userids].map { |t| { userid: t } },
-          medias: data[:media]
-        }
+        params: data[:userids].map do |t|
+          {
+            userid: t,
+            user_medias: data[:media],
+          }
+        end,
       )
-      result ? result['mediaids'][0].to_i : nil
+      result ? result['userids'][0].to_i : nil
     end
 
     # Add media to users using Zabbix API
@@ -46,7 +48,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id (media)
     def add_medias(data)
-      medias_helper(data, 'addMedia')
+      medias_helper(data, 'update')
     end
 
     # Update media for users using Zabbix API
@@ -56,7 +58,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id (user)
     def update_medias(data)
-      medias_helper(data, 'updateMedia')
+      medias_helper(data, 'update')
     end
   end
 end

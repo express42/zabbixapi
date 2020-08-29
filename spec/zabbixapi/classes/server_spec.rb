@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ZabbixApi::Server' do
   let(:server_mock) { ZabbixApi::Server.new(client) }
-  let(:client) { double }
+  let(:client) { double('mock_client', api_version: 'testresult') }
   let(:result) { 'testresult' }
 
   before do
@@ -20,7 +20,7 @@ describe 'ZabbixApi::Server' do
     end
 
     it 'sets api_version class variable' do
-      expect(subject.instance_variable_get(:@api_version)).to eq result
+      expect(subject.instance_variable_get(:@version)).to eq result
     end
   end
 end

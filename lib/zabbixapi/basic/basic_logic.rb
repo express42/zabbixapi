@@ -89,14 +89,15 @@ class ZabbixApi
       )
     end
 
-    def get(data)
-      log "[DEBUG] Call get with parameters: #{data.inspect}"
+    # DUPLICATE METHOD
+    # def get(data)
+    #   log "[DEBUG] Call get with parameters: #{data.inspect}"
 
-      @client.api_request(
-        method: "#{method_name}.get",
-        params: data
-      )
-    end
+    #   @client.api_request(
+    #     method: "#{method_name}.get",
+    #     params: data
+    #   )
+    # end
 
     # Get raw Zabbix object data from API
     #

@@ -166,7 +166,7 @@ describe 'ZabbixApi::Client' do
       before { allow(ENV).to receive(:[]).with('http_proxy').and_return(nil) }
 
       it 'sets auth_hash' do
-        expect { subject }.to raise_error(ZabbixApi::ApiError, "Zabbix API version: #{api_version} is not support by this version of zabbixapi")
+        expect { subject }.to raise_error(ZabbixApi::ApiError, "Zabbix API version: #{api_version} is not supported by this version of zabbixapi")
       end
     end
   end
