@@ -24,7 +24,7 @@ rvm:
   - ruby-head
   - jruby-9.2.10.0
   - jruby-head
-  - rbx-3.100
+  - rbx-head
 
 dist: trusty
 
@@ -33,7 +33,7 @@ sudo: required
 bundler_args: --without development --retry=3 --jobs=3
 
 before_install:
-  - rvm list
+  - rvm list known
   - gem install --no-document rubygems-update -v '<3' && update_rubygems
   - gem update --no-document bundler
   - gem install --no-document rspec
