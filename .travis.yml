@@ -24,7 +24,7 @@ rvm:
   - ruby-head
   - jruby-9.2.10.0
   - jruby-head
-  - rbx-4.10
+  - rbx-4.3
 
 dist: trusty
 
