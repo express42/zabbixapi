@@ -7,7 +7,6 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Hash]
     def get(data)
-      puts "HERE"
       get_full_data(data)
     end
 
