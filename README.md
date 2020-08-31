@@ -36,12 +36,10 @@ We support only two last versions of zabbix (4.0 and 4.2), so you should conside
 This library aims to support and is [tested against][travis] the following Ruby
 versions:
 
-* Ruby 2.0
-* Ruby 2.1
-* Ruby 2.2
-* Ruby 2.3
 * Ruby 2.4
-* JRuby 9.1.6.0
+* Ruby 2.5
+* Ruby 2.6
+* JRuby 9.2.10.0
 
 If something doesn't work on one of these versions, it's a bug.
 

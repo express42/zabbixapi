@@ -1,5 +1,8 @@
 #CHANGELOG
 
+## 4.2.0
+[PR #102](https://github.com/express42/zabbixapi/pull/102) Add events get method method.  Fixed all testing failures. (Thanks @kevin-j-smith)
+
 ## 4.1.2
 [PR #99](https://github.com/express42/zabbixapi/pull/99) Patch addressing log error function not found
 
