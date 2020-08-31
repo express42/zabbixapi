@@ -31,23 +31,44 @@ describe 'ZabbixApi::Usergroups' do
     let(:permission) { 3 }
 
     before do
+      rights = data[:hostgroupids].map do |t|
+        {
+          id: t,
+          permission: data[:permission],
+        }
+      end
+      user_groups = {
+        rights: rights,
+        usrgrpid: data[:usrgrpid],
+      }
+      nil_rights = data[:hostgroupids].map do |t|
+        {
+          id: t,
+          permission: 2,
+        }
+      end
+      nil_user_group = {
+        rights: nil_rights,
+        usrgrpid: data[:usrgrpid],
+      }
       allow(usergroups_mock).to receive(:log)
       allow(usergroups_mock).to receive(:key).and_return(key)
       allow(client).to receive(:api_request).with(
-        method: 'usergroup.massAdd',
-        params: {
-          usrgrpids: [data[:usrgrpid]],
-          rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
-        }
+        method: 'usergroup.update',
+        params: user_groups,
+      ).and_return(result)
+      allow(client).to receive(:api_request).with(
+        method: 'usergroup.update',
+        params: nil_user_group,
       ).and_return(result)
     end
 
     context 'when permission is provided in data' do
       it 'uses permission provided in data' do
         expect(client).to receive(:api_request).with(
-          method: 'usergroup.massAdd',
+          method: 'usergroup.update',
           params: {
-            usrgrpids: [data[:usrgrpid]],
+            usrgrpid: data[:usrgrpid],
             rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
           }
         )
@@ -65,9 +86,9 @@ describe 'ZabbixApi::Usergroups' do
 
       it 'uses permission provided in data' do
         expect(client).to receive(:api_request).with(
-          method: 'usergroup.massAdd',
+          method: 'usergroup.update',
           params: {
-            usrgrpids: [data[:usrgrpid]],
+            usrgrpid: data[:usrgrpid],
             rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
           }
         )
@@ -97,14 +118,17 @@ describe 'ZabbixApi::Usergroups' do
     let(:permission) { 3 }
 
     before do
+      user_groups = data[:usrgrpids].map do |t|
+        {
+          userids: data[:userids],
+          usrgrpid: t,
+        }
+      end
       allow(usergroups_mock).to receive(:log)
       allow(usergroups_mock).to receive(:key).and_return(key)
       allow(client).to receive(:api_request).with(
-        method: 'usergroup.massAdd',
-        params: {
-          usrgrpids: data[:usrgrpids],
-          userids: data[:userids]
-        }
+        method: 'usergroup.update',
+        params: user_groups
       ).and_return(result)
     end
 
@@ -132,14 +156,17 @@ describe 'ZabbixApi::Usergroups' do
     let(:permission) { 3 }
 
     before do
+      user_groups = data[:usrgrpids].map do |t|
+        {
+          userids: data[:userids],
+          usrgrpid: t,
+        }
+      end
       allow(usergroups_mock).to receive(:log)
       allow(usergroups_mock).to receive(:key).and_return(key)
       allow(client).to receive(:api_request).with(
-        method: 'usergroup.massUpdate',
-        params: {
-          usrgrpids: data[:usrgrpids],
-          userids: data[:userids]
-        }
+        method: 'usergroup.update',
+        params: user_groups,
       ).and_return(result)
     end
 

@@ -3,7 +3,10 @@ require 'spec_helper'
 describe 'user' do
   before :all do
     @usergroup = gen_name 'usergroup'
-    @usergroupid = zbx.usergroups.create(name: @usergroup)
+    @usergroupid = {
+      usrgrpid: zbx.usergroups.create(name: @usergroup),
+    }
+    puts "USERGROUPID: #{@usergroupid}"
 
     @mediatype = gen_name 'mediatype'
     @mediatypeid = zbx.mediatypes.create(
@@ -18,7 +21,7 @@ describe 'user' do
   def media
     {
       mediatypeid: @mediatypeid,
-      sendto: 'test@test',
+      sendto: ['test@test.com'],
       active: 0,
       period: '1-7,00:00-24:00',
       severity: '56'

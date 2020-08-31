@@ -17,15 +17,14 @@ services:
   - postgresql
 
 rvm:
-  - 2.0
-  - 2.1
-  - 2.2
-  - 2.3
   - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
   - ruby-head
-  - jruby-9.1.6.0
+  - jruby-9.2.10.0
   - jruby-head
-  - rbx-2
+  - rbx-head
 
 dist: trusty
 
@@ -34,9 +33,9 @@ sudo: required
 bundler_args: --without development --retry=3 --jobs=3
 
 before_install:
-  - gem i rubygems-update -v '<3' && update_rubygems
-  - gem update bundler
-  - gem install rspec
+  - gem install --no-document rubygems-update -v '<3' && update_rubygems
+  - gem update --no-document bundler
+  - gem install --no-document rspec
 
 before_script:
   - sudo sed -i "s,;date.timezone =,date.timezone = 'US/Eastern'," /etc/php5/apache2/php.ini
@@ -55,8 +54,8 @@ env:
 
 matrix:
   allow_failures:
+    - rvm: 2.7
     - rvm: ruby-head
-    - rvm: jruby-head
-    - rvm: rbx-2
+    - rvm: rbx-head # Required rbx-head is not installed - installing
+                    # curl: (22) The requested URL returned error: 404 Not Found
   fast_finish: true
-

@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'action' do
+describe 'event' do
   before do
-    @actionname = gen_name 'action'
+    @eventname = gen_name 'event'
     @usergroupid = zbx.usergroups.create(name: gen_name('usergroup'))
-    @actiondata = {
-      name: @actionname,
+    @eventdata = {
+      name: @eventname,
       eventsource: '0', # event source is a triggerid
-      status: '0', # action is enabled
+      status: '0', # event is enabled
       esc_period: '120', # how long each step should take
       def_shortdata: 'Email header',
       def_longdata: 'Email content',
@@ -58,29 +58,11 @@ describe 'action' do
     }
   end
 
-  context 'when not exists' do
+  context 'when incorrect method' do
     describe 'create' do
-      it 'should return integer id' do
-        actionid = zbx.actions.create(@actiondata)
-        expect(actionid).to be_kind_of(Integer)
-      end
-    end
-  end
-
-  context 'when exists' do
-    before do
-      @actionid = zbx.actions.create(@actiondata)
-    end
-
-    describe 'create_or_update' do
-      it 'should return id' do
-        expect(zbx.actions.create_or_update(@actiondata)).to eq @actionid
-      end
-    end
-
-    describe 'delete' do
-      it 'should return id' do
-        expect(zbx.actions.delete(@actionid)).to eq @actionid
+      it 'should raise ApiError' do
+        expect{zbx.events.create(@eventdata)}.
+          to raise_error(ZabbixApi::ApiError, /.*\"data\": \"Incorrect method \\\"event.create\\\"\.\"/)
       end
     end
   end

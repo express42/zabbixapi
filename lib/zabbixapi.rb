@@ -10,6 +10,7 @@ require 'zabbixapi/classes/actions'
 require 'zabbixapi/classes/applications'
 require 'zabbixapi/classes/configurations'
 require 'zabbixapi/classes/errors'
+require 'zabbixapi/classes/events'
 require 'zabbixapi/classes/graphs'
 require 'zabbixapi/classes/hostgroups'
 require 'zabbixapi/classes/hosts'
@@ -82,6 +83,11 @@ class ZabbixApi
   # @return [ZabbixApi::Configurations]
   def configurations
     @configurations ||= Configurations.new(@client)
+  end
+
+  # @return [ZabbixApi::Events]
+  def events
+    @events ||= Events.new(@client)
   end
 
   # @return [ZabbixApi::Graphs]

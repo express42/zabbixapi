@@ -18,7 +18,7 @@ describe 'usergroup' do
         name: @user,
         surname: @user,
         passwd: @user,
-        usrgrps: [@usergroupid]
+        usrgrps: [{usrgrpid: @usergroupid}]
       )
 
       @usergroup2 = gen_name 'usergroup'
@@ -29,7 +29,7 @@ describe 'usergroup' do
         name: @user2,
         surname: @user2,
         passwd: @user2,
-        usrgrps: [@usergroupid2]
+        usrgrps: [{usrgrpid: @usergroupid2}]
       )
     end
 
@@ -44,7 +44,7 @@ describe 'usergroup' do
         expect(
           zbx.usergroups.add_user(
             usrgrpids: [@usergroupid],
-            userids: [@userid2]
+            userids: [@userid,@userid2]
           )
         ).to eq @usergroupid
       end

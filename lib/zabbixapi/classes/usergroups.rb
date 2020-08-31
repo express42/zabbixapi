@@ -30,9 +30,9 @@ class ZabbixApi
     def permissions(data)
       permission = data[:permission] || 2
       result = @client.api_request(
-        method: 'usergroup.massAdd',
+        method: 'usergroup.update',
         params: {
-          usrgrpids: [data[:usrgrpid]],
+          usrgrpid: data[:usrgrpid],
           rights: data[:hostgroupids].map { |t| { permission: permission, id: t } }
         }
       )
@@ -41,19 +41,13 @@ class ZabbixApi
 
     # Add users to usergroup using Zabbix API
     #
+    # @deprecated Zabbix has removed massAdd in favor of update.
     # @param data [Hash] Needs to include userids and usrgrpids to mass add users to groups
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id (usergroup)
     def add_user(data)
-      result = @client.api_request(
-        method: 'usergroup.massAdd',
-        params: {
-          usrgrpids: data[:usrgrpids],
-          userids: data[:userids]
-        }
-      )
-      result ? result['usrgrpids'][0].to_i : nil
+      update_users(data)
     end
 
     # Update users in usergroups using Zabbix API
@@ -63,12 +57,15 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id (usergroup)
     def update_users(data)
-      result = @client.api_request(
-        method: 'usergroup.massUpdate',
-        params: {
-          usrgrpids: data[:usrgrpids],
-          userids: data[:userids]
+      user_groups = data[:usrgrpids].map do |t|
+        {
+          usrgrpid: t,
+          userids: data[:userids],
         }
+      end
+      result = @client.api_request(
+        method: 'usergroup.update',
+        params: user_groups,
       )
       result ? result['usrgrpids'][0].to_i : nil
     end

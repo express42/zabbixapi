@@ -31,17 +31,21 @@ describe 'ZabbixApi::Users' do
   describe '.medias_helper' do
     subject { users_mock.medias_helper(data, action) }
 
-    let(:data) { { userids: [1234, 5678], media: 'testmedia' } }
-    let(:result) { { 'mediaids' => ['111'], 'testindentify' => 1 } }
+    let(:data) { { userids: [1234, 5678], media: 'testmedia'} }
+    #let(:result) { { 'mediaids' => ['111'], 'testindentify' => 1 } }
+    let(:result) { { 'userids' => ['111'] } }
     let(:action) { 'updateMedia' }
 
     before do
+      users = data[:userids].map do |t|
+        {
+          userid: t,
+          user_medias: data[:media],
+        }
+      end
       allow(client).to receive(:api_request).with(
         method: "user.#{action}",
-        params: {
-          users: data[:userids].map { |t| { userid: t } },
-          medias: data[:media]
-        }
+        params: users
       ).and_return(result)
     end
 
@@ -51,7 +55,7 @@ describe 'ZabbixApi::Users' do
       it { is_expected.to be_nil }
     end
 
-    context 'when api_request doesn not return empty result' do
+    context 'when api_request does not return empty result' do
       it 'returns first mediaid' do
         expect(subject).to eq 111
       end
@@ -71,7 +75,7 @@ describe 'ZabbixApi::Users' do
     it 'calls medias_helper' do
       expect(users_mock).to receive(:medias_helper).with(
         data,
-        'addMedia'
+        'update'
       )
       subject
     end
@@ -90,7 +94,7 @@ describe 'ZabbixApi::Users' do
     it 'calls medias_helper' do
       expect(users_mock).to receive(:medias_helper).with(
         data,
-        'updateMedia'
+        'update'
       )
       subject
     end

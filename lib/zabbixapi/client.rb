@@ -18,6 +18,7 @@ class ZabbixApi
     # @return [String]
     def api_version
       @api_version ||= api_request(method: 'apiinfo.version', params: {})
+      @api_version
     end
 
     # Log in to the Zabbix Server and generate an auth token using the API
@@ -31,6 +32,13 @@ class ZabbixApi
           password: @options[:password]
         }
       )
+    end
+
+    # ZabbixApi::Basic.log does not like @client.options[:debug]
+    #
+    # @return [boolean]
+    def debug?
+      return ! @options || @options[:debug]
     end
 
     # Initializes a new Client object
@@ -53,7 +61,8 @@ class ZabbixApi
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
       unless api_version =~ %r{^4.[0|4]\.\d+$}
-        puts "[WARN] Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
+        message = "Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
+        raise ZabbixApi::ApiError.new(message)
       end
 
       @auth_hash = auth
