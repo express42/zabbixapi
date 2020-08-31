@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# zabbixapi
+# 
+# Use to deploy local zabbix stack for testing
+
+base_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+stack_deploy_output=$(docker stack deploy --compose-file ${base_dir}/../docker_compose/test_docker_stack.yml zabbix)
+echo ${stack_deploy_output} | grep 'this node is not a swarm manager' /dev/null
+rc=$?
+
+if [[ ${rc} == 0 ]] ; then
+  docker swarm init
+  docker stack deploy --compose-file ${base_dir}/../docker_compose/test_docker_stack.yml zabbix
+fi
+
+echo 'Use the following to obtain informaiton about the stack'
+echo 'docker stack services zabbix'
+echo 'docker stack rm zabbix'
+echo 'docker network inspect zabbix_zabbix'
+echo 'docker container ls | grep zabbix_'
+echo 'docker logs ${container_name}'
+echo 'bundle exec rspec spec/*'
+echo 'open browser: http://localhost:8080'
+echo '  Username: Admin'
+echo '  Password: zabbix'
