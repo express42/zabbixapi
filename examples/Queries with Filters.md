@@ -2,6 +2,19 @@
 
 These examples assumes you have already initialized and connected the ZabbixApi.
 
+### all
+
+For all object types, you can get a list of all objects of that type that are defined in zabbix by calling 
+``` ruby
+<objecttype>.all
+```
+So to get a list of all host groups in your installation you can call
+``` ruby
+zbx.hostgroups.all
+```
+
+### Implied filter within get_*
+
 Many of the get_* methods for all the various object types implicitly include a wrapper around the "filter" object.  Filter usage (as of this writing) is described in each applicable get function's documentation as:
 
 
@@ -70,3 +83,5 @@ zbx.hosts.get_id(host: 'zabbix-server')
 ```
 
 (which for this call returns a single host id).
+
+
