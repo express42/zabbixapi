@@ -1,8 +1,21 @@
-# Queries with Filters
+# Queries with zabbixapi
 
-These examples assumes you have already initialized and connected the ZabbixApi.
+These examples assumes you have already initialized and connected the ZabbixApi and have an object "zbx" that represents this connection.
 
-### all
+### Learning with the debug option
+If you're just learning how this library works with the zabbix api and you're having trouble understanding what the library is doing as it relates to the zabbix api documentation, you can try enabling the debug option in the client, either when you instantiate it or later on as you desire.  With debug turned on, you can see what zabbixapi has constructed as a query, and you can see the json data that's coming back from zabbix.
+
+#### instantiate w/ debug
+``` ruby
+zbx = ZabbixApi.connect(url: '<url>', user: '<user>', password: '<passwd>', debug: true)
+```
+
+#### debug on demand
+``` ruby
+zbx.client.options[debug: true]
+```
+
+### Listing all objects of a type: "all"
 
 For all object types, you can get a list of all objects of that type that are defined in zabbix by calling 
 ``` ruby
@@ -13,10 +26,13 @@ So to get a list of all host groups in your installation you can call
 zbx.hostgroups.all
 ```
 
-### Implied filter within get_*
+### Searching with filters: "get[_*]"
 
-Many of the get_* methods for all the various object types implicitly include a wrapper around the "filter" object.  Filter usage (as of this writing) is described in each applicable get function's documentation as:
+The get() method available for all objects includes some implied logic: the only parameter being sent in is a filter object, and the parameters you provide to this method are properties of that filter.
 
+In general, the get_* methods are wrappers around calls to the get() method that help with construction of particular filters.
+
+As of this writing, a filter object is descrbed in this way:
 
 > Return only those results that exactly match the given filter.
 >
@@ -85,3 +101,18 @@ zbx.hosts.get_id(host: 'zabbix-server')
 (which for this call returns a single host id).
 
 
+### Searches with parameters beyond "filter"
+
+If you want to do queries that use the parameters described in the api for the various object other than just the "filter" one, you'll need to do a custom query.
+
+Custom queries closely mirror what you see in the zabbix api documentation, so it's pretty easy to translate from the offical api documentation to a custom query.
+
+For instance, say that you want get a list of hosts that belong to a host group.  You can construct a custom query like this:
+
+``` ruby
+zbx.query(method: 'host.get', params: {groupids: [1,2,3], selectGroups: :extend})
+```
+and of course you can nest calls:
+```ruby
+zbx.query(method: 'host.get', params: {groupids: zbx.hostgroups.get_id(name: 'My Hostgroup'), selectGroups: :extend})
+```
