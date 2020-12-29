@@ -11,6 +11,7 @@ end
 group :test do
   gem 'rspec', '>= 3.8'
   gem 'rubocop', '>= 0.60'
+  gem 'irb'
 end
 
 gemspec

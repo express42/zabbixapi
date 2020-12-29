@@ -10,8 +10,8 @@ describe 'ZabbixApi::Hosts' do
     it { is_expected.to eq 'host' }
   end
 
-  describe '.indentify' do
-    subject { hosts_mock.indentify }
+  describe '.identify' do
+    subject { hosts_mock.identify }
 
     it { is_expected.to eq 'host' }
   end
@@ -39,7 +39,7 @@ describe 'ZabbixApi::Hosts' do
     end
 
     it 'logs debug message' do
-      expect(hosts_mock).to receive(:log).with("[DEBUG] Call dump_by_id with parametrs: #{data.inspect}")
+      expect(hosts_mock).to receive(:log).with("[DEBUG] Call dump_by_id with parameters: #{data.inspect}")
       subject
     end
 
@@ -97,16 +97,16 @@ describe 'ZabbixApi::Hosts' do
     subject { hosts_mock.create_or_update(data) }
 
     let(:data) { { host: 'batman' } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
     let(:update_data) { { host: 'batman', hostid: 1234 } }
 
     before do
       allow(hosts_mock).to receive(:log)
-      allow(hosts_mock).to receive(:indentify).and_return(indentify)
+      allow(hosts_mock).to receive(:identify).and_return(identify)
       allow(hosts_mock).to receive(:get_id)
         .with(host: data[:host]).and_return(id)
       allow(hosts_mock).to receive(:create).with(data).and_return(id_through_create)

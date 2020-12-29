@@ -6,11 +6,12 @@ describe 'user' do
     @usergroupid = {
       usrgrpid: zbx.usergroups.create(name: @usergroup),
     }
+    @roleid = "1"
     puts "USERGROUPID: #{@usergroupid}"
 
     @mediatype = gen_name 'mediatype'
     @mediatypeid = zbx.mediatypes.create(
-      description: @mediatype,
+      name: @mediatype,
       type: 0,
       smtp_server: '127.0.0.1',
       smtp_email: 'zabbix@test.com',
@@ -37,6 +38,7 @@ describe 'user' do
           name: user,
           surname: user,
           passwd: user,
+          roleid: @roleid,
           usrgrps: [@usergroupid]
         )
         expect(userid).to be_kind_of(Integer)
@@ -58,7 +60,8 @@ describe 'user' do
         name: @user,
         surname: @user,
         passwd: @user,
-        usrgrps: [@usergroupid]
+        usrgrps: [@usergroupid],
+        roleid: @roleid
       )
     end
 
@@ -69,7 +72,8 @@ describe 'user' do
             alias: @user,
             name: @user,
             surname: @user,
-            passwd: @user
+            passwd: @user,
+            roleid: @roleid
           )
         ).to eq @userid
       end

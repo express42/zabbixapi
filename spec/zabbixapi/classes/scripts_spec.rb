@@ -10,8 +10,8 @@ describe 'ZabbixApi::Scripts' do
     it { is_expected.to eq 'script' }
   end
 
-  describe '.indentify' do
-    subject { scripts_mock.indentify }
+  describe '.identify' do
+    subject { scripts_mock.identify }
 
     it { is_expected.to eq 'name' }
   end

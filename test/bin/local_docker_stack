@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # zabbixapi
-# 
+#
 # Use to deploy local zabbix stack for testing
 
 base_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -15,12 +15,13 @@ if [[ ${rc} == 0 ]] ; then
   docker stack deploy --compose-file ${base_dir}/../docker_compose/test_docker_stack.yml zabbix
 fi
 
-echo 'Use the following to obtain informaiton about the stack'
-echo 'docker stack services zabbix'
-echo 'docker stack rm zabbix'
-echo 'docker network inspect zabbix_zabbix'
-echo 'docker container ls | grep zabbix_'
+echo 'Use the following to obtain information about the stack'
+echo 'docker-compose -p zabbixapi -f test/docker_compose/test_docker_stack.yml up -d'
+echo 'docker-compose -p zabbixapi -f test/docker_compose/test_docker_stack.yml down'
+echo 'docker network inspect zabbixapi_zabbix'
+echo 'docker container ls | grep zabbixapi_'
 echo 'docker logs ${container_name}'
+echo 'export ZABBIX_HOST_URL="http://localhost:8080/api_jsonrpc.php"'
 echo 'bundle exec rspec spec/*'
 echo 'open browser: http://localhost:8080'
 echo '  Username: Admin'

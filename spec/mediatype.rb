@@ -9,7 +9,7 @@ describe 'mediatype' do
     describe 'create' do
       it 'should return integer id' do
         mediatypeid = zbx.mediatypes.create(
-          description: @mediatype,
+          name: @mediatype,
           type: 0,
           smtp_server: '127.0.0.1',
           smtp_email: 'zabbix@test.com',
@@ -23,7 +23,7 @@ describe 'mediatype' do
   context 'when exists' do
     before do
       @mediatypeid = zbx.mediatypes.create(
-        description: @mediatype,
+        name: @mediatype,
         type: 0,
         smtp_server: '127.0.0.1',
         smtp_email: 'zabbix@test.com',
@@ -35,7 +35,7 @@ describe 'mediatype' do
       it 'should return id' do
         expect(
           zbx.mediatypes.create_or_update(
-            description: @mediatype,
+            name: @mediatype,
             smtp_email: 'zabbix2@test.com',
             smtp_helo: 'test.com'
           )

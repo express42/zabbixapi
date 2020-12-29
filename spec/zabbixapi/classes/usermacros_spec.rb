@@ -4,9 +4,8 @@ describe 'ZabbixApi::Usermacros' do
   let(:usermacros_mock) { ZabbixApi::Usermacros.new(client) }
   let(:client) { double }
 
-
-  describe '.indentify' do
-    subject { usermacros_mock.indentify }
+  describe '.identify' do
+    subject { usermacros_mock.identify }
 
     it { is_expected.to eq 'macro' }
   end
@@ -20,17 +19,17 @@ describe 'ZabbixApi::Usermacros' do
   describe '.get_id' do
     subject { usermacros_mock.get_id(data) }
 
-    let(:data) { { 'testindentify' => 1 } }
-    let(:symbolized_data) { { testindentify: 1 } }
-    let(:result) { [{ 'hostmacroid' => '111', 'testindentify' => 1 }] }
+    let(:data) { { 'testidentify' => 1 } }
+    let(:symbolized_data) { { testidentify: 1 } }
+    let(:result) { [{ 'hostmacroid' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { 111 }
 
     before do
       allow(usermacros_mock).to receive(:log)
       allow(usermacros_mock).to receive(:key).and_return(key)
-      allow(usermacros_mock).to receive(:indentify).and_return(indentify)
+      allow(usermacros_mock).to receive(:identify).and_return(identify)
       allow(usermacros_mock).to receive(:symbolize_keys).with(data).and_return(symbolized_data)
       allow(usermacros_mock).to receive(:request).with(
         symbolized_data,
@@ -44,7 +43,7 @@ describe 'ZabbixApi::Usermacros' do
       subject
     end
 
-    context 'when data has `indentify` as a key' do
+    context 'when data has `identify` as a key' do
       it 'symbolizes the data' do
         expect(usermacros_mock).to receive(:symbolize_keys).with(data)
         subject
@@ -61,12 +60,12 @@ describe 'ZabbixApi::Usermacros' do
       end
     end
 
-    context 'when data does not have `indentify` as a key' do
-      let(:indentify) { 'wrongtestindentify' }
+    context 'when data does not have `identify` as a key' do
+      let(:identify) { 'wrongtestidentify' }
 
       it 'symbolizes the data' do
         expect(usermacros_mock).not_to receive(:symbolize_keys).with(data)
-        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{indentify} not supplied in call to get_id")
+        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{identify} not supplied in call to get_id")
       end
     end
   end
@@ -74,17 +73,17 @@ describe 'ZabbixApi::Usermacros' do
   describe '.get_id_global' do
     subject { usermacros_mock.get_id_global(data) }
 
-    let(:data) { { 'testindentify' => 1 } }
-    let(:symbolized_data) { { testindentify: 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:data) { { 'testidentify' => 1 } }
+    let(:symbolized_data) { { testidentify: 1 } }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { 111 }
 
     before do
       allow(usermacros_mock).to receive(:log)
       allow(usermacros_mock).to receive(:key).and_return(key)
-      allow(usermacros_mock).to receive(:indentify).and_return(indentify)
+      allow(usermacros_mock).to receive(:identify).and_return(identify)
       allow(usermacros_mock).to receive(:symbolize_keys).with(data).and_return(symbolized_data)
       allow(usermacros_mock).to receive(:request).with(
         symbolized_data,
@@ -98,7 +97,7 @@ describe 'ZabbixApi::Usermacros' do
       subject
     end
 
-    context 'when data has `indentify` as a key' do
+    context 'when data has `identify` as a key' do
       it 'symbolizes the data' do
         expect(usermacros_mock).to receive(:symbolize_keys).with(data)
         subject
@@ -115,12 +114,12 @@ describe 'ZabbixApi::Usermacros' do
       end
     end
 
-    context 'when data does not have `indentify` as a key' do
-      let(:indentify) { 'wrongtestindentify' }
+    context 'when data does not have `identify` as a key' do
+      let(:identify) { 'wrongtestidentify' }
 
       it 'symbolizes the data' do
         expect(usermacros_mock).not_to receive(:symbolize_keys).with(data)
-        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{indentify} not supplied in call to get_id_global")
+        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{identify} not supplied in call to get_id_global")
       end
     end
   end
@@ -129,7 +128,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.get_full_data(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:log)
@@ -152,7 +151,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.get_full_data_global(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:log)
@@ -175,7 +174,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.create(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -192,7 +191,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.create_global(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -209,7 +208,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.delete(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -226,7 +225,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.delete_global(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -243,7 +242,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.update(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -260,7 +259,7 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.update_global(data) }
 
     let(:data) { { 'hostid' => 1 } }
-    let(:result) { [{ 'globalmacroid' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'globalmacroid' => '111', 'testidentify' => 1 }] }
 
     before do
       allow(usermacros_mock).to receive(:request).with(
@@ -277,9 +276,9 @@ describe 'ZabbixApi::Usermacros' do
     subject { usermacros_mock.get_or_create_global(data) }
 
     let(:data) { { macro: 'testdesc', hostid: 'hostid' } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 

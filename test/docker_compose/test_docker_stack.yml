@@ -16,7 +16,7 @@ services:
     ports:
       - "5432:5432"
   server:
-    image: zabbix/zabbix-server-pgsql:alpine-4.0-latest
+    image: zabbix/zabbix-server-pgsql:alpine-5.2-latest
     depends_on:
       - db
     environment:
@@ -28,10 +28,10 @@ services:
     ports:
       - 10051:10051
   frontend:
-    image: zabbix/zabbix-web-apache-pgsql:alpine-4.0-latest
+    image: zabbix/zabbix-web-apache-pgsql:alpine-5.2-latest
     depends_on:
       - db
-      - zabbix_server
+      - server
     environment:
       DB_SERVER_HOST: db
       POSTGRES_USER: zabbix

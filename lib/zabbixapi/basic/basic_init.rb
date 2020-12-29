@@ -22,14 +22,14 @@ class ZabbixApi
       {}
     end
 
-    # Returns the object's plural id field name (indentify) based on key
+    # Returns the object's plural id field name (identify) based on key
     #
     # @return [String]
     def keys
       key + 's'
     end
 
-    # Returns the object's id field name (indentify) based on method_name + id
+    # Returns the object's id field name (identify) based on method_name + id
     #
     # @return [String]
     def key
@@ -38,9 +38,9 @@ class ZabbixApi
 
     # Placeholder for inherited objects to provide object-specific id field name
     #
-    # @raise [ApiError] Basic object does not directly support indentify
-    def indentify
-      raise ApiError.new("Can't call indentify here")
+    # @raise [ApiError] Basic object does not directly support identify
+    def identify
+      raise ApiError.new("Can't call identify here")
     end
   end
 end

@@ -10,8 +10,8 @@ describe 'ZabbixApi::Graphs' do
     it { is_expected.to eq 'graph' }
   end
 
-  describe '.indentify' do
-    subject { graphs_mock.indentify }
+  describe '.identify' do
+    subject { graphs_mock.identify }
 
     it { is_expected.to eq 'name' }
   end
@@ -19,20 +19,20 @@ describe 'ZabbixApi::Graphs' do
   describe '.get_full_data' do
     subject { graphs_mock.get_full_data(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testid: 222 } }
     let(:result) { { test: 1 } }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testid' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(graphs_mock).to receive(:log)
-      allow(graphs_mock).to receive(:indentify).and_return(indentify)
+      allow(graphs_mock).to receive(:identify).and_return(identify)
       allow(graphs_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: "#{method_name}.get",
         params: {
           search: {
-            testindentify: 222
+            testid: 222
           },
           output: 'extend'
         }
@@ -40,7 +40,7 @@ describe 'ZabbixApi::Graphs' do
     end
 
     it 'logs debug message' do
-      expect(graphs_mock).to receive(:log).with("[DEBUG] Call get_full_data with parametrs: #{data.inspect}")
+      expect(graphs_mock).to receive(:log).with("[DEBUG] Call get_full_data with parameters: #{data.inspect}")
       subject
     end
 
@@ -102,9 +102,9 @@ describe 'ZabbixApi::Graphs' do
   describe '.get_items' do
     subject { graphs_mock.get_items(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testid: 222 } }
     let(:result) { { test: 1 } }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testid' }
     let(:method_name) { 'testmethod' }
 
     before do
@@ -124,7 +124,7 @@ describe 'ZabbixApi::Graphs' do
     subject { graphs_mock.get_or_create(data) }
 
     let(:data) { { name: 'batman', templateid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testid' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -158,16 +158,16 @@ describe 'ZabbixApi::Graphs' do
     subject { graphs_mock.create_or_update(data) }
 
     let(:data) { { name: 'batman', templateid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testid' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testid' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
     let(:update_data) { { name: 'batman', templateid: 1234, graphid: id } }
 
     before do
       allow(graphs_mock).to receive(:log)
-      allow(graphs_mock).to receive(:indentify).and_return(indentify)
+      allow(graphs_mock).to receive(:identify).and_return(identify)
       allow(graphs_mock).to receive(:get_id)
         .with(name: data[:name], templateid: data[:templateid]).and_return(id)
       allow(graphs_mock).to receive(:create).with(data).and_return(id_through_create)

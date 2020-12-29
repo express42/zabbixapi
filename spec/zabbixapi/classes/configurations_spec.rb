@@ -16,8 +16,8 @@ describe 'ZabbixApi::Configurations' do
     it { is_expected.to eq 'configuration' }
   end
 
-  describe '.indentify' do
-    subject { configurations_mock.indentify }
+  describe '.identify' do
+    subject { configurations_mock.identify }
 
     it { is_expected.to eq 'host' }
   end

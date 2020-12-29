@@ -10,8 +10,8 @@ describe 'ZabbixApi::Users' do
     it { is_expected.to eq 'user' }
   end
 
-  describe '.indentify' do
-    subject { users_mock.indentify }
+  describe '.identify' do
+    subject { users_mock.identify }
 
     it { is_expected.to eq 'alias' }
   end
@@ -32,7 +32,7 @@ describe 'ZabbixApi::Users' do
     subject { users_mock.medias_helper(data, action) }
 
     let(:data) { { userids: [1234, 5678], media: 'testmedia'} }
-    #let(:result) { { 'mediaids' => ['111'], 'testindentify' => 1 } }
+    #let(:result) { { 'mediaids' => ['111'], 'testidentify' => 1 } }
     let(:result) { { 'userids' => ['111'] } }
     let(:action) { 'updateMedia' }
 
@@ -66,7 +66,7 @@ describe 'ZabbixApi::Users' do
     subject { users_mock.add_medias(data) }
 
     let(:data) { { userids: [1234, 5678], media: 'testmedia' } }
-    let(:result) { { 'userids' => ['111'], 'testindentify' => 1 } }
+    let(:result) { { 'userids' => ['111'], 'testidentify' => 1 } }
 
     before do
       allow(users_mock).to receive(:medias_helper)
@@ -85,7 +85,7 @@ describe 'ZabbixApi::Users' do
     subject { users_mock.update_medias(data) }
 
     let(:data) { { userids: [1234, 5678], media: 'testmedia' } }
-    let(:result) { { 'userids' => ['111'], 'testindentify' => 1 } }
+    let(:result) { { 'userids' => ['111'], 'testidentify' => 1 } }
 
     before do
       allow(users_mock).to receive(:medias_helper)

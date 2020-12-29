@@ -10,8 +10,8 @@ describe 'ZabbixApi::ValueMaps' do
     it { is_expected.to eq 'valuemap' }
   end
 
-  describe '.indentify' do
-    subject { valuemaps_mock.indentify }
+  describe '.identify' do
+    subject { valuemaps_mock.identify }
 
     it { is_expected.to eq 'name' }
   end

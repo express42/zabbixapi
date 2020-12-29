@@ -10,8 +10,8 @@ describe 'ZabbixApi::HostGroups' do
     it { is_expected.to eq 'hostgroup' }
   end
 
-  describe '.indentify' do
-    subject { actions_mock.indentify }
+  describe '.identify' do
+    subject { actions_mock.identify }
 
     it { is_expected.to eq 'name' }
   end

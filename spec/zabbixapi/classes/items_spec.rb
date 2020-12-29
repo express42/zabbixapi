@@ -10,8 +10,8 @@ describe 'ZabbixApi::Items' do
     it { is_expected.to eq 'item' }
   end
 
-  describe '.indentify' do
-    subject { items_mock.indentify }
+  describe '.identify' do
+    subject { items_mock.identify }
 
     it { is_expected.to eq 'name' }
   end
@@ -63,7 +63,7 @@ describe 'ZabbixApi::Items' do
     subject { items_mock.get_or_create(data) }
 
     let(:data) { { name: 'batman', hostid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -97,16 +97,16 @@ describe 'ZabbixApi::Items' do
     subject { items_mock.create_or_update(data) }
 
     let(:data) { { name: 'batman', hostid: '1234' } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:itemid) { nil }
     let(:id_through_create) { 222 }
     let(:update_data) { { name: data[:name], hostid: data[:hostid], itemid: itemid } }
 
     before do
       allow(items_mock).to receive(:log)
-      allow(items_mock).to receive(:indentify).and_return(indentify)
+      allow(items_mock).to receive(:identify).and_return(identify)
       allow(items_mock).to receive(:get_id)
         .with(name: data[:name], hostid: data[:hostid]).and_return(itemid)
       allow(items_mock).to receive(:create).with(data).and_return(id_through_create)

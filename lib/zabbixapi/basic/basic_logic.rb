@@ -18,7 +18,7 @@ class ZabbixApi
 
     # Delete Zabbix object using API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] The object id if a single object is deleted
@@ -33,7 +33,7 @@ class ZabbixApi
 
     # Create or update Zabbix object using API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] The object id if a single object is created
@@ -41,13 +41,13 @@ class ZabbixApi
     def create_or_update(data)
       log "[DEBUG] Call create_or_update with parameters: #{data.inspect}"
 
-      id = get_id(indentify.to_sym => data[indentify.to_sym])
+      id = get_id(identify.to_sym => data[identify.to_sym])
       id ? update(data.merge(key.to_sym => id.to_s)) : create(data)
     end
 
     # Update Zabbix object using API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @param force [Boolean] Whether to force an object update even if provided data matches Zabbix
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
@@ -71,7 +71,7 @@ class ZabbixApi
 
     # Get full/extended Zabbix object data from API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Hash]
@@ -82,7 +82,7 @@ class ZabbixApi
         method: "#{method_name}.get",
         params: {
           filter: {
-            indentify.to_sym => data[indentify.to_sym]
+            identify.to_sym => data[identify.to_sym]
           },
           output: 'extend'
         }
@@ -132,7 +132,7 @@ class ZabbixApi
     def all
       result = {}
       @client.api_request(method: "#{method_name}.get", params: { output: 'extend' }).each do |item|
-        result[item[indentify]] = item[key]
+        result[item[identify]] = item[key]
       end
       result
     end
@@ -140,39 +140,39 @@ class ZabbixApi
     # Get Zabbix object id from API based on provided data
     #
     # @param data [Hash]
-    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (indentify).
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (identify).
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def get_id(data)
       log "[DEBUG] Call get_id with parameters: #{data.inspect}"
       # symbolize keys if the user used string keys instead of symbols
-      data = symbolize_keys(data) if data.key?(indentify)
-      # raise an error if indentify name was not supplied
-      name = data[indentify.to_sym]
-      raise ApiError.new("#{indentify} not supplied in call to get_id") if name.nil?
+      data = symbolize_keys(data) if data.key?(identify)
+      # raise an error if identify name was not supplied
+      name = data[identify.to_sym]
+      raise ApiError.new("#{identify} not supplied in call to get_id") if name.nil?
 
       result = @client.api_request(
         method: "#{method_name}.get",
         params: {
           filter: data,
-          output: [key, indentify]
+          output: [key, identify]
         }
       )
       id = nil
-      result.each { |item| id = item[key].to_i if item[indentify] == data[indentify.to_sym] }
+      result.each { |item| id = item[key].to_i if item[identify] == data[identify.to_sym] }
       id
     end
 
     # Get or Create Zabbix object using API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def get_or_create(data)
       log "[DEBUG] Call get_or_create with parameters: #{data.inspect}"
 
-      unless (id = get_id(indentify.to_sym => data[indentify.to_sym]))
+      unless (id = get_id(identify.to_sym => data[identify.to_sym]))
         id = create(data)
       end
       id

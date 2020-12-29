@@ -10,8 +10,8 @@ describe 'ZabbixApi::Screens' do
     it { is_expected.to eq 'screen' }
   end
 
-  describe '.indentify' do
-    subject { screens_mock.indentify }
+  describe '.identify' do
+    subject { screens_mock.identify }
 
     it { is_expected.to eq 'name' }
   end
@@ -19,14 +19,14 @@ describe 'ZabbixApi::Screens' do
   describe '.delete' do
     subject { screens_mock.delete(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testidentify: 222 } }
     let(:result) { { 'screenids' => ['1'] } }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(screens_mock).to receive(:log)
-      allow(screens_mock).to receive(:indentify).and_return(indentify)
+      allow(screens_mock).to receive(:identify).and_return(identify)
       allow(screens_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: 'screen.delete',
