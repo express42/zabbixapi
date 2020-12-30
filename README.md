@@ -1,10 +1,12 @@
 # Ruby Zabbix Api Module
 
 [![Gem Version](http://img.shields.io/gem/v/zabbixapi.svg)][gem]
-[![Build Status](http://img.shields.io/travis/express42/zabbixapi.svg)][travis]
+
+[![Build Status](https://github.com/anapsix/zabbixapi/workflows/CI/badge.svg)][github-ci]
 
 [gem]: https://rubygems.org/gems/zabbixapi
 [travis]: https://travis-ci.org/express42/zabbixapi
+[github-ci]: ./zabbixapi/actions?query=workflow%3ACI
 
 Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Zabbix API][Zabbix API]
 

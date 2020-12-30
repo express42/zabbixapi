@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - $default-branch
+    - zabbix-5
+    paths-ignore:
+    - '**.md'
+  pull_request:
+    branches:
+    - $default-branch
+    paths-ignore:
+    - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        ruby:
+        - 2.5
+        - 2.6
+        - 2.7
+        - head
+        - jruby-9.2.10
+        - jruby-head
+    services:
+      postgres:
+        image: postgres:13-alpine
+        # ports: ['5432:5432']
+        env:
+          POSTGRES_DB: zabbix
+          POSTGRES_USER: zabbix
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      zabbix-server:
+        image: zabbix/zabbix-server-pgsql:alpine-5.2-latest
+        # ports: ['10051:10051']
+        env:
+          DB_SERVER_HOST: postgres
+          POSTGRES_USER: zabbix
+          POSTGRES_PASSWORD: password
+      zabbix-frontend:
+        image: zabbix/zabbix-web-apache-pgsql:alpine-5.2-latest
+        ports: ['8080:8080']
+        env:
+          DB_SERVER_HOST: postgres
+          POSTGRES_USER: zabbix
+          POSTGRES_PASSWORD: password
+          ZBX_SERVER_HOST: zabbix-server
+          PHP_TZ: "US/Eastern"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1 # actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ matrix.ruby }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ matrix.ruby }}-gems-
+    - name: Bundle install
+      run: |
+        gem list --silent -i bundler -v '~> 2' || gem install bundler -v '~> 2' --no-document
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+    - name: Run tests
+      run: bundle exec rspec ./spec/*
