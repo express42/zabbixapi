@@ -5,13 +5,13 @@ gem 'rake', '~> 11.1'
 gem 'yard', '>= 0.9'
 
 group :development do
+  gem 'irb'
   gem 'pry'
 end
 
 group :test do
-  gem 'rspec', '>= 3.8'
-  gem 'rubocop', '>= 0.60'
-  gem 'irb'
+  gem 'rspec', '~> 3.10'
+  gem 'rubocop', '~> 1.7'
 end
 
 gemspec
