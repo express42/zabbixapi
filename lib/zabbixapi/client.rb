@@ -62,8 +62,11 @@ class ZabbixApi
       end
       unless api_version =~ %r{^5.[0|2]\.\d+$}
         message = "Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
-        # puts "[WARNING] #{message}" if @options[:debug]
-        raise ZabbixApi::ApiError.new(message)
+        if @options[:ignore_version]
+          puts "[WARNING] #{message}" if @options[:debug]
+        else
+          raise ZabbixApi::ApiError.new(message)
+        end
       end
 
       @auth_hash = auth

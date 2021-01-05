@@ -165,8 +165,23 @@ describe 'ZabbixApi::Client' do
 
       before { allow(ENV).to receive(:[]).with('http_proxy').and_return(nil) }
 
-      it 'sets auth_hash' do
+      it 'raises ApiError' do
         expect { subject }.to raise_error(ZabbixApi::ApiError, "Zabbix API version: #{api_version} is not supported by this version of zabbixapi")
+      end
+    end
+
+    context 'when major api_version is not supported, but ignored' do
+      let(:options) do
+        {
+          ignore_version: true
+        }
+      end
+      let(:api_version) { 'not_a_valid_version' }
+
+      before { allow(ENV).to receive(:[]).with('http_proxy').and_return(nil) }
+
+      it 'sets auth_hash' do
+        expect(subject.instance_variable_get(:@auth_hash)).to eq('auth')
       end
     end
   end

@@ -39,6 +39,18 @@ zbx = ZabbixApi.connect(
 )
 ```
 
+### Ignore Zabbix API version
+```ruby
+require "zabbixapi"
+
+zbx = ZabbixApi.connect(
+  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :user => 'Admin',
+  :password => 'zabbix',
+  :ignore_version => true
+)
+```
+
 ### Basic Auth
 ```ruby
 require "zabbixapi"
