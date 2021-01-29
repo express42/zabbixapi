@@ -41,11 +41,11 @@ describe 'problem' do
       end
     end
 
-    describe 'update' do
-      it 'should raise ApiError' do
-        expect{zbx.problems.update({name: gen_name("problem")})}.
-          to raise_error(ZabbixApi::ApiError, /.*\"data\": \"Incorrect method \\\"problem.update\\\"\.\"/)
-      end
-    end
+    # describe 'update' do
+    #   it 'should raise ApiError' do
+    #     expect{zbx.problems.update({name: gen_name("problem")})}.
+    #       to raise_error(ZabbixApi::ApiError, /.*\"data\": \"Incorrect method \\\"problem.update\\\"\.\"/)
+    #   end
+    # end
   end
 end
