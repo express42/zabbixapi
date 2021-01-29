@@ -43,7 +43,7 @@ describe 'problem' do
 
     describe 'update' do
       it 'should raise ApiError' do
-        expect{zbx.problems.update({eventid: gen_id.to_s})}.
+        expect{zbx.problems.update({name: gen_name("problem")})}.
           to raise_error(ZabbixApi::ApiError, /.*\"data\": \"Incorrect method \\\"problem.update\\\"\.\"/)
       end
     end

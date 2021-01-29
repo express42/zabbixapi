@@ -16,6 +16,7 @@ Examples Index
     - [Items](Items.md)
     - [Maintenance](Maintenance.md)
     - [MediaTypes](MediaTypes.md)
+    - [Problems](Problems.md)
     - [Proxies](Proxies.md)
     - [Screens](Screens.md)
     - [Templates](Templates.md)

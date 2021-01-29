@@ -22,6 +22,12 @@ describe 'ZabbixApi::Roles' do
     it { is_expected.to eq 'roleid' }
   end
 
+  describe '.keys' do
+    subject { roles_mock.keys }
+
+    it { is_expected.to eq 'roleids' }
+  end
+
   # TODO: fix Roles Spec tests
   # describe '.add_role' do
   #   subject { roles_mock.add_role(data) }
