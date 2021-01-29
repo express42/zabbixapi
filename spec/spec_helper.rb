@@ -14,6 +14,10 @@ def zbx
   )
 end
 
+def gen_id
+  rand(1_000_000_000)
+end
+
 def gen_name(prefix)
   suffix = rand(1_000_000_000)
   "#{prefix}_#{suffix}"
