@@ -73,13 +73,18 @@ class ZabbixApi
           objectids: data[:objectids] || nil,
           applicationids: data[:applicationids] || nil,
           tags: data[:tags] || nil,
+          time_from: data[:time_from] || nil,
+          time_till: data[:time_till] || nil,
+          eventid_from: data[:eventid_from] || nil,
+          eventid_till: data[:eventid_till] || nil,
+          recent: data[:recent] || false,
+          sortfield: data[:sortfield] || ['eventid'],
+          sortorder: data[:sortorder] || 'DESC',
+          countOutput: data[:countOutput] || nil,
           output: 'extend',
           selectAcknowledges: 'extend',
           selectTags: 'extend',
-          selectSuppressionData: 'extend',
-          recent: 'true',
-          sortfield: ['eventid'],
-          sortorder: 'DESC'
+          selectSuppressionData: 'extend'
         }
       )
     end
