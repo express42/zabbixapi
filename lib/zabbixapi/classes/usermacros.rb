@@ -3,7 +3,7 @@ class ZabbixApi
     # The id field name used for identifying specific User macro objects via Zabbix API
     #
     # @return [String]
-    def indentify
+    def identify
       'macro'
     end
 
@@ -17,17 +17,17 @@ class ZabbixApi
     # Get User macro object id from Zabbix API based on provided data
     #
     # @param data [Hash] Needs to include macro to properly identify user macros via Zabbix API
-    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (indentify).
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (identify).
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def get_id(data)
       log "[DEBUG] Call get_id with parameters: #{data.inspect}"
 
       # symbolize keys if the user used string keys instead of symbols
-      data = symbolize_keys(data) if data.key?(indentify)
-      # raise an error if indentify name was not supplied
-      name = data[indentify.to_sym]
-      raise ApiError.new("#{indentify} not supplied in call to get_id") if name.nil?
+      data = symbolize_keys(data) if data.key?(identify)
+      # raise an error if identify name was not supplied
+      name = data[identify.to_sym]
+      raise ApiError.new("#{identify} not supplied in call to get_id") if name.nil?
 
       result = request(data, 'usermacro.get', 'hostmacroid')
 
@@ -37,17 +37,17 @@ class ZabbixApi
     # Get Global macro object id from Zabbix API based on provided data
     #
     # @param data [Hash] Needs to include macro to properly identify global macros via Zabbix API
-    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (indentify).
+    # @raise [ApiError] Error returned when there is a problem with the Zabbix API call or missing object's id field name (identify).
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Integer] Zabbix object id
     def get_id_global(data)
       log "[DEBUG] Call get_id_global with parameters: #{data.inspect}"
 
       # symbolize keys if the user used string keys instead of symbols
-      data = symbolize_keys(data) if data.key?(indentify)
-      # raise an error if indentify name was not supplied
-      name = data[indentify.to_sym]
-      raise ApiError.new("#{indentify} not supplied in call to get_id_global") if name.nil?
+      data = symbolize_keys(data) if data.key?(identify)
+      # raise an error if identify name was not supplied
+      name = data[identify.to_sym]
+      raise ApiError.new("#{identify} not supplied in call to get_id_global") if name.nil?
 
       result = request(data, 'usermacro.get', 'globalmacroid')
 
@@ -56,7 +56,7 @@ class ZabbixApi
 
     # Get full/extended User macro data from Zabbix API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Hash]
@@ -68,7 +68,7 @@ class ZabbixApi
 
     # Get full/extended Global macro data from Zabbix API
     #
-    # @param data [Hash] Should include object's id field name (indentify) and id value
+    # @param data [Hash] Should include object's id field name (identify) and id value
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Hash]
@@ -126,7 +126,7 @@ class ZabbixApi
 
     # Update User macro object using Zabbix API
     #
-    # @param data [Hash] Should include object's id field name (indentify), id value, and fields to update
+    # @param data [Hash] Should include object's id field name (identify), id value, and fields to update
     # @param force [Boolean] Whether to force an object update even if provided data matches Zabbix
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
@@ -138,7 +138,7 @@ class ZabbixApi
 
     # Update Global macro object using Zabbix API
     #
-    # @param data [Hash] Should include object's id field name (indentify), id value, and fields to update
+    # @param data [Hash] Should include object's id field name (identify), id value, and fields to update
     # @param force [Boolean] Whether to force an object update even if provided data matches Zabbix
     # @raise [ApiError] Error returned when there is a problem with the Zabbix API call.
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.

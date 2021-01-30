@@ -16,7 +16,7 @@ describe 'ZabbixApi::Triggers' do
     end
 
     it 'logs debug message' do
-      expect(unusable_mock).to receive(:log).with("[DEBUG] Call create_or_update with parametrs: #{data.inspect}")
+      expect(unusable_mock).to receive(:log).with("[DEBUG] Call create_or_update with parameters: #{data.inspect}")
     end
 
     it 'calls get_or_create' do

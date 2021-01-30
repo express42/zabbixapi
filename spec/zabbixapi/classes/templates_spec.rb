@@ -10,8 +10,8 @@ describe 'ZabbixApi::Templates' do
     it { is_expected.to eq 'template' }
   end
 
-  describe '.indentify' do
-    subject { templates_mock.indentify }
+  describe '.identify' do
+    subject { templates_mock.identify }
 
     it { is_expected.to eq 'host' }
   end
@@ -19,14 +19,14 @@ describe 'ZabbixApi::Templates' do
   describe '.delete' do
     subject { templates_mock.delete(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testidentify: 222 } }
     let(:result) { { 'templateids' => ['1'] } }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(templates_mock).to receive(:log)
-      allow(templates_mock).to receive(:indentify).and_return(indentify)
+      allow(templates_mock).to receive(:identify).and_return(identify)
       allow(templates_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: 'template.delete',
@@ -68,7 +68,7 @@ describe 'ZabbixApi::Templates' do
     subject { templates_mock.get_or_create(data) }
 
     let(:data) { { host: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -96,7 +96,7 @@ describe 'ZabbixApi::Templates' do
     subject { templates_mock.mass_update(data) }
 
     let(:data) { { hosts_id: [1234, 5678], templates_id: [1111, 2222] } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -125,7 +125,7 @@ describe 'ZabbixApi::Templates' do
     subject { templates_mock.mass_add(data) }
 
     let(:data) { { hosts_id: [1234, 5678], templates_id: [1111, 2222] } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -154,7 +154,7 @@ describe 'ZabbixApi::Templates' do
     subject { templates_mock.mass_remove(data) }
 
     let(:data) { { hosts_id: [1234, 5678], templates_id: [1111, 2222], group_id: 4545 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 

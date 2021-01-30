@@ -10,7 +10,7 @@ class ZabbixApi
     # The id field name used for identifying specific Trigger objects via Zabbix API
     #
     # @return [String]
-    def indentify
+    def identify
       'description'
     end
 
@@ -21,7 +21,7 @@ class ZabbixApi
     # @raise [HttpError] Error raised when HTTP status from Zabbix Server response is not a 200 OK.
     # @return [Hash]
     def dump_by_id(data)
-      log "[DEBUG] Call dump_by_id with parametrs: #{data.inspect}"
+      log "[DEBUG] Call dump_by_id with parameters: #{data.inspect}"
 
       @client.api_request(
         method: 'trigger.get',

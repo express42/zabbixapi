@@ -10,10 +10,10 @@ describe 'ZabbixApi::Mediatypes' do
     it { is_expected.to eq 'mediatype' }
   end
 
-  describe '.indentify' do
-    subject { mediatypes_mock.indentify }
+  describe '.identify' do
+    subject { mediatypes_mock.identify }
 
-    it { is_expected.to eq 'description' }
+    it { is_expected.to eq 'name' }
   end
 
   describe '.default_options' do
@@ -21,6 +21,7 @@ describe 'ZabbixApi::Mediatypes' do
 
     let(:result) do
       {
+        name: '',
         description: '',
         type: 0,
         smtp_server: '',

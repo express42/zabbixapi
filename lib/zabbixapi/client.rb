@@ -60,9 +60,13 @@ class ZabbixApi
         @proxy_port = @proxy_uri.port
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
-      unless api_version =~ %r{^4.[0|4]\.\d+$}
+      unless api_version =~ %r{^5.[0|2]\.\d+$}
         message = "Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
-        raise ZabbixApi::ApiError.new(message)
+        if @options[:ignore_version]
+          puts "[WARNING] #{message}" if @options[:debug]
+        else
+          raise ZabbixApi::ApiError.new(message)
+        end
       end
 
       @auth_hash = auth

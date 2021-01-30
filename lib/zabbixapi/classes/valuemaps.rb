@@ -17,7 +17,7 @@ class ZabbixApi
     # The id field name used for identifying specific ValueMap objects via Zabbix API
     #
     # @return [String]
-    def indentify
+    def identify
       'name'
     end
 

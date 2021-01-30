@@ -10,8 +10,8 @@ describe 'ZabbixApi::Triggers' do
     it { is_expected.to eq 'trigger' }
   end
 
-  describe '.indentify' do
-    subject { triggers_mock.indentify }
+  describe '.identify' do
+    subject { triggers_mock.identify }
 
     it { is_expected.to eq 'description' }
   end
@@ -40,7 +40,7 @@ describe 'ZabbixApi::Triggers' do
     end
 
     it 'logs debug message' do
-      expect(triggers_mock).to receive(:log).with("[DEBUG] Call dump_by_id with parametrs: #{data.inspect}")
+      expect(triggers_mock).to receive(:log).with("[DEBUG] Call dump_by_id with parameters: #{data.inspect}")
       subject
     end
 
@@ -126,9 +126,9 @@ describe 'ZabbixApi::Triggers' do
     subject { triggers_mock.get_or_create(data) }
 
     let(:data) { { description: 'testdesc', hostid: 'hostid' } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -172,7 +172,7 @@ describe 'ZabbixApi::Triggers' do
     end
 
     it 'logs debug message' do
-      expect(triggers_mock).to receive(:log).with("[DEBUG] Call create_or_update with parametrs: #{data.inspect}")
+      expect(triggers_mock).to receive(:log).with("[DEBUG] Call create_or_update with parameters: #{data.inspect}")
       subject
     end
 

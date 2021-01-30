@@ -10,8 +10,8 @@ describe 'ZabbixApi::Applications' do
     it { is_expected.to eq 'application' }
   end
 
-  describe '.indentify' do
-    subject { actions_mock.indentify }
+  describe '.identify' do
+    subject { actions_mock.identify }
 
     it { is_expected.to eq 'name' }
   end
@@ -20,15 +20,15 @@ describe 'ZabbixApi::Applications' do
     subject { actions_mock.get_or_create(data) }
 
     let(:data) { { name: 'batman', hostid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
     before do
       allow(actions_mock).to receive(:log)
-      allow(actions_mock).to receive(:indentify).and_return(indentify)
+      allow(actions_mock).to receive(:identify).and_return(identify)
       allow(actions_mock).to receive(:get_id).with(name: data[:name], hostid: data[:hostid]).and_return(id)
       allow(actions_mock).to receive(:create).with(data).and_return(id_through_create)
     end
@@ -57,16 +57,16 @@ describe 'ZabbixApi::Applications' do
     subject { actions_mock.create_or_update(data) }
 
     let(:data) { { name: 'batman', hostid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
     let(:update_data) { { name: 'batman', hostid: 1234, applicationid: id } }
 
     before do
       allow(actions_mock).to receive(:log)
-      allow(actions_mock).to receive(:indentify).and_return(indentify)
+      allow(actions_mock).to receive(:identify).and_return(identify)
       allow(actions_mock).to receive(:get_id)
         .with(name: data[:name], hostid: data[:hostid]).and_return(id)
       allow(actions_mock).to receive(:create).with(data).and_return(id_through_create)

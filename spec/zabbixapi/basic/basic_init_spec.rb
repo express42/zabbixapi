@@ -48,11 +48,11 @@ describe 'ZabbixApi::Basic' do
     it { is_expected.to eq expected }
   end
 
-  describe '.indentify' do
-    subject { basic_mock.indentify }
+  describe '.identify' do
+    subject { basic_mock.identify }
 
     it 'raises an ApiError with message' do
-      expect { subject }.to raise_error(ZabbixApi::ApiError, "Can't call indentify here")
+      expect { subject }.to raise_error(ZabbixApi::ApiError, "Can't call identify here")
     end
   end
 end

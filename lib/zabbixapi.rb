@@ -19,6 +19,8 @@ require 'zabbixapi/classes/items'
 require 'zabbixapi/classes/maintenance'
 require 'zabbixapi/classes/mediatypes'
 require 'zabbixapi/classes/proxies'
+require 'zabbixapi/classes/problems'
+require 'zabbixapi/classes/roles'
 require 'zabbixapi/classes/screens'
 require 'zabbixapi/classes/scripts'
 require 'zabbixapi/classes/server'
@@ -125,9 +127,19 @@ class ZabbixApi
     @mediatypes ||= Mediatypes.new(@client)
   end
 
+  # @return [ZabbixApi::Problems]
+  def problems
+    @problems ||= Problems.new(@client)
+  end
+
   # @return [ZabbixApi::Proxies]
   def proxies
     @proxies ||= Proxies.new(@client)
+  end
+
+  # @return [ZabbixApi::Roles]
+  def roles
+    @roles ||= Roles.new(@client)
   end
 
   # @return [ZabbixApi::Screens]

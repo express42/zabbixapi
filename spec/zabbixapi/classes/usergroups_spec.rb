@@ -10,8 +10,8 @@ describe 'ZabbixApi::Usergroups' do
     it { is_expected.to eq 'usergroup' }
   end
 
-  describe '.indentify' do
-    subject { usergroups_mock.indentify }
+  describe '.identify' do
+    subject { usergroups_mock.identify }
 
     it { is_expected.to eq 'name' }
   end

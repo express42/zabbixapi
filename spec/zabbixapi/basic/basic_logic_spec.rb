@@ -67,11 +67,11 @@ describe 'ZabbixApi::Basic' do
     subject { basic_mock.create_or_update(data) }
 
     let(:data) { { test: 1 } }
-    let(:indentify) { 'test' }
+    let(:identify) { 'test' }
     let(:id) { 1 }
 
     before do
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
+      allow(basic_mock).to receive(:identify).and_return(identify)
       allow(basic_mock).to receive(:get_id).with(test: 1).and_return(id)
       allow(basic_mock).to receive(:update)
       allow(basic_mock).to receive(:create)
@@ -157,10 +157,10 @@ describe 'ZabbixApi::Basic' do
 
     let(:data) { { testidentify: '1' } }
     let(:result) { [{ result: 'helloworld' }] }
-    let(:indentify) { 'testidentify' }
+    let(:identify) { 'testidentify' }
 
     before do
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
+      allow(basic_mock).to receive(:identify).and_return(identify)
       allow(client).to receive(:api_request).with(
         method: "#{method_name}.get",
         params: {
@@ -189,10 +189,10 @@ describe 'ZabbixApi::Basic' do
 
     let(:data) { { testidentify: '1' } }
     let(:result) { [{ result: 'helloworld' }] }
-    let(:indentify) { 'testidentify' }
+    let(:identify) { 'testidentify' }
 
     before do
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
+      allow(basic_mock).to receive(:identify).and_return(identify)
       allow(client).to receive(:api_request).with(
         method: "#{method_name}.get",
         params: data
@@ -249,12 +249,12 @@ describe 'ZabbixApi::Basic' do
     let(:data) { { testkey: '1' } }
     let(:result) { [{ 'testkey' => '1', 'testidentify' => 2 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testidentify' }
+    let(:identify) { 'testidentify' }
     let(:expected) { { 2 => '1' } }
 
     before do
       allow(basic_mock).to receive(:key).and_return(key)
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
+      allow(basic_mock).to receive(:identify).and_return(identify)
       allow(client).to receive(:api_request).with(
         method: "#{method_name}.get",
         params: {
@@ -273,22 +273,22 @@ describe 'ZabbixApi::Basic' do
   describe '.get_id' do
     subject { basic_mock.get_id(data) }
 
-    let(:data) { { 'testindentify' => 1 } }
-    let(:symbolized_data) { { testindentify: 1 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:data) { { 'testidentify' => 1 } }
+    let(:symbolized_data) { { testidentify: 1 } }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { 111 }
 
     before do
       allow(basic_mock).to receive(:key).and_return(key)
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
+      allow(basic_mock).to receive(:identify).and_return(identify)
       allow(basic_mock).to receive(:symbolize_keys).with(data).and_return(symbolized_data)
       allow(client).to receive(:api_request).with(
         method: "#{method_name}.get",
         params: {
           filter: symbolized_data,
-          output: [key, indentify]
+          output: [key, identify]
         }
       ).and_return(result)
     end
@@ -298,7 +298,7 @@ describe 'ZabbixApi::Basic' do
       subject
     end
 
-    context 'when data has `indentify` as a key' do
+    context 'when data has `identify` as a key' do
       it 'symbolizes the data' do
         expect(basic_mock).to receive(:symbolize_keys).with(data)
         subject
@@ -309,12 +309,12 @@ describe 'ZabbixApi::Basic' do
       end
     end
 
-    context 'when data does not have `indentify` as a key' do
-      let(:indentify) { 'wrongtestindentify' }
+    context 'when data does not have `identify` as a key' do
+      let(:identify) { 'wrongtestidentify' }
 
       it 'symbolizes the data' do
         expect(basic_mock).not_to receive(:symbolize_keys).with(data)
-        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{indentify} not supplied in call to get_id")
+        expect { subject }.to raise_error(ZabbixApi::ApiError, "#{identify} not supplied in call to get_id")
       end
     end
   end
@@ -322,16 +322,16 @@ describe 'ZabbixApi::Basic' do
   describe '.get_or_create' do
     subject { basic_mock.get_or_create(data) }
 
-    let(:data) { { testindentify: 1 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:data) { { testidentify: 1 } }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
     before do
-      allow(basic_mock).to receive(:indentify).and_return(indentify)
-      allow(basic_mock).to receive(:get_id).with(testindentify: 1).and_return(id)
+      allow(basic_mock).to receive(:identify).and_return(identify)
+      allow(basic_mock).to receive(:get_id).with(testidentify: 1).and_return(id)
       allow(basic_mock).to receive(:create).with(data).and_return(id_through_create)
     end
 

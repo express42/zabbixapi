@@ -10,8 +10,8 @@ describe 'ZabbixApi::Maintenance' do
     it { is_expected.to eq 'maintenance' }
   end
 
-  describe '.indentify' do
-    subject { maintenance_mock.indentify }
+  describe '.identify' do
+    subject { maintenance_mock.identify }
 
     it { is_expected.to eq 'name' }
   end

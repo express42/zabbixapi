@@ -16,6 +16,7 @@ Examples Index
     - [Items](Items.md)
     - [Maintenance](Maintenance.md)
     - [MediaTypes](MediaTypes.md)
+    - [Problems](Problems.md)
     - [Proxies](Proxies.md)
     - [Screens](Screens.md)
     - [Templates](Templates.md)
@@ -36,6 +37,18 @@ zbx = ZabbixApi.connect(
   :url => 'http://localhost/zabbix/api_jsonrpc.php',
   :user => 'Admin',
   :password => 'zabbix'
+)
+```
+
+### Ignore Zabbix API version
+```ruby
+require "zabbixapi"
+
+zbx = ZabbixApi.connect(
+  :url => 'http://localhost/zabbix/api_jsonrpc.php',
+  :user => 'Admin',
+  :password => 'zabbix',
+  :ignore_version => true
 )
 ```
 

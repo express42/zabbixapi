@@ -10,8 +10,8 @@ describe 'ZabbixApi::Proxies' do
     it { is_expected.to eq 'proxy' }
   end
 
-  describe '.indentify' do
-    subject { proxies_mock.indentify }
+  describe '.identify' do
+    subject { proxies_mock.identify }
 
     it { is_expected.to eq 'host' }
   end
@@ -19,14 +19,14 @@ describe 'ZabbixApi::Proxies' do
   describe '.delete' do
     subject { proxies_mock.delete(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testidentify: 222 } }
     let(:result) { { 'proxyids' => ['1'] } }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(proxies_mock).to receive(:log)
-      allow(proxies_mock).to receive(:indentify).and_return(indentify)
+      allow(proxies_mock).to receive(:identify).and_return(identify)
       allow(proxies_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: 'proxy.delete',
@@ -50,14 +50,14 @@ describe 'ZabbixApi::Proxies' do
   describe '.isreadable' do
     subject { proxies_mock.isreadable(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testidentify: 222 } }
     let(:result) { true }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(proxies_mock).to receive(:log)
-      allow(proxies_mock).to receive(:indentify).and_return(indentify)
+      allow(proxies_mock).to receive(:identify).and_return(identify)
       allow(proxies_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: 'proxy.isreadable',
@@ -71,14 +71,14 @@ describe 'ZabbixApi::Proxies' do
   describe '.iswritable' do
     subject { proxies_mock.iswritable(data) }
 
-    let(:data) { { testindentify: 222 } }
+    let(:data) { { testidentify: 222 } }
     let(:result) { true }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:method_name) { 'testmethod' }
 
     before do
       allow(proxies_mock).to receive(:log)
-      allow(proxies_mock).to receive(:indentify).and_return(indentify)
+      allow(proxies_mock).to receive(:identify).and_return(identify)
       allow(proxies_mock).to receive(:method_name).and_return(method_name)
       allow(client).to receive(:api_request).with(
         method: 'proxy.iswritable',

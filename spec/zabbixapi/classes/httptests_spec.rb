@@ -10,8 +10,8 @@ describe 'ZabbixApi::HttpTests' do
     it { is_expected.to eq 'httptest' }
   end
 
-  describe '.indentify' do
-    subject { httptests_mock.indentify }
+  describe '.identify' do
+    subject { httptests_mock.identify }
 
     it { is_expected.to eq 'name' }
   end
@@ -34,7 +34,7 @@ describe 'ZabbixApi::HttpTests' do
     subject { httptests_mock.get_or_create(data) }
 
     let(:data) { { name: 'batman', hostid: 1234 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:id) { nil }
     let(:id_through_create) { 222 }
 
@@ -68,16 +68,16 @@ describe 'ZabbixApi::HttpTests' do
     subject { httptests_mock.create_or_update(data) }
 
     let(:data) { { name: 'batman', hostid: 111 } }
-    let(:result) { [{ 'testkey' => '111', 'testindentify' => 1 }] }
+    let(:result) { [{ 'testkey' => '111', 'testidentify' => 1 }] }
     let(:key) { 'testkey' }
-    let(:indentify) { 'testindentify' }
+    let(:identify) { 'testidentify' }
     let(:httptestid) { nil }
     let(:id_through_create) { 222 }
     let(:update_data) { { name: data[:name], hostid: data[:hostid], httptestid: httptestid } }
 
     before do
       allow(httptests_mock).to receive(:log)
-      allow(httptests_mock).to receive(:indentify).and_return(indentify)
+      allow(httptests_mock).to receive(:identify).and_return(identify)
       allow(httptests_mock).to receive(:get_id)
         .with(name: data[:name], hostid: data[:hostid]).and_return(httptestid)
       allow(httptests_mock).to receive(:create).with(data).and_return(id_through_create)
