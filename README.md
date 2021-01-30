@@ -62,6 +62,7 @@ dropped.
 ## Contributing
 
 * Fork the project.
+* Base your work on the master branch.
 * Make your feature addition or bug fix, write tests, write documentation/examples.
 * Commit, do not mess with rakefile, version.
 * Make a pull request.
