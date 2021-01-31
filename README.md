@@ -1,17 +1,21 @@
 # Ruby Zabbix Api Module
 
 [![Gem Version](http://img.shields.io/gem/v/zabbixapi.svg)][gem]
-
 [![Build Status](https://github.com/anapsix/zabbixapi/workflows/CI/badge.svg)][github-ci]
 
 [gem]: https://rubygems.org/gems/zabbixapi
-[travis]: https://travis-ci.org/express42/zabbixapi
-[github-ci]: ./zabbixapi/actions?query=workflow%3ACI
+[github-ci]: https://github.com/express42/zabbixapi/actions?query=workflow%3ACI
 
 Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Zabbix API][Zabbix API]
 
 ## Installation
-    gem install zabbixapi
+```sh
+# latest
+gem install zabbixapi
+
+# specific version
+gem install zabbixapi -v 4.2.0
+```
 
 ## Documentation
 [http://rdoc.info/gems/zabbixapi][documentation]
@@ -24,7 +28,10 @@ Simple and lightweight ruby module for working with [Zabbix][Zabbix] via the [Za
 [examples]: https://github.com/express42/zabbixapi/tree/master/examples
 
 ## Version Policy
-We support only two last versions of zabbix (4.0 and 4.2), so you should consider all previous versions deprecated.
+
+**NOTE:** `master` branch is used for ongoing development on Zabbix API 5.x (5.0 and 5.2).
+
+We support only two last versions of zabbix (5.0 and 5.2), so you should consider all previous versions deprecated.
 
 * Zabbix 1.8.2 (api version 1.2) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
 * Zabbix 1.8.9 (api version 1.3) | zabbixapi 0.6.x | [branch zabbix1.8](https://github.com/express42/zabbixapi/tree/zabbix1.8)
@@ -32,15 +39,18 @@ We support only two last versions of zabbix (4.0 and 4.2), so you should conside
 * Zabbix 2.2.x (api version 2.2.x) | zabbixapi 2.2.x | [branch zabbix2.2](https://github.com/express42/zabbixapi/tree/zabbix2.2)
 * Zabbix 2.4.x (api version 2.2.x) | zabbixapi 2.4.x | [branch zabbix2.4](https://github.com/express42/zabbixapi/tree/zabbix2.4)
 * Zabbix 3.0.x (api version 3.0.x) | zabbixapi 3.0.x | [branch zabbix3.0](https://github.com/express42/zabbixapi/tree/zabbix3.0)
-* Zabbix 3.2.x (api version 3.2.x) | zabbixapi 3.0.x | [branch zabbix3.2](https://github.com/express42/zabbixapi/tree/zabbix3.2)
+* Zabbix 3.2.x (api version 3.2.x) | zabbixapi 3.2.x | [branch zabbix3.2](https://github.com/express42/zabbixapi/tree/zabbix3.2)
+* Zabbix 4.0.x (api version 4.0.x) | zabbixapi 4.1.x | [branch zabbix4.0](https://github.com/express42/zabbixapi/tree/zabbix4.0)
+* Zabbix 4.2.x (api version 4.2.x) | zabbixapi 4.1.x | [branch zabbix4.0](https://github.com/express42/zabbixapi/tree/zabbix4.0)
+* Zabbix 4.4.x (api version 4.4.x) | zabbixapi 4.2.x | [branch zabbix4.2](https://github.com/express42/zabbixapi/tree/zabbix4.2)
 
 ## Supported Ruby Versions
-This library aims to support and is [tested against][travis] the following Ruby
+This library aims to support and is [tested against][github-ci] the following Ruby
 versions:
 
-* Ruby 2.4
 * Ruby 2.5
 * Ruby 2.6
+* Ruby 2.7
 * JRuby 9.2.10.0
 
 If something doesn't work on one of these versions, it's a bug.
@@ -75,11 +85,14 @@ dropped.
 * [Zabbix API docs][Zabbix API]
 
 [Zabbix]: https://www.zabbix.com
-[Zabbix API]: https://www.zabbix.com/documentation/3.2/manual/api
+[Zabbix API]: https://www.zabbix.com/documentation/5.2/manual/api
 
 ## Copyright
-Copyright (c) 2015-2018 Express 42
 
-See [LICENSE][] for details.
+- Copyright (c) 2021 [contributors]
+- Copyright (c) 2015-2018 Express 42 and [contributors]
 
-[license]: LICENSE.md
+See [LICENSE] for details.
+
+[LICENSE]: LICENSE.md
+[contributors]: https://github.com/express42/zabbixapi/graphs/contributors
