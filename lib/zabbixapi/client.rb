@@ -41,6 +41,17 @@ class ZabbixApi
       return ! @options || @options[:debug]
     end
 
+    # Log out from the Zabbix Server
+    #
+    # @return [Boolean]
+    #
+    def logout
+      api_request(
+	 :method => 'user.logout',
+	 :params => []
+      )
+    end
+
     # Initializes a new Client object
     #
     # @param options [Hash]
