@@ -49,6 +49,7 @@ class ZabbixApi
       api_request(
 	 :method => 'user.logout',
 	 :params => []
+      )
     end
 
     # Initializes a new Client object
