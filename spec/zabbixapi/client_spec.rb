@@ -79,6 +79,30 @@ describe 'ZabbixApi::Client' do
     end
   end
 
+  describe '.logout' do
+    subject { client_mock.logout() }
+    before do
+      allow_any_instance_of(ZabbixApi::Client).to receive(:api_version).and_return('5.2.2')
+      allow_any_instance_of(ZabbixApi::Client).to receive(:api_request).with(
+        method: 'user.login',
+        params: {
+          user: nil,
+          password: nil
+        }
+      )
+      allow_any_instance_of(ZabbixApi::Client).to receive(:api_request).with(
+        method: 'user.logout'
+      )
+    end
+    it 'revokes auth using api request' do
+      expect_any_instance_of(ZabbixApi::Client).to receive(:api_request).with(
+        method: 'user.logout',
+        params: []
+      )
+      subject
+    end
+  end
+
   describe '.initialize' do
     subject { client_mock }
 
@@ -91,6 +115,10 @@ describe 'ZabbixApi::Client' do
           user: nil,
           password: nil
         }
+      )
+      allow_any_instance_of(ZabbixApi::Client).to receive(:api_request).with(
+        method: 'user.logout',
+        params: {}
       )
     end
 
@@ -228,7 +256,7 @@ describe 'ZabbixApi::Client' do
       end
     end
 
-    context 'when method is not `apiinfo.version` or `user.login`' do
+    context 'when method is not `apiinfo.version` or `user.login` or `user.logout`' do
       let(:method) { 'fakemethod' }
       let(:message) do
         {
