@@ -12,7 +12,7 @@ zbx = ZabbixApi.connect(url: '<url>', user: '<user>', password: '<passwd>', debu
 
 #### debug on demand
 ``` ruby
-zbx.client.options[debug: true]
+zbx.client.options[:debug] = true
 ```
 
 ### Listing all objects of a type: "all"
