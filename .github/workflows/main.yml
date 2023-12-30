@@ -1,14 +1,17 @@
 name: CI
 
+env:
+  BUNDLE_WITHOUT: development
+
 on:
   push:
     branches:
-    - $default-branch
+    - master
     paths-ignore:
     - '**.md'
   pull_request:
     branches:
-    - $default-branch
+    - master
     paths-ignore:
     - '**.md'
 
@@ -54,20 +57,12 @@ jobs:
           ZBX_SERVER_HOST: zabbix-server
           PHP_TZ: "US/Eastern"
     steps:
-    - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1 # actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ matrix.ruby }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ matrix.ruby }}-gems-
-    - name: Bundle install
-      run: |
-        gem list --silent -i bundler -v '~> 2' || gem install bundler -v '~> 2' --no-document
-        bundle config path vendor/bundle
-        bundle install --without development --jobs 4 --retry 3
+        bundler-cache: true
     - name: Run tests
-      run: bundle exec rspec ./spec/*
+      run: bundle exec rake spec
+      env:
+        ZABBIX_RUN_ACCEPTANCE: true
